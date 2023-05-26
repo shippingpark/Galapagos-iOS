@@ -34,7 +34,7 @@ class AppCoordinator: Coordinator {
         self.pushViewController(viewController: splashViewController)
     }
     
-    func moveToNextViewController(to childType: Any) {
+    func connectCoordinator(to childType: Any) {
         let appCoordinatorchild = childType as! AppCoordinatorChild
         switch appCoordinatorchild{
         case .Auth:
@@ -44,6 +44,7 @@ class AppCoordinator: Coordinator {
             )
             authCoordinator.delegate = self
             authCoordinator.start()
+            self.childCoordinators.append(authCoordinator)
         case .TabBar:
             let tabBarCoordinator = TabBarCoordinator(
                 navigationController: self.navigationController,
@@ -51,6 +52,7 @@ class AppCoordinator: Coordinator {
             )
             tabBarCoordinator.delegate = self
             tabBarCoordinator.start()
+            self.childCoordinators.append(tabBarCoordinator)
         }
     }
     
@@ -58,7 +60,7 @@ class AppCoordinator: Coordinator {
 
 extension AppCoordinator: CoordinatorDelegate{
     func didFinish(childCoordinator: Coordinator) {
-        self.moveToNextViewController(to: self.childCoordinatorType)
+        self.connectCoordinator(to: self.childCoordinatorType)
         childCoordinator.finish()
     }
 }

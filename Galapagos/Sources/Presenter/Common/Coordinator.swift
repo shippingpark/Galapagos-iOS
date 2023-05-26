@@ -21,7 +21,7 @@ protocol Coordinator: AnyObject{
     
     func start()
     func finish()
-    func moveToNextViewController(to childType: Any) /// Coordinator의 child의 타입에 따라서 push를 결정하는 로직을 일반화
+    func connectCoordinator(to childType: Any) /// Coordinator의 child의 타입에 따라서 push를 결정하는 로직을 일반화
     
     //MARK: Navigation 동작
     func pushViewController(viewController vc: UIViewController )

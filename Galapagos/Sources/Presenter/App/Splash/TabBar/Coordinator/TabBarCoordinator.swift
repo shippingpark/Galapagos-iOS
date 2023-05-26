@@ -27,7 +27,7 @@ class TabBarCoordinator: Coordinator {
         <#code#>
     }
     
-    func moveToNextViewController(to childType: Any) {
+    func connectCoordinator(to childType: Any) {
         <#code#>
     }
     
