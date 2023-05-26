@@ -13,16 +13,22 @@ protocol CoordinatorDelegate: AnyObject {
 }
 
 protocol Coordinator: AnyObject{
+    var childCoordinatorType: Any {get set}
     
-    var delegate: CoordinatorDelegate? {get set}
     var childCoordinators: [Coordinator] {get set}
     var navigationController: UINavigationController {get set}
+    var delegate: CoordinatorDelegate? {get set}
     
     func start()
     func finish()
-//    func pushViewController()
+    func moveToNextViewController(to childType: Any) /// Coordinator의 child의 타입에 따라서 push를 결정하는 로직을 일반화
+    
+    //MARK: Navigation 동작
+    func pushViewController(viewController vc: UIViewController )
     func popViewController()
-//    func present()
+    
+    //MARK: Modal 동작
+    func presentViewController(viewController vc: UIViewController )
     func dismissViewController()
     
 }
@@ -35,17 +41,18 @@ extension Coordinator{
         delegate?.didFinish(childCoordinator: self)
     }
     
-    /// coordinator로 push 하려고 만들기는 했는데, 어차피 coordinator에서 push 하는거라
-    /// 굳이 만들어서 사용 안 해도 될 것 같긴 함,,,
-    /// -> self.pushViewController(viewController) vs navigationController.pushViewController(vc, animated: true)
-    /// 사실상 쓸데없는 코드만 더 늘어난 기분
-    /// present도 마찬가지라서, 그냥 냅둠
-//    func pushViewController(viewController vc: UIViewController ){
-//        self.navigationController.pushViewController(vc, animated: true)
-//    }
+
+    func pushViewController(viewController vc: UIViewController ){
+        self.navigationController.setNavigationBarHidden(true, animated: false) /// push되는 네비바는 기본적으로 false -> 커스텀 하는걸로 하는건 어떤지
+        self.navigationController.pushViewController(vc, animated: true)
+    }
     
     func popViewController() {
         self.navigationController.popViewController(animated: true)
+    }
+    
+    func presentViewController(viewController vc: UIViewController){
+        self.navigationController.present(vc, animated: true)
     }
     
     func dismissViewController() {
