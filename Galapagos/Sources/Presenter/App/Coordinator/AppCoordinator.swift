@@ -7,21 +7,57 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
-
-class AppCoordinator: Coordinator {
+class AppCoordinator: Coordinator {    
+    //MARK: - Navigation DEPTH 0 -
+    enum AppCoordinatorChild{
+        case Auth, TabBar
+    }
     
-    var childCoordinatorType: Any
-    var childCoordinators: [Coordinator] = []
+    //MARK: - Need To Initializing
+    var disposeBag: DisposeBag
+    var userActionState: BehaviorSubject<AppCoordinatorChild>/// init에서만 호출하고, stream을 유지하기위해 BehaviorSubject 사용
     var navigationController: UINavigationController
+    
+    //MARK: - Don't Need To Initializing
+    var childCoordinators: [Coordinator] = []
     var delegate: CoordinatorDelegate?
     
     init(
         navigationController: UINavigationController,
-        childCoordinatorType: AppCoordinatorChild
+        userActionState: AppCoordinatorChild
     ) {
         self.navigationController = navigationController
-        self.childCoordinatorType = childCoordinatorType
+        self.userActionState = BehaviorSubject(value: userActionState)
+        self.disposeBag = DisposeBag()
+        
+        self.setState()
+    }
+    
+    func setState(){
+        self.userActionState.subscribe(onNext: { [weak self] state in
+            guard let self = self else {return}
+            switch state{
+            case .Auth:
+                let authCoordinator = AuthCoordinator(
+                    navigationController: self.navigationController,
+                    userActionState: .SignIn
+                )
+                authCoordinator.delegate = self
+                authCoordinator.start()
+                self.childCoordinators.append(authCoordinator)
+            case .TabBar:
+                let tabBarCoordinator = TabBarCoordinator(
+                    navigationController: self.navigationController,
+                    userActionState: .Main
+                )
+                tabBarCoordinator.delegate = self
+                tabBarCoordinator.start()
+                self.childCoordinators.append(tabBarCoordinator)
+            }
+        }).disposed(by: disposeBag)
     }
     
     func start() {
@@ -33,34 +69,10 @@ class AppCoordinator: Coordinator {
         ) /// 나중에, viewModel, useCase등등 추가적인 의존성 주입 필요함
         self.pushViewController(viewController: splashViewController)
     }
-    
-    func connectCoordinator(to childType: Any) {
-        let appCoordinatorchild = childType as! AppCoordinatorChild
-        switch appCoordinatorchild{
-        case .Auth:
-            let authCoordinator = AuthCoordinator(
-                navigationController: self.navigationController,
-                childCoordinatorType: .SignUp
-            )
-            authCoordinator.delegate = self
-            authCoordinator.start()
-            self.childCoordinators.append(authCoordinator)
-        case .TabBar:
-            let tabBarCoordinator = TabBarCoordinator(
-                navigationController: self.navigationController,
-                childCoordinatorType: .Main
-            )
-            tabBarCoordinator.delegate = self
-            tabBarCoordinator.start()
-            self.childCoordinators.append(tabBarCoordinator)
-        }
-    }
-    
 }
 
 extension AppCoordinator: CoordinatorDelegate{
     func didFinish(childCoordinator: Coordinator) {
-        self.connectCoordinator(to: self.childCoordinatorType)
         childCoordinator.finish()
     }
 }

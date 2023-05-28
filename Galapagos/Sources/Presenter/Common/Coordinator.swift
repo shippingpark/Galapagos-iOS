@@ -7,21 +7,23 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 protocol CoordinatorDelegate: AnyObject {
     func didFinish(childCoordinator: Coordinator)   /// navigator가 back될 때, childCoordinator들을 모두 지워주기 위함이다.
 }
 
 protocol Coordinator: AnyObject{
-    var childCoordinatorType: Any {get set}
+    var disposeBag: DisposeBag { get }
+    var navigationController: UINavigationController {get set}
     
     var childCoordinators: [Coordinator] {get set}
-    var navigationController: UINavigationController {get set}
     var delegate: CoordinatorDelegate? {get set}
-    
+
+    func setState()
     func start()
     func finish()
-    func connectCoordinator(to childType: Any) /// Coordinator의 child의 타입에 따라서 push를 결정하는 로직을 일반화
     
     //MARK: Navigation 동작
     func pushViewController(viewController vc: UIViewController )

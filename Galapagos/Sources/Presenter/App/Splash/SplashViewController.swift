@@ -8,16 +8,14 @@
 
 import UIKit
 import Then
+import SnapKit
 
 class SplashViewController: BaseViewController {
-
-    private lazy var logoImage = UIImageView().then{ logoImage in
-        logoImage.contentMode = .scaleAspectFit
-        logoImage.image = UIImage()
-    }
     
     private lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(systemName: "chevron_left.png")
         return imageView
     }()
     
@@ -34,15 +32,16 @@ class SplashViewController: BaseViewController {
         super.viewDidLoad()
     }
     
-    override func setAttribute() {
-        <#code#>
-    }
-    
     override func setConstraint() {
-        <#code#>
+        logoImageView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview().multipliedBy(0.8)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(140)
+            make.horizontalEdges.equalToSuperview().inset(50)
+        }
     }
     
     override func setAddSubView() {
-        <#code#>
+        view.addSubview(logoImageView)
     }
 }
