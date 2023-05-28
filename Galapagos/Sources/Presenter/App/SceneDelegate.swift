@@ -19,12 +19,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController()
         appCoordinator = AppCoordinator(
             navigationController: navigationController,
-            userActionState: .Auth
+            userActionState: .CheckAutoSignIn
         )
         
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
-        
-        appCoordinator?.start()
     }
 }

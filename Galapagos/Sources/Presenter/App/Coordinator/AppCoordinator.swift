@@ -13,7 +13,7 @@ import RxCocoa
 class AppCoordinator: Coordinator {    
     //MARK: - Navigation DEPTH 0 -
     enum AppCoordinatorChild{
-        case Auth, TabBar
+        case Auth, TabBar, CheckAutoSignIn
     }
     
     //MARK: - Need To Initializing
@@ -56,6 +56,10 @@ class AppCoordinator: Coordinator {
                 tabBarCoordinator.delegate = self
                 tabBarCoordinator.start()
                 self.childCoordinators.append(tabBarCoordinator)
+            case .CheckAutoSignIn:
+                /// 자동로그인 확인하는 로직 수행한 이후에, state값을 변경시켜 주면 될 듯
+                /// 그러기 위해서 start를 여기서 실행
+                self.start()
             }
         }).disposed(by: disposeBag)
     }

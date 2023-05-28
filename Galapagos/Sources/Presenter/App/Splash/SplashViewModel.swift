@@ -29,5 +29,9 @@ class SplashViewModel: ViewModelType{
         return Output()
     }
     
+    func CheckAutoSignIn(){
+        /// 자동로그인 판별하고, state값 변경해줌
+        /// 당연히, 로직 자체는 UseCase에 존재
+    }
     
 }

@@ -30,6 +30,7 @@ class SplashViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.CheckAutoSignIn()
     }
     
     override func setConstraint() {
