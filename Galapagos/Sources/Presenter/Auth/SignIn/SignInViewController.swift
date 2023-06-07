@@ -1,21 +1,19 @@
 //
-//  SplashViewController.swift
+//  SignInViewController.swift
 //  Galapagos
 //
-//  Created by 조용인 on 2023/05/23.
+//  Created by 조용인 on 2023/06/07.
 //  Copyright © 2023 com.busyModernPeople. All rights reserved.
 //
 
 import UIKit
-import Then
-import SnapKit
 
-class SplashViewController: BaseViewController {
-    
-    private let viewModel: SplashViewModel
+class SignInViewController: BaseViewController {
+
+    private let viewModel: SignInViewModel
     
     init(
-        viewModel: SplashViewModel
+        viewModel: SignInViewModel
     ) {
         self.viewModel = viewModel
         super.init()
@@ -23,7 +21,7 @@ class SplashViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.CheckAutoSignIn()
+        self.view.backgroundColor = GalapagosAsset.redText.color
     }
     
     override func setConstraint() {
@@ -33,4 +31,6 @@ class SplashViewController: BaseViewController {
     override func setAddSubView() {
         
     }
+
+
 }

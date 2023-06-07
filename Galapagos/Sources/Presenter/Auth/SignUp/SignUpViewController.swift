@@ -1,21 +1,19 @@
 //
-//  SplashViewController.swift
+//  SignUpViewController.swift
 //  Galapagos
 //
-//  Created by 조용인 on 2023/05/23.
+//  Created by 조용인 on 2023/06/07.
 //  Copyright © 2023 com.busyModernPeople. All rights reserved.
 //
 
 import UIKit
-import Then
-import SnapKit
 
-class SplashViewController: BaseViewController {
-    
-    private let viewModel: SplashViewModel
+class SignUpViewController: BaseViewController {
+
+    private let viewModel: SignUpViewModel
     
     init(
-        viewModel: SplashViewModel
+        viewModel: SignUpViewModel
     ) {
         self.viewModel = viewModel
         super.init()
@@ -23,7 +21,9 @@ class SplashViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.CheckAutoSignIn()
+        let label = UILabel()
+        label.text = "SignUp"
+        self.view.addSubview(label)
     }
     
     override func setConstraint() {
@@ -33,4 +33,5 @@ class SplashViewController: BaseViewController {
     override func setAddSubView() {
         
     }
+
 }
