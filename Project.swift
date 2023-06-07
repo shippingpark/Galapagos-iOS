@@ -42,10 +42,24 @@ class BaseProjectProfile: ProjectProfile{
         .external(name: "KeychainSwift"),
     ]
     
+    let infoPlist: [String: InfoPlist.Value] = [
+        "CFBundleShortVersionString": "1.0",
+        "CFBundleVersion": "1",
+        "CFBundleDevelopmentRegion": "ko_KR",
+        "UILaunchStoryboardName": "LaunchScreen",
+        "UIUserInterfaceStyle": "Light",
+        "UIAppFonts": [
+            "Item 0": "Pretendard-Medium.otf",
+            "Item 1": "Pretendard-Regular.otf",
+            "Item 2": "Pretendard-SemiBold.otf",
+            "Item 3": "Pretendard-Bold.otf"
+        ]
+    ]
+    
     func generateConfigurations() -> Settings {
         return Settings.settings(configurations: [
-//            .debug(name: "Debug", xcconfig: .relativeToRoot("\(projectName)/Sources/Config/Debug.xcconfig")),
-//            .release(name: "Release", xcconfig: .relativeToRoot("\(projectName)/Sources/Config/Release.xcconfig")),
+            .debug(name: "Debug", xcconfig: .relativeToRoot("\(projectName)/Sources/Configure/Debug.xcconfig")),
+            .release(name: "Release", xcconfig: .relativeToRoot("\(projectName)/Sources/Configure/Release.xcconfig")),
         ])
     }
     
@@ -57,16 +71,16 @@ class BaseProjectProfile: ProjectProfile{
                 product: .app,
                 bundleId: "com.busyModernPeople.\(projectName)",
                 deploymentTarget: .iOS(targetVersion: "15.0", devices: [.iphone]),
-                infoPlist: .default,
+                infoPlist: .extendingDefault(with: infoPlist),
                 sources: ["\(projectName)/Sources/**"],
                 resources: "\(projectName)/Resources/**",
                 
 //                entitlements: "\(projectName).entitlements",
-//                scripts: [
-//                    .pre(path: "Scripts/SwiftLintRunScript.sh", arguments: [], name: "SwiftLint"),
-//                    .pre(path: "Scripts/UpdatePackageRunScript.sh", arguments: [], name: "OpenSource")
-//                ],
-                dependencies: dependencies
+                dependencies: dependencies,
+                settings: .settings(configurations: [
+                    .debug(name: "DEV", xcconfig: .relativeToRoot("\(projectName)/Sources/Configure/DEV.xcconfig")),
+                    .release(name: "Release", xcconfig: .relativeToRoot("\(projectName)/Sources/Configure/Release.xcconfig"))
+                ])
             )
         ]
     }
@@ -78,7 +92,10 @@ let profile = BaseProjectProfile()
 let project: Project = .init(
     name: profile.projectName,
     organizationName: "com.busyModernPeople",
-//    settings: profile.generateConfigurations(),
+    settings: .settings(configurations: [
+        .debug(name: "DEV"),
+        .release(name: .release)
+    ]),
     targets: profile.generateTarget()
 )
 
