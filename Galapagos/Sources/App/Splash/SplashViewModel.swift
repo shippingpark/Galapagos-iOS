@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class SplashViewModel: ViewModelType{
     
@@ -32,6 +33,7 @@ class SplashViewModel: ViewModelType{
     func CheckAutoSignIn(){
         /// 자동로그인 판별하고, state값 변경해줌
         /// 당연히, 로직 자체는 UseCase에 존재
+        self.coordinator?.userActionState.accept(.Auth)  /// 우선 고정시켜둠
     }
     
 }

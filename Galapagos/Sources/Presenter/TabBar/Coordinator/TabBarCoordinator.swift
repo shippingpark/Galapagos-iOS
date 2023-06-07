@@ -9,6 +9,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class TabBarCoordinator: Coordinator {
     //MARK: - Navigation DEPTH 1 -
@@ -18,7 +19,7 @@ class TabBarCoordinator: Coordinator {
     
     //MARK: - Need To Initializing
     var disposeBag: DisposeBag
-    var userActionState: BehaviorSubject<TabBarCoordinatorChild>/// init에서만 호출하고, stream을 유지하기위해 BehaviorSubject 사용
+    var userActionState: BehaviorRelay<TabBarCoordinatorChild>/// init에서만 호출하고, stream을 유지하기위해 BehaviorSubject 사용
     var navigationController: UINavigationController
     
     //MARK: - Don't Need To Initializing
@@ -30,7 +31,7 @@ class TabBarCoordinator: Coordinator {
         userActionState: TabBarCoordinatorChild
     ){
         self.navigationController = navigationController
-        self.userActionState = BehaviorSubject(value: userActionState)
+        self.userActionState = BehaviorRelay(value: userActionState)
         self.disposeBag = DisposeBag()
     }
     

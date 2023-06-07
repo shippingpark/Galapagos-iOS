@@ -12,21 +12,22 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate{
     var window: UIWindow?
+    var appCoordinator: AppCoordinator?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
         let navigationController = UINavigationController()
         
-        let appCoordinator = AppCoordinator(
-            navigationController: navigationController,
-            userActionState: .CheckAutoSignIn
+        appCoordinator = AppCoordinator(
+            navigationController: navigationController
         )
         
         self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
         
-        appCoordinator.start()
+        appCoordinator?.start()
+        
         return true
     }
     
