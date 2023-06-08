@@ -21,26 +21,23 @@ import MyPlugin
 // MARK: - Project
 
 
+enum TargetType {
+    case DesignSystem
+    case App
+}
+
 protocol ProjectProfile {
     var projectName: String { get }
-    var dependencies: [TargetDependency] { get }
     
+    func generateDependencies(targetName target: TargetType) -> [TargetDependency]
     func generateTarget() -> [Target]
-    func generateConfigurations() -> Settings
+    func generateAppConfigurations() -> Settings
 }
 
 class BaseProjectProfile: ProjectProfile{
+    
     let projectName: String = "Galapagos"
     
-    let dependencies: [TargetDependency] = [
-        .external(name: "RxSwift"),
-        .external(name: "RxCocoa"),
-        .external(name: "RxRelay"),
-        .external(name: "RxGesture"),
-        .external(name: "SnapKit"),
-        .external(name: "Then"),
-        .external(name: "KeychainSwift"),
-    ]
     
     let infoPlist: [String: InfoPlist.Value] = [
         "CFBundleShortVersionString": "1.0",
@@ -56,10 +53,35 @@ class BaseProjectProfile: ProjectProfile{
         ]
     ]
     
-    func generateConfigurations() -> Settings {
+    func generateDependencies(targetName target: TargetType) -> [TargetDependency] {
+        switch target{
+        case .App:
+            return [
+                .external(name: "RxSwift"),
+                .external(name: "RxCocoa"),
+                .external(name: "RxRelay"),
+                .external(name: "RxGesture"),
+                .external(name: "SnapKit"),
+                .external(name: "Then"),
+                .external(name: "KeychainSwift")
+            ]
+        case .DesignSystem:
+            return [
+                .external(name: "RxSwift"),
+                .external(name: "RxCocoa"),
+                .external(name: "RxRelay"),
+                .external(name: "RxGesture"),
+                .external(name: "SnapKit"),
+                .external(name: "Then"),
+                .external(name: "KeychainSwift")
+            ]
+        }
+    }
+    
+    func generateAppConfigurations() -> Settings {
         return Settings.settings(configurations: [
-            .debug(name: "Debug", xcconfig: .relativeToRoot("\(projectName)/Sources/Configure/Debug.xcconfig")),
-            .release(name: "Release", xcconfig: .relativeToRoot("\(projectName)/Sources/Configure/Release.xcconfig")),
+            .debug(name: "DEV", xcconfig: .relativeToCurrentFile("Galapagos/Sources/Configure/DEV.xcconfig")),
+            .release(name: "Release", xcconfig: .relativeToCurrentFile("Galapagos/Sources/Configure/Release.xcconfig")),
         ])
     }
     
@@ -74,13 +96,17 @@ class BaseProjectProfile: ProjectProfile{
                 infoPlist: .extendingDefault(with: infoPlist),
                 sources: ["\(projectName)/Sources/**"],
                 resources: "\(projectName)/Resources/**",
-                
-//                entitlements: "\(projectName).entitlements",
-                dependencies: dependencies,
-                settings: .settings(configurations: [
-                    .debug(name: "DEV", xcconfig: .relativeToRoot("\(projectName)/Sources/Configure/DEV.xcconfig")),
-                    .release(name: "Release", xcconfig: .relativeToRoot("\(projectName)/Sources/Configure/Release.xcconfig"))
-                ])
+                dependencies: generateDependencies(targetName: .App),
+                settings: generateAppConfigurations()
+            ),
+            Target(
+                name: "SiriUIKit",
+                platform: .iOS,
+                product: .framework,
+                bundleId: "com.busyModernPeople.\(projectName).SiriUIKit",
+                infoPlist: .default,
+                sources: ["SiriUIKit/Sources/**"],
+                dependencies: generateDependencies(targetName: .DesignSystem)
             )
         ]
     }
