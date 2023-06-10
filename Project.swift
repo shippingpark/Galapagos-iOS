@@ -108,6 +108,7 @@ class BaseProjectProfile: ProjectProfile{
                 deploymentTarget: .iOS(targetVersion: "15.0", devices: [.iphone]),
                 infoPlist: .default,
                 sources: ["SiriUIKit/Sources/**"],
+                resources: "\(projectName)/Resources/**",
                 dependencies: generateDependencies(targetName: .DesignSystem)
             )
         ]

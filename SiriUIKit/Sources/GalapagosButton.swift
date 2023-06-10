@@ -48,7 +48,7 @@ public final class GalapagosButton: UIButton{
         
         self.active = isEnable
         self.layer.cornerRadius = 6.0   /// 기본은 6, 로그인만 8
-        self.titleLabel?.font = GalapagosFontFamily.Pretendard.semiBold.font(size: 16)
+        self.titleLabel?.font = SiriUIKitFontFamily.Pretendard.semiBold.font(size: 16)
         self.configureColorSet()
     }
     
@@ -77,12 +77,12 @@ private extension GalapagosButton {
         switch self.buttonStyle {
         case .fill:
             return self.active ?
-            (GalapagosAsset.green.color, GalapagosAsset.green.color, GalapagosAsset.whiteDefaultText.color) :
-            (GalapagosAsset.gray6DisableBtnBg.color, GalapagosAsset.gray6DisableBtnBg.color, GalapagosAsset.gray3DisableText1.color)
+            (SiriUIKitAsset.green.color, SiriUIKitAsset.green.color, SiriUIKitAsset.whiteDefaultText.color) :
+            (SiriUIKitAsset.gray6DisableBtnBg.color, SiriUIKitAsset.gray6DisableBtnBg.color, SiriUIKitAsset.gray3DisableText1.color)
         case .outline:
-            return (GalapagosAsset.gray5DisableText2.color, GalapagosAsset.whiteDefaultText.color, GalapagosAsset.gray1Main.color)
+            return (SiriUIKitAsset.gray5DisableText2.color, SiriUIKitAsset.whiteDefaultText.color, SiriUIKitAsset.gray1Main.color)
         case .boldOutline:
-            return (GalapagosAsset.gray1Main.color, GalapagosAsset.whiteDefaultText.color, GalapagosAsset.gray1Main.color)
+            return (SiriUIKitAsset.gray1Main.color, SiriUIKitAsset.whiteDefaultText.color, SiriUIKitAsset.gray1Main.color)
         }
     }
     
