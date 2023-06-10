@@ -1,5 +1,5 @@
 //
-//  SignUpViewModel.swift
+//  EmailSignUpViewModel.swift
 //  Galapagos
 //
 //  Created by 조용인 on 2023/06/07.
@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-class SignUpViewModel: ViewModelType{
+class EmailSignUpViewModel: ViewModelType{
     
     struct Input {}
     

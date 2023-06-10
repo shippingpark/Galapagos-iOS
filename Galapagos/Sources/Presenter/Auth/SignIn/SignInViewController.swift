@@ -202,4 +202,17 @@ class SignInViewController: BaseViewController {
         
         [emailSignUpButton, emailSignInButton].forEach { self.emailLoginStackView.addArrangedSubview($0) }
     }
+    
+    override func bind() {
+        let emailSignUpBtnTapped = emailSignUpButton.rx.tap
+            .asObservable()
+        let emailSignInBtnTapped = emailSignInButton.rx.tap
+            .asObservable()
+        
+        let input = SignInViewModel.Input(
+            emailSignUpBtnTapped: emailSignUpBtnTapped,
+            emailSignInBtnTapped: emailSignInBtnTapped
+        )
+        let output = viewModel.transform(input: input)
+    }
 }
