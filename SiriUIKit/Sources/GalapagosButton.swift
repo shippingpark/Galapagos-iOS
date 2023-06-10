@@ -22,7 +22,7 @@ public final class GalapagosButton: UIButton{
         get {return self.isEnabled }
         set {
             self.isEnabled = newValue
-//            configureColorSet()
+            configureColorSet()
         }
     }
     
@@ -36,7 +36,7 @@ public final class GalapagosButton: UIButton{
     
     //MARK: - Initializers
     
-    /// 버튼의 `style`과 `cornerRadius`와 `active` 을 선택할 수 있습니다.
+    /// 버튼의 `style`과  `active`,  `active` 을 선택할 수 있습니다.
     /// - Parameters:
     ///   - buttonStyle: 버튼의 타입을 설정합니다.
     ///   - isEnable: 버튼의 활성화 여부를 판별합니다.
@@ -77,12 +77,12 @@ private extension GalapagosButton {
         switch self.buttonStyle {
         case .fill:
             return self.active ?
-            (GalapagosAsset.green.color, GalapagosAsset.green.color, GalapagosAsset.white기본Text.color) :
+            (GalapagosAsset.green.color, GalapagosAsset.green.color, GalapagosAsset.whiteDefaultText.color) :
             (GalapagosAsset.gray6DisableBtnBg.color, GalapagosAsset.gray6DisableBtnBg.color, GalapagosAsset.gray3DisableText1.color)
         case .outline:
-            return (GalapagosAsset.gray5DisableText2.color, GalapagosAsset.white기본Text.color, GalapagosAsset.gray1본문.color)
+            return (GalapagosAsset.gray5DisableText2.color, GalapagosAsset.whiteDefaultText.color, GalapagosAsset.gray1Main.color)
         case .boldOutline:
-            return (GalapagosAsset.gray1본문.color, GalapagosAsset.white기본Text.color, GalapagosAsset.gray1본문.color)
+            return (GalapagosAsset.gray1Main.color, GalapagosAsset.whiteDefaultText.color, GalapagosAsset.gray1Main.color)
         }
     }
     
