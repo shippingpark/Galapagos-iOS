@@ -13,7 +13,7 @@ import SiriUIKit
 
 
 class SignInViewController: BaseViewController {
-
+    
     //MARK: - UI
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -39,7 +39,7 @@ class SignInViewController: BaseViewController {
         label.textAlignment = .center
         let text = "동물들의 지상낙원,\n갈라파고스에 오신 것을 환영해요!"
         let attributedString = NSMutableAttributedString(string: text)
-
+        
         let blackAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.blackHeading.color]
         let greenAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.green.color]
         let galapagosRange = (text as NSString).range(of: "갈라파고스")
@@ -81,11 +81,11 @@ class SignInViewController: BaseViewController {
     private lazy var emailSignUpButton: GalapagosButton = {
         let button = GalapagosButton(buttonStyle: .outline)
         let attributedString = NSAttributedString(string: "이메일 회원가입",
-                           attributes: [
-                            .underlineStyle : NSUnderlineStyle.single.rawValue,
-                            .baselineOffset : NSNumber(value: 2),
-                            .underlineColor : GalapagosAsset.gray1Main.color
-                           ])
+                                                  attributes: [
+                                                    .underlineStyle : NSUnderlineStyle.single.rawValue,
+                                                    .baselineOffset : NSNumber(value: 2),
+                                                    .underlineColor : GalapagosAsset.gray1Main.color
+                                                  ])
         button.setAttributedTitle(attributedString, for: .normal)
         button.setTitleColor(GalapagosAsset.gray1Main.color, for: .normal)
         button.titleLabel?.font = GalapagosFontFamily.Pretendard.medium.font(size: 14)
@@ -110,7 +110,7 @@ class SignInViewController: BaseViewController {
     }()
     
     private lazy var socialLoginStackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .top
         stackView.distribution = .fillProportionally
@@ -119,7 +119,7 @@ class SignInViewController: BaseViewController {
     }()
     
     private lazy var emailLoginStackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .top
         stackView.distribution = .fillProportionally
@@ -160,19 +160,19 @@ class SignInViewController: BaseViewController {
             infoLabel.centerX.equalToSuperview()
             infoLabel.top.equalTo(logoImageView.snp.bottom).multipliedBy(1.1)
         }
-
+        
         kakaoSignInButton.snp.makeConstraints { kakaoButton in
             kakaoButton.width.height.equalTo(56)
         }
-
+        
         naverSignInButton.snp.makeConstraints { naverButton in
             naverButton.width.height.equalTo(56)
         }
-
+        
         appleSignInButton.snp.makeConstraints { appleButton in
             appleButton.width.height.equalTo(56)
         }
-
+        
         googleSignInButton.snp.makeConstraints { googleButton in
             googleButton.width.height.equalTo(56)
         }
@@ -186,8 +186,8 @@ class SignInViewController: BaseViewController {
             emailStack.centerX.equalToSuperview()
             emailStack.top.equalTo(socialLoginStackView.snp.bottom)
                 .offset(20)
+        }
     }
-    
     override func setAddSubView() {
         self.view.addSubviews([
             titleLabel,
@@ -202,6 +202,4 @@ class SignInViewController: BaseViewController {
         
         [emailSignUpButton, emailSignInButton].forEach { self.emailLoginStackView.addArrangedSubview($0) }
     }
-
-
 }
