@@ -23,9 +23,8 @@ class BaseViewController: UIViewController {
         self.view.backgroundColor = GalapagosAsset.gray5Bg2.color  /// 나중에, 우리 색으로 커스텀
         
         setAddSubView()
-        setConstraint()
         setAttribute()
-        setAddSubView()
+        setConstraint()
         bind()
     }
     
