@@ -13,7 +13,8 @@ import RxCocoa
 class AuthCoordinator: Coordinator {
     //MARK: - Navigation DEPTH 1 -
     enum AuthCoordinatorChild{
-        case SignIn, SignUp /// SignIn이 AuthHome의 역할
+        case SignIn, EmailSignUp, EmailSignIn
+        /// SignIn이 AuthHome의 역할
     }
     
     //MARK: - Need To Initializing
@@ -53,15 +54,24 @@ class AuthCoordinator: Coordinator {
                         )
                     )
                     self.pushViewController(viewController: signInViewController)
-                case .SignUp:
-                    let signUpViewController = SignUpViewController(
-                        viewModel: SignUpViewModel(
+                case .EmailSignUp:
+                    let emailSignUpViewController = EmailSignUpViewController(
+                        viewModel: EmailSignUpViewModel(
                             /// 여기에 나중에는 useCase도 추가 되어야겠지
                             coordinator: self
                         )
                     )
-                    self.pushViewController(viewController: signUpViewController)
+                    self.pushViewController(viewController: emailSignUpViewController)
+                case .EmailSignIn:
+                    let emailSignInViewController = EmailSignInViewController(
+                        viewModel: EmailSignInViewModel(
+                            /// 여기에 나중에는 useCase도 추가 되어야겠지
+                            coordinator: self
+                        )
+                    )
+                    self.pushViewController(viewController: emailSignInViewController)
                 }
+                
             }).disposed(by: disposeBag)
     }
     
