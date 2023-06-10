@@ -9,29 +9,27 @@
 
 import UIKit
 import RxSwift
-import RxCocoa
+import RxRelay
+
 
 class TabBarCoordinator: Coordinator {
-    //MARK: - Navigation DEPTH 1 -
-    enum TabBarCoordinatorChild{
-        case Main, Diary, Communicate, Mypage
-    }
     
     //MARK: - Need To Initializing
     var disposeBag: DisposeBag
-    var userActionState: BehaviorRelay<TabBarCoordinatorChild>/// init에서만 호출하고, stream을 유지하기위해 BehaviorSubject 사용
+    //userActionState 사용될 일이 없음
+    var userActionState: BehaviorRelay<TabBarCoordinatorFlow> = BehaviorRelay(value: .main)
     var navigationController: UINavigationController
+    var tabBarController: UITabBarController
     
     //MARK: - Don't Need To Initializing
     var childCoordinators: [Coordinator] = []
     var delegate: CoordinatorDelegate?
     
     init(
-        navigationController: UINavigationController,
-        userActionState: TabBarCoordinatorChild
+        navigationController: UINavigationController
     ){
         self.navigationController = navigationController
-        self.userActionState = BehaviorRelay(value: userActionState)
+        self.tabBarController = UITabBarController()
         self.disposeBag = DisposeBag()
     }
     
@@ -40,9 +38,54 @@ class TabBarCoordinator: Coordinator {
     }
     
     func start() {
-        //
+        let pages: [TabBarCoordinatorFlow] = TabBarCoordinatorFlow.allCases
+        let controllers: [UINavigationController] = pages.map { flow in
+            self.createTabNavigationController(of: flow)
+        }
+        self.configureTabBarController(with: controllers)
+    }
+}
+
+//TabBar는 ViewModel이 없는 유일한 Coordinator, 기타 설정 위한 함수
+private extension TabBarCoordinator {
+    
+    private func configureTabBarController(with tabViewControllers: [UIViewController]) {
+        self.tabBarController.setViewControllers(tabViewControllers, animated: true)
+        //임시
+        self.tabBarController.view.backgroundColor = .darkGray
+        self.tabBarController.tabBar.backgroundColor = .white
+        self.tabBarController.tabBar.tintColor = .black
+        self.navigationController.setNavigationBarHidden(true, animated: false)
+        self.navigationController.pushViewController(tabBarController, animated: true)
     }
     
+    func createTabNavigationController(of page: TabBarCoordinatorFlow) -> UINavigationController {
+        let tabNavigationController = UINavigationController()
+        tabNavigationController.setNavigationBarHidden(true, animated: false)
+        tabNavigationController.tabBarItem = page.tabBarItem
+        connectTabCoordinator(of: page, to: tabNavigationController)
+        return tabNavigationController
+    }
     
+    func connectTabCoordinator(of page: TabBarCoordinatorFlow, to tabNavigationController: UINavigationController) {
+        switch page {
+        case .main:
+            let mainCoordinator = MainCoordinator(navigationController: tabNavigationController)
+            mainCoordinator.start()
+            childCoordinators.append(mainCoordinator)
+        case .diary:
+            let diaryCoordinator = DiaryCoordinator(navigationController: tabNavigationController)
+            diaryCoordinator.start()
+            childCoordinators.append(diaryCoordinator)
+        case .community:
+            let communityCoordinator = CommunityCoordinator(navigationController: tabNavigationController)
+            communityCoordinator.start()
+            childCoordinators.append(communityCoordinator)
+        case .mypage:
+            let mypageCoordinator = MyPageCoordinator(navigationController: tabNavigationController)
+            mypageCoordinator.start()
+            childCoordinators.append(mypageCoordinator)
+        }
+    }
 }
 
