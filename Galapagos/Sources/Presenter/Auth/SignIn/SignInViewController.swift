@@ -126,6 +126,7 @@ class SignInViewController: BaseViewController {
         stackView.spacing = 20
         return stackView
     }()
+    
     //MARK: - Properties
     private let viewModel: SignInViewModel
     
@@ -140,7 +141,6 @@ class SignInViewController: BaseViewController {
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     //MARK: - Methods
@@ -186,9 +186,6 @@ class SignInViewController: BaseViewController {
             emailStack.centerX.equalToSuperview()
             emailStack.top.equalTo(socialLoginStackView.snp.bottom)
                 .offset(20)
-            
-        }
-        
     }
     
     override func setAddSubView() {

@@ -63,7 +63,8 @@ class BaseProjectProfile: ProjectProfile{
                 .external(name: "RxGesture"),
                 .external(name: "SnapKit"),
                 .external(name: "Then"),
-                .external(name: "KeychainSwift")
+                .external(name: "KeychainSwift"),
+                .target(name: "SiriUIKit")
             ]
         case .DesignSystem:
             return [
@@ -104,8 +105,10 @@ class BaseProjectProfile: ProjectProfile{
                 platform: .iOS,
                 product: .framework,
                 bundleId: "com.busyModernPeople.\(projectName).SiriUIKit",
+                deploymentTarget: .iOS(targetVersion: "15.0", devices: [.iphone]),
                 infoPlist: .default,
                 sources: ["SiriUIKit/Sources/**"],
+                resources: "\(projectName)/Resources/**",
                 dependencies: generateDependencies(targetName: .DesignSystem)
             )
         ]
