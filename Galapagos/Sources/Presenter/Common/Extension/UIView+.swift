@@ -42,4 +42,8 @@ extension UIView {
             self.layer.shadowPath = UIBezierPath(rect: rect).cgPath
         }
     }
+    
+    func addSubviews(_ subviews: [UIView]) {
+        subviews.forEach(self.addSubview)
+    }
 }
