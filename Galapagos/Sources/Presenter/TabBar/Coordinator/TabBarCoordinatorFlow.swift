@@ -12,7 +12,7 @@ import UIKit
 enum TabBarCoordinatorFlow: Int, CaseIterable {
     case main, diary, community, mypage
     
-    //공식 이미지 없어서 임시 이미지
+    //공식 이미지 확정 안 난 듯 해서 임시 이미지
     var tabBarItem: UITabBarItem {
         switch self {
         case .main:

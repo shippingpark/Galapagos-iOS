@@ -51,8 +51,7 @@ class AppCoordinator: Coordinator {
                     self.childCoordinators.append(authCoordinator)
                 case .TabBar:
                     let tabBarCoordinator = TabBarCoordinator(
-                        navigationController: self.navigationController,
-                        userActionState: .Main
+                        navigationController: self.navigationController
                     )
                     tabBarCoordinator.delegate = self
                     tabBarCoordinator.start()
