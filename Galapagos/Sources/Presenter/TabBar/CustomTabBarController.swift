@@ -40,7 +40,6 @@ class CustomTabBarController: UITabBarController {
         
     // MARK: - Private Methods
     private func setFrame() {
-        let appearance = UITabBarItem.appearance()
         let tabBarHeightRatio: CGFloat = 0.11 // 탭 바 높이 비율 (0.0 ~ 1.0)
         var tabFrame = tabBar.frame
         tabFrame.size.height = view.frame.size.height * tabBarHeightRatio
