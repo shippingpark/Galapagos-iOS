@@ -49,6 +49,7 @@ class MainCoordinator: Coordinator {
                     self.pushViewController(viewController: mainViewController)
 
                 case .detailDiary:
+                    self.popViewController()
                     self.parentsCoordinator.userActionState.accept(.diary)
                 }
             }).disposed(by: disposeBag)
