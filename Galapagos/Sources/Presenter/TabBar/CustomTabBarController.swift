@@ -27,36 +27,45 @@ class CustomTabBarController: UITabBarController {
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupTabBarUI()
-        self.addShadowToTabBar()
+        self.setUI()
+        self.setAttribute()
+        self.setShadow()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        setupCustomTabBarFrame()
+        setFrame()
+        
     }
         
     // MARK: - Private Methods
-    private func setupCustomTabBarFrame() {
+    private func setFrame() {
+        let appearance = UITabBarItem.appearance()
         let tabBarHeightRatio: CGFloat = 0.11 // 탭 바 높이 비율 (0.0 ~ 1.0)
         var tabFrame = tabBar.frame
         tabFrame.size.height = view.frame.size.height * tabBarHeightRatio
         tabFrame.origin.y = view.frame.size.height - tabFrame.size.height
-
         tabBar.frame = tabFrame
         tabBar.setNeedsLayout()
         tabBar.layoutIfNeeded()
     }
     
-    private func setupTabBarUI() {
+    private func setUI() {
         tabBar.backgroundColor = .white
         tabBar.cornerRadius = 20
         tabBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        tabBar.tintColor = .black
-        tabBar.unselectedItemTintColor = .gray
+        tabBar.tintColor = GalapagosAsset.green.color
+        tabBar.unselectedItemTintColor = GalapagosAsset.gray4SubText.color
     }
     
-    private func addShadowToTabBar() {
+    private func setAttribute() {
+        let appearance = UITabBarItem.appearance()
+        let attributes = [NSAttributedString.Key.font: GalapagosFontFamily.Pretendard.semiBold.font(size: 12)]
+        appearance.setTitleTextAttributes(attributes, for: .normal)
+        appearance.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
+    }
+    
+    private func setShadow() {
         tabBar.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
         tabBar.layer.shadowOffset = CGSize(width: 0, height: -3)
         tabBar.layer.shadowOpacity = 1
