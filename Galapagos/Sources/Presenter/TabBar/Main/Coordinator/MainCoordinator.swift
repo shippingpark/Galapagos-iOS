@@ -11,29 +11,50 @@ import RxSwift
 import RxRelay
 
 class MainCoordinator: Coordinator {
-    var disposeBag: DisposeBag
+    enum MainCoordinatorFlow {
+        case main, detailDiary
+    }
     
     var navigationController: UINavigationController
+    var parentsCoordinator: TabBarCoordinator
     
+    var userActionState: PublishRelay<MainCoordinatorFlow> = PublishRelay()
     var childCoordinators: [Coordinator] = []
-    
+    var disposeBag: DisposeBag = DisposeBag()
     var delegate: CoordinatorDelegate?
     
     init(
-        navigationController: UINavigationController
+        navigationController: UINavigationController,
+        parentsCoordinator: TabBarCoordinator
     ) {
         self.navigationController = navigationController
-        self.disposeBag = DisposeBag()
+        self.parentsCoordinator = parentsCoordinator
         self.setState()
     }
     
-    func setState() {
-        
+    func setState(){
+        self.userActionState
+            .debug()
+            .subscribe(onNext: { [weak self] state in
+                print("💗💗💗 MainCoordinator: \(state) 💗💗💗")
+                guard let self = self else {return}
+                switch state{
+                case .main:
+                    let mainViewController = MainViewController(
+                        viewModel: MainViewModel(
+                            ///
+                            coordinator: self
+                        )
+                    )
+                    self.pushViewController(viewController: mainViewController)
+
+                case .detailDiary:
+                    self.parentsCoordinator.userActionState.accept(.diary)
+                }
+            }).disposed(by: disposeBag)
     }
     
     func start() {
-        
+        self.userActionState.accept(.main)
     }
-    
-    
 }
