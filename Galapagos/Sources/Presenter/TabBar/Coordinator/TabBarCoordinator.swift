@@ -6,7 +6,6 @@
 //  Copyright © 2023 com.busyModernPeople. All rights reserved.
 //
 
-
 import UIKit
 import RxSwift
 import RxRelay
@@ -31,6 +30,7 @@ class TabBarCoordinator: Coordinator {
     
     func setState() {
         self.userActionState
+            .distinctUntilChanged() // 이전 상태와 동일한 상태는 무시
             .debug()
             .subscribe(onNext: { [weak self] state in
                 print("💚💚💚 TabBarCoordinator: \(state) 💚💚💚")

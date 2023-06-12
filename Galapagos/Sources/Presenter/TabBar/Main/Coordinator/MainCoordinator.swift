@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxRelay
 
+
 class MainCoordinator: Coordinator {
     enum MainCoordinatorFlow {
         case main, detailDiary

@@ -45,13 +45,11 @@ class CustomTabBarController: UITabBarController {
         tabFrame.size.height = view.frame.size.height * tabBarHeightRatio
         tabFrame.origin.y = view.frame.size.height - tabFrame.size.height
         tabBar.frame = tabFrame
-        tabBar.setNeedsLayout()
-        tabBar.layoutIfNeeded()
     }
     
     private func setUI() {
         tabBar.backgroundColor = .white
-        tabBar.cornerRadius = 20
+        tabBar.layer.cornerRadius = 20
         tabBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         tabBar.tintColor = GalapagosAsset.green.color
         tabBar.unselectedItemTintColor = GalapagosAsset.gray4SubText.color
