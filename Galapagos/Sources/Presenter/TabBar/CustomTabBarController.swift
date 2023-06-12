@@ -16,9 +16,7 @@ final class CustomTabBarController: UITabBarController {
   
   // MARK: - Initializers
   
-  init(
-      coordinator: TabBarCoordinator
-  ) {
+  init(coordinator: TabBarCoordinator) {
       super.init(nibName: nil, bundle: nil)
       self.delegate = self
       self.coordinator = coordinator

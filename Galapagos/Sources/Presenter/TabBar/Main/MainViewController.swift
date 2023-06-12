@@ -26,9 +26,7 @@ final class MainViewController: BaseViewController {
   
   // MARK: - Initializers
     
-  init(
-      viewModel: MainViewModel
-  ) {
+  init(viewModel: MainViewModel) {
       self.viewModel = viewModel
       super.init()
   }
