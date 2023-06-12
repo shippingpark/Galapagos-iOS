@@ -28,9 +28,7 @@ final class TabBarCoordinator: Coordinator {
   var disposeBag: DisposeBag = DisposeBag()
   var delegate: CoordinatorDelegate?
     
-  init(
-      navigationController: UINavigationController
-  ){
+  init(navigationController: UINavigationController) {
       self.navigationController = navigationController
       self.setState()
   }

@@ -25,7 +25,6 @@ final class MainCoordinator: Coordinator {
   var navigationController: UINavigationController
   var parentsCoordinator: TabBarCoordinator
     
-    
   // MARK: - Don't Need To Initializing
     
   var userActionState: PublishRelay<MainCoordinatorFlow> = PublishRelay()
@@ -33,10 +32,8 @@ final class MainCoordinator: Coordinator {
   var disposeBag: DisposeBag = DisposeBag()
   var delegate: CoordinatorDelegate?
   
-
-  init(
-      navigationController: UINavigationController,
-      parentsCoordinator: TabBarCoordinator
+  init(navigationController: UINavigationController,
+       parentsCoordinator: TabBarCoordinator
   ) {
       self.navigationController = navigationController
       self.parentsCoordinator = parentsCoordinator
