@@ -7,56 +7,65 @@
 //
 
 import UIKit
-import RxSwift
+
 import RxRelay
+import RxSwift
 
 
-class MainCoordinator: Coordinator {
-    enum MainCoordinatorFlow {
-        case main, detailDiary
-    }
+final class MainCoordinator: Coordinator {
     
-    var navigationController: UINavigationController
-    var parentsCoordinator: TabBarCoordinator
+  // MARK: - Coordinator DEPTH 2 -
     
-    var userActionState: PublishRelay<MainCoordinatorFlow> = PublishRelay()
-    var childCoordinators: [Coordinator] = []
-    var disposeBag: DisposeBag = DisposeBag()
-    var delegate: CoordinatorDelegate?
-    
-    init(
-        navigationController: UINavigationController,
-        parentsCoordinator: TabBarCoordinator
-    ) {
-        self.navigationController = navigationController
-        self.parentsCoordinator = parentsCoordinator
-        self.setState()
-    }
-    
-    func setState(){
-        self.userActionState
-            .debug()
-            .subscribe(onNext: { [weak self] state in
-                print("💗💗💗 MainCoordinator: \(state) 💗💗💗")
-                guard let self = self else {return}
-                switch state{
-                case .main:
-                    let mainViewController = MainViewController(
-                        viewModel: MainViewModel(
-                            ///
-                            coordinator: self
-                        )
-                    )
-                    self.pushViewController(viewController: mainViewController)
+  enum MainCoordinatorFlow {
+    case main, detailDiary
+  }
 
-                case .detailDiary:
-                    self.popViewController()
-                    self.parentsCoordinator.userActionState.accept(.diary)
-                }
-            }).disposed(by: disposeBag)
-    }
+  // MARK: - Need To Initializing
     
-    func start() {
-        self.userActionState.accept(.main)
-    }
+  var navigationController: UINavigationController
+  var parentsCoordinator: TabBarCoordinator
+    
+    
+  // MARK: - Don't Need To Initializing
+    
+  var userActionState: PublishRelay<MainCoordinatorFlow> = PublishRelay()
+  var childCoordinators: [Coordinator] = []
+  var disposeBag: DisposeBag = DisposeBag()
+  var delegate: CoordinatorDelegate?
+  
+
+  init(
+      navigationController: UINavigationController,
+      parentsCoordinator: TabBarCoordinator
+  ) {
+      self.navigationController = navigationController
+      self.parentsCoordinator = parentsCoordinator
+      self.setState()
+  }
+
+  func setState(){
+    self.userActionState
+      .debug()
+      .subscribe(onNext: { [weak self] state in
+        print("💗💗💗 MainCoordinator: \(state) 💗💗💗")
+        guard let self = self else { return }
+        switch state {
+        case .main:
+          let mainViewController = MainViewController(
+            viewModel: MainViewModel(
+              coordinator: self
+            )
+          )
+          self.pushViewController(viewController: mainViewController)
+
+        case .detailDiary:
+          self.popViewController()
+          self.parentsCoordinator.userActionState.accept(.diary)
+        }
+    }).disposed(by: disposeBag)
+  }
+  
+  func start() {
+    self.userActionState.accept(.main)
+  }
 }
