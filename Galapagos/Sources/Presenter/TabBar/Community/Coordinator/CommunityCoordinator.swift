@@ -11,27 +11,28 @@ import RxSwift
 import RxRelay
 
 class CommunityCoordinator: Coordinator {
-    var disposeBag: DisposeBag
+  
+  // MARK: - Coordinator DEPTH 2 -
+  
+  // MARK: - Need To Initializing
     
-    var navigationController: UINavigationController
+  var navigationController: UINavigationController
+  
+  // MARK: - Don't Need To Initializing
     
-    var childCoordinators: [Coordinator] = []
-    var delegate: CoordinatorDelegate?
-    
-    init(
-        navigationController: UINavigationController
-    ) {
-        self.navigationController = navigationController
-        self.disposeBag = DisposeBag()
-    }
-    
-    func setState() {
-        
-    }
-    
-    func start() {
-        
-    }
-    
-    
+  var childCoordinators: [Coordinator] = []
+  var disposeBag: DisposeBag = DisposeBag()
+  var delegate: CoordinatorDelegate?
+  
+  init(navigationController: UINavigationController) {
+    self.navigationController = navigationController
+  }
+  
+  func setState() {
+    //
+  }
+  
+  func start() {
+    //
+  }
 }

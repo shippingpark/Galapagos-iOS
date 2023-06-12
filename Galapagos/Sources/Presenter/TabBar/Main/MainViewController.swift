@@ -7,48 +7,51 @@
 //
 
 import UIKit
+
+import Then
 import SnapKit
 
-class MainViewController: BaseViewController {
+final class MainViewController: BaseViewController {
+  
+  // MARK: - UI
     
-    // MARK: - UI
-    private lazy var button = UIButton()
+  private lazy var button = UIButton().then {
+    $0.backgroundColor = .blue
+    $0.setTitle("임시버튼, 다이어리 이동", for: .normal)
+  }
+  
+  // MARK: - Properties
     
-    //MARK: - Properties
-    private let viewModel: MainViewModel
+  private let viewModel: MainViewModel
+  
+  // MARK: - Initializers
     
-    //MARK: - Initializers
-    init(
-        viewModel: MainViewModel
-    ) {
-        self.viewModel = viewModel
-        super.init()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        button.backgroundColor = .blue
-        button.setTitle("임시버튼, 다이어리 이동", for: .normal)
-    }
-    
-    override func setAddSubView() {
-        self.view.addSubview(button)
-    }
-    
-    override func setConstraint() {
-        button.snp.makeConstraints { make in
-            make.width.equalTo(300)
-            make.height.equalTo(40)
-            make.center.equalToSuperview()
-        }
-    }
-    
-    override func bind() {
-        let input = MainViewModel.Input(
-            buttonTapped: button.rx.tap.asSignal()
-        )
-        
-        let output = viewModel.transform(input: input)
-        
-    }
+  init(
+      viewModel: MainViewModel
+  ) {
+      self.viewModel = viewModel
+      super.init()
+  }
+
+  // MARK: - LifeCycle
+  
+  override func viewDidLoad() {
+      super.viewDidLoad()
+      button.backgroundColor = .blue
+      button.setTitle("임시버튼, 다이어리 이동", for: .normal)
+  }
+  
+  // MARK: - Methods
+
+  override func setAddSubView() {
+      self.view.addSubview(button)
+  }
+  
+  override func bind() {
+    let input = MainViewModel.Input(
+      buttonTapped: button.rx.tap.asSignal()
+    )
+    let output = viewModel.transform(input: input)
+  }
 }
+
