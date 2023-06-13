@@ -18,9 +18,7 @@ class MyPageCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     var delegate: CoordinatorDelegate?
     
-    init(
-        navigationController: UINavigationController
-    ) {
+    init(navigationController: UINavigationController) {
         self.navigationController = navigationController
         self.disposeBag = DisposeBag()
     }
