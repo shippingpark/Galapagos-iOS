@@ -7,31 +7,28 @@
 //
 
 import UIKit
+
 import RxSwift
 import RxRelay
 
 class DiaryCoordinator: Coordinator {
-    var disposeBag: DisposeBag
-    
-    var navigationController: UINavigationController
-    
-    var childCoordinators: [Coordinator] = []
-    var delegate: CoordinatorDelegate?
-    
-    init(
-        navigationController: UINavigationController
-    ) {
-        self.navigationController = navigationController
-        self.disposeBag = DisposeBag()
-    }
-    
-    func setState() {
-        
-    }
-    
-    func start() {
-        
-    }
-    
-    
+  var disposeBag: DisposeBag
+  
+  var navigationController: UINavigationController
+  
+  var childCoordinators: [Coordinator] = []
+  var delegate: CoordinatorDelegate?
+  
+  init(navigationController: UINavigationController) {
+    self.navigationController = navigationController
+    self.disposeBag = DisposeBag()
+  }
+  
+  func setState() {
+      
+  }
+  
+  func start() {
+      
+  }
 }

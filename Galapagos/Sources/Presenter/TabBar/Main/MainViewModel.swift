@@ -27,7 +27,7 @@ final class MainViewModel: ViewModelType {
   
   func transform(input: Input) -> Output {
     input.buttonTapped
-          .emit(onNext: { [weak self] _ in
+      .emit(onNext: { [weak self] _ in
         self?.coordinator?.userActionState.accept(.detailDiary)
       })
       .disposed(by: disposeBag)

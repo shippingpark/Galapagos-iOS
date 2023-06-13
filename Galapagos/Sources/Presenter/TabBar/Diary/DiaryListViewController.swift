@@ -10,19 +10,19 @@ import UIKit
 
 class DiaryListViewController: BaseViewController {
     
-    //MARK: - Properties
-    private let viewModel: DiaryListViewModel
-    
-    //MARK: - Initializers
-    init(
-        viewModel: DiaryListViewModel
-    ) {
-        self.viewModel = viewModel
-        super.init()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+  // MARK: - Properties
+  
+  private let viewModel: DiaryListViewModel
+  
+  // MARK: - Initializers
+
+  init(viewModel: DiaryListViewModel) {
+    self.viewModel = viewModel
+    super.init()
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+  }
 
 }
