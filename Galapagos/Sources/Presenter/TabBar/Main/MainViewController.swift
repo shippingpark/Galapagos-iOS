@@ -15,8 +15,8 @@ final class MainViewController: BaseViewController {
   
   // MARK: - UI
     
-  private lazy var button = UIButton().then {
-    $0.backgroundColor = .blue
+  private var button = UIButton().then {
+    $0.backgroundColor = .darkGray
     $0.setTitle("임시버튼, 다이어리 이동", for: .normal)
   }
   
@@ -30,19 +30,19 @@ final class MainViewController: BaseViewController {
       self.viewModel = viewModel
       super.init()
   }
-
-  // MARK: - LifeCycle
-  
-  override func viewDidLoad() {
-      super.viewDidLoad()
-      button.backgroundColor = .blue
-      button.setTitle("임시버튼, 다이어리 이동", for: .normal)
-  }
   
   // MARK: - Methods
 
   override func setAddSubView() {
       self.view.addSubview(button)
+  }
+  
+  override func setConstraint() {
+    button.snp.makeConstraints { make in
+      make.width.equalTo(300)
+      make.height.equalTo(40)
+      make.center.equalToSuperview()
+    }
   }
   
   override func bind() {
