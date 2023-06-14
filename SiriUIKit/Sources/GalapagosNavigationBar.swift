@@ -12,7 +12,7 @@ import SnapKit
 public final class GalapagosNavigationBarView: BaseView {
   
   // MARK: - UI
-  private lazy var backButton: UIButton = {
+  public lazy var backButton: UIButton = {
     let button = UIButton()
     button.setImage(SiriUIKitAsset.arrowL24x24.image, for: .normal)
     return button

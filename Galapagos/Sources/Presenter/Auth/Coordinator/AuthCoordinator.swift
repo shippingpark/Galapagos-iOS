@@ -48,7 +48,11 @@ class AuthCoordinator: Coordinator {
               coordinator: self
             )
           )
-          self.pushViewController(viewController: signInViewController)
+          if self.navigationController.viewControllers.contains(where: {$0 is SignInViewController}) {
+            self.navigationController.popViewController(animated: true)
+          }else {
+            self.pushViewController(viewController: signInViewController)
+          }
         case .EmailSignUp:
           let emailSignUpViewController = EmailSignUpViewController(
             viewModel: EmailSignUpViewModel(
@@ -56,7 +60,11 @@ class AuthCoordinator: Coordinator {
               coordinator: self
             )
           )
-          self.pushViewController(viewController: emailSignUpViewController)
+          if self.navigationController.viewControllers.contains(where: {$0 is EmailSignUpViewController}) {
+            self.navigationController.popViewController(animated: true)
+          }else {
+            self.pushViewController(viewController: emailSignUpViewController)
+          }
         case .EmailSignIn:
           let emailSignInViewController = EmailSignInViewController(
             viewModel: EmailSignInViewModel(
@@ -64,7 +72,11 @@ class AuthCoordinator: Coordinator {
               coordinator: self
             )
           )
-          self.pushViewController(viewController: emailSignInViewController)
+          if self.navigationController.viewControllers.contains(where: {$0 is EmailSignInViewController}) {
+            self.navigationController.popViewController(animated: true)
+          }else {
+            self.pushViewController(viewController: emailSignInViewController)
+          }
         }
         
       }).disposed(by: disposeBag)

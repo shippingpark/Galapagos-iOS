@@ -9,6 +9,8 @@
 import UIKit
 import SnapKit
 import SiriUIKit
+import RxSwift
+import RxCocoa
 
 class EmailSignUpViewController: BaseViewController {
   
@@ -62,4 +64,12 @@ class EmailSignUpViewController: BaseViewController {
     ])
   }
   
+  override func bind() {
+    let input = EmailSignUpViewModel.Input(
+      backButtonTapped: navigationBar.backButton.rx.tap.asSignal()
+    )
+    
+    let output = viewModel.transform(input: input)
+    
+  }
 }
