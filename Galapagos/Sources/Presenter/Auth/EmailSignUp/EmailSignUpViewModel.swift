@@ -8,10 +8,13 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class EmailSignUpViewModel: ViewModelType{
   
-  struct Input {}
+  struct Input {
+    let backButtonTapped: Signal<Void>
+  }
   
   struct Output {}
   
@@ -26,6 +29,15 @@ class EmailSignUpViewModel: ViewModelType{
   
   
   func transform(input: Input) -> Output {
+    
+    input.backButtonTapped
+      .emit(onNext: { [weak self] in
+        guard let self = self else {return}
+        self.coordinator?.userActionState.accept(.SignIn)
+      })
+      .disposed(by: disposeBag)
+    
+    
     return Output()
   }
   
