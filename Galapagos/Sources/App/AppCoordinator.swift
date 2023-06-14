@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 
 class AppCoordinator: Coordinator {    
+
   //MARK: - Navigation DEPTH 0 -
   enum AppCoordinatorChild{
     case Auth, TabBar
@@ -43,8 +44,7 @@ class AppCoordinator: Coordinator {
         switch state{
         case .Auth:
           let authCoordinator = AuthCoordinator(
-            navigationController: self.navigationController,
-            userActionState: .SignIn
+            navigationController: self.navigationController
           )
           authCoordinator.delegate = self
           authCoordinator.start()

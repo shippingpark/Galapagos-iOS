@@ -19,28 +19,23 @@ class AuthCoordinator: Coordinator {
   
   //MARK: - Need To Initializing
   var disposeBag: DisposeBag
-  var userActionState: BehaviorRelay<AuthCoordinatorChild>/// init에서만 호출하고, stream을 유지하기위해 BehaviorSubject 사용
   var navigationController: UINavigationController
   
   //MARK: - Don't Need To Initializing
   var childCoordinators: [Coordinator] = []
   var delegate: CoordinatorDelegate?
+  var userActionState: PublishRelay<AuthCoordinatorChild> = PublishRelay()
+  /// init에서만 호출하고, stream을 유지하기위해 BehaviorSubject 사용
   
   init(
-    navigationController: UINavigationController,
-    userActionState: AuthCoordinatorChild
+    navigationController: UINavigationController
   ){
     self.navigationController = navigationController
-    self.userActionState = BehaviorRelay(value: userActionState)
     self.disposeBag = DisposeBag()
-    
+    self.setState()
   }
   
   func setState() {
-    //
-  }
-  
-  func start() {
     self.userActionState
       .debug()
       .subscribe(onNext: { [weak self] state in
@@ -75,5 +70,8 @@ class AuthCoordinator: Coordinator {
       }).disposed(by: disposeBag)
   }
   
+  func start() {
+    self.userActionState.accept(.SignIn)
+  }
   
 }
