@@ -14,27 +14,27 @@ import SnapKit
 final class MainViewController: BaseViewController {
   
   // MARK: - UI
-    
+  
   private var button = UIButton().then {
     $0.backgroundColor = .darkGray
     $0.setTitle("임시버튼, 다이어리 이동", for: .normal)
   }
   
   // MARK: - Properties
-    
+  
   private let viewModel: MainViewModel
   
   // MARK: - Initializers
-    
+  
   init(viewModel: MainViewModel) {
-      self.viewModel = viewModel
-      super.init()
+    self.viewModel = viewModel
+    super.init()
   }
   
   // MARK: - Methods
-
+  
   override func setAddSubView() {
-      self.view.addSubview(button)
+    self.view.addSubview(button)
   }
   
   override func setConstraint() {

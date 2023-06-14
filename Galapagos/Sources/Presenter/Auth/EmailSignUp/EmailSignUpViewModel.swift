@@ -10,24 +10,24 @@ import UIKit
 import RxSwift
 
 class EmailSignUpViewModel: ViewModelType{
-    
-    struct Input {}
-    
-    struct Output {}
-    
-    var disposeBag: DisposeBag = DisposeBag()
-    weak var coordinator: AuthCoordinator?
-    
-    init(
-        coordinator: AuthCoordinator
-    ) {
-        self.coordinator = coordinator
-    }
-    
-    
-    func transform(input: Input) -> Output {
-        return Output()
-    }
-    
-    
+  
+  struct Input {}
+  
+  struct Output {}
+  
+  var disposeBag: DisposeBag = DisposeBag()
+  weak var coordinator: AuthCoordinator?
+  
+  init(
+    coordinator: AuthCoordinator
+  ) {
+    self.coordinator = coordinator
+  }
+  
+  
+  func transform(input: Input) -> Output {
+    return Output()
+  }
+  
+  
 }

@@ -15,9 +15,9 @@ final class MainViewModel: ViewModelType {
   struct Input {
     let buttonTapped: Signal<Void>
   }
-
+  
   struct Output {}
-    
+  
   var disposeBag: DisposeBag = DisposeBag()
   weak var coordinator: MainCoordinator?
   

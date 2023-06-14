@@ -9,13 +9,13 @@
 import RxSwift
 
 protocol ViewModelType: AnyObject{
-    associatedtype Input
-    associatedtype Output
-    
-    
-    // MARK: - Properties
-    var disposeBag: DisposeBag { get }
-    
-    // MARK: - Methods
-    func transform(input: Input) -> Output
+  associatedtype Input
+  associatedtype Output
+  
+  
+  // MARK: - Properties
+  var disposeBag: DisposeBag { get }
+  
+  // MARK: - Methods
+  func transform(input: Input) -> Output
 }

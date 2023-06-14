@@ -11,26 +11,26 @@ import Then
 import SnapKit
 
 class SplashViewController: BaseViewController {
+  
+  private let viewModel: SplashViewModel
+  
+  init(
+    viewModel: SplashViewModel
+  ) {
+    self.viewModel = viewModel
+    super.init()
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    viewModel.CheckAutoSignIn()
+  }
+  
+  override func setConstraint() {
     
-    private let viewModel: SplashViewModel
+  }
+  
+  override func setAddSubView() {
     
-    init(
-        viewModel: SplashViewModel
-    ) {
-        self.viewModel = viewModel
-        super.init()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        viewModel.CheckAutoSignIn()
-    }
-    
-    override func setConstraint() {
-        
-    }
-    
-    override func setAddSubView() {
-        
-    }
+  }
 }
