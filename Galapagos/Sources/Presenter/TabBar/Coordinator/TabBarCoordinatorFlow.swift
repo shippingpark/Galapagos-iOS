@@ -9,7 +9,7 @@
 import UIKit
 
 enum TabBarCoordinatorFlow: Int, CaseIterable {
-    
+  
   // MARK: - Coordinator DEPTH 1 -
   
   case main, diary, community, mypage

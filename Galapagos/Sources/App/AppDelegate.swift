@@ -11,24 +11,24 @@ import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate{
-    var window: UIWindow?
-    var appCoordinator: AppCoordinator?
+  var window: UIWindow?
+  var appCoordinator: AppCoordinator?
+  
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    self.window = UIWindow(frame: UIScreen.main.bounds)
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        self.window = UIWindow(frame: UIScreen.main.bounds)
-        
-        let navigationController = UINavigationController()
-        
-        appCoordinator = AppCoordinator(
-            navigationController: navigationController
-        )
-        
-        self.window?.rootViewController = navigationController
-        self.window?.makeKeyAndVisible()
-        
-        appCoordinator?.start()
-        
-        return true
-    }
+    let navigationController = UINavigationController()
     
+    appCoordinator = AppCoordinator(
+      navigationController: navigationController
+    )
+    
+    self.window?.rootViewController = navigationController
+    self.window?.makeKeyAndVisible()
+    
+    appCoordinator?.start()
+    
+    return true
+  }
+  
 }

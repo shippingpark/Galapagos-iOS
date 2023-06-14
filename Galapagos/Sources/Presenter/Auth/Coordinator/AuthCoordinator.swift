@@ -74,5 +74,4 @@ class AuthCoordinator: Coordinator {
     self.userActionState.accept(.SignIn)
   }
   
-  
 }

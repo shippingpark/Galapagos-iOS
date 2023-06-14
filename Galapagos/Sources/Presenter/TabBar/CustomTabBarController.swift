@@ -17,13 +17,13 @@ final class CustomTabBarController: UITabBarController {
   // MARK: - Initializers
   
   init(coordinator: TabBarCoordinator) {
-      super.init(nibName: nil, bundle: nil)
-      self.delegate = self
-      self.coordinator = coordinator
+    super.init(nibName: nil, bundle: nil)
+    self.delegate = self
+    self.coordinator = coordinator
   }
   
   required init?(coder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
+    fatalError("init(coder:) has not been implemented")
   }
   
   // MARK: - LifeCycle
@@ -34,20 +34,20 @@ final class CustomTabBarController: UITabBarController {
     setTabBarItemAttribute()
     setShadow()
   }
-
+  
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     adjustTabBarFrame()
   }
   
   // MARK: - Private Methods
-    
+  
   private func adjustTabBarFrame() {
-      let tabBarHeightRatio: CGFloat = 0.11 // 탭 바 높이 비율 (0.0 ~ 1.0)
-      var tabFrame = tabBar.frame
-      tabFrame.size.height = view.frame.size.height * tabBarHeightRatio
-      tabFrame.origin.y = view.frame.size.height - tabFrame.size.height
-      tabBar.frame = tabFrame
+    let tabBarHeightRatio: CGFloat = 0.11 // 탭 바 높이 비율 (0.0 ~ 1.0)
+    var tabFrame = tabBar.frame
+    tabFrame.size.height = view.frame.size.height * tabBarHeightRatio
+    tabFrame.origin.y = view.frame.size.height - tabFrame.size.height
+    tabBar.frame = tabFrame
   }
   
   private func setViewAttributes() {
