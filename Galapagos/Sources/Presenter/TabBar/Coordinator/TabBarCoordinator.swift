@@ -52,6 +52,15 @@ final class TabBarCoordinator: Coordinator {
     self.configureTabBarController(with: controllers)
     self.userActionState.accept(.main)
   }
+  
+  func detailDiary() {
+    if let diaryListCoordinator = childCoordinators[1] as? DiaryListCoordinator {
+      self.userActionState.accept(.diary)
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+           diaryListCoordinator.userActionState.accept(.diaryDetail)
+         }
+    }
+  }
 }
 
 
