@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxRelay
 
-class CommunityCoordinator: Coordinator {
+class CommunityListCoordinator: Coordinator {
   
   // MARK: - Coordinator DEPTH 2 -
   

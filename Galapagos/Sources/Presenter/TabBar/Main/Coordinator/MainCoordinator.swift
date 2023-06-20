@@ -45,22 +45,55 @@ final class MainCoordinator: Coordinator {
         print("💗💗💗 MainCoordinator: \(state) 💗💗💗")
         guard let self = self else { return }
         switch state {
-        case .main:
-          let mainViewController = MainViewController(
-            viewModel: MainViewModel(
-              coordinator: self
-            )
-          )
-          self.pushViewController(viewController: mainViewController)
-          
+        case .addPet:
+          self.pushToAddPet()
+
         case .detailDiary:
-          self.popViewController()
-          self.parentsCoordinator.userActionState.accept(.diary)
+          self.pushToDetailDiary(petIdx: "임시") //Idx 가져 올 방법 고민 (enum 유력)
+          
+        case .detailPost:
+            break
         }
       }).disposed(by: disposeBag)
   }
   
   func start() {
-    self.userActionState.accept(.main)
+    let mainViewController = MainViewController(
+      viewModel: MainViewModel(
+        coordinator: self
+      )
+    )
+    self.pushViewController(viewController: mainViewController)
+  }
+}
+
+extension MainCoordinator: AddPetCoordinating {
+  func pushToAddPet() {
+    self.navigationController.tabBarController?.tabBar.isHidden = true
+    let addPetCoordinator = AddPetCoordinator(
+      navigationController: self.navigationController
+    )
+    addPetCoordinator.delegate = self
+    addPetCoordinator.start()
+    self.childCoordinators.append(addPetCoordinator)
+  }
+}
+
+extension MainCoordinator: DetailDiaryCoordinating {
+  func pushToDetailDiary(petIdx: String) { //TabBar 거쳐야 하는 이례적인 상황
+    self.parentsCoordinator.detailDiary()
+  }
+}
+
+extension MainCoordinator: DetailPostCoordinating {
+  func pushToDetailPost(postIdx: String) {
+    //
+  }
+}
+
+extension MainCoordinator: CoordinatorDelegate {
+  func didFinish(childCoordinator: Coordinator) {
+    self.navigationController.tabBarController?.tabBar.isHidden = false
+    self.popViewController()
   }
 }
