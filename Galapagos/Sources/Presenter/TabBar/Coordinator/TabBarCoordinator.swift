@@ -52,6 +52,15 @@ final class TabBarCoordinator: Coordinator {
     self.configureTabBarController(with: controllers)
     self.userActionState.accept(.main)
   }
+  
+  func detailDiary() {
+    if let diaryListCoordinator = childCoordinators[1] as? DiaryListCoordinator {
+      self.userActionState.accept(.diary)
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+           diaryListCoordinator.userActionState.accept(.diaryDetail)
+         }
+    }
+  }
 }
 
 
@@ -61,7 +70,8 @@ private extension TabBarCoordinator {
   private func configureTabBarController(with tabViewControllers: [UIViewController]) {
     self.tabBarController.setViewControllers(tabViewControllers, animated: true)
     self.navigationController.setNavigationBarHidden(true, animated: false)
-    self.navigationController.pushViewController(tabBarController, animated: true)
+    self.navigationController.viewControllers = [tabBarController] //아예 새로 시작
+//    self.navigationController.pushViewController(tabBarController, animated: true)//삭제
   }
   
   func createTabNavigationController(of page: TabBarCoordinatorFlow) -> UINavigationController {
@@ -80,12 +90,12 @@ private extension TabBarCoordinator {
       mainCoordinator.start()
       childCoordinators.append(mainCoordinator)
     case .diary:
-      let diaryCoordinator = DiaryCoordinator(navigationController: navigationController)
+      let diaryCoordinator = DiaryListCoordinator(navigationController: navigationController)
       diaryCoordinator.delegate = self
       diaryCoordinator.start()
       childCoordinators.append(diaryCoordinator)
     case .community:
-      let communityCoordinator = CommunityCoordinator(navigationController: navigationController)
+      let communityCoordinator = CommunityListCoordinator(navigationController: navigationController)
       communityCoordinator.delegate = self
       communityCoordinator.start()
       childCoordinators.append(communityCoordinator)

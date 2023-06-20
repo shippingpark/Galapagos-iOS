@@ -17,7 +17,12 @@ final class MainViewController: BaseViewController {
   
   private var button = UIButton().then {
     $0.backgroundColor = .darkGray
-    $0.setTitle("임시버튼, 다이어리 이동", for: .normal)
+    $0.setTitle("펫 추가", for: .normal)
+  }
+  
+  private var button2 = UIButton().then {
+    $0.backgroundColor = .blue
+    $0.setTitle("상세 다이어리", for: .normal)
   }
   
   // MARK: - Properties
@@ -34,7 +39,7 @@ final class MainViewController: BaseViewController {
   // MARK: - Methods
   
   override func setAddSubView() {
-    self.view.addSubview(button)
+    self.view.addSubviews([button, button2])
   }
   
   override func setConstraint() {
@@ -43,11 +48,17 @@ final class MainViewController: BaseViewController {
       make.height.equalTo(40)
       make.center.equalToSuperview()
     }
+    button2.snp.makeConstraints { make in
+      make.centerX.equalToSuperview()
+      make.top.equalTo(button.snp.bottom)
+        .offset(20)
+    }
   }
   
   override func bind() {
     let input = MainViewModel.Input(
-      buttonTapped: button.rx.tap.asSignal()
+      buttonTapped: button.rx.tap.asSignal(),
+      button2Tapped: button2.rx.tap.asSignal()
     )
     let output = viewModel.transform(input: input)
   }

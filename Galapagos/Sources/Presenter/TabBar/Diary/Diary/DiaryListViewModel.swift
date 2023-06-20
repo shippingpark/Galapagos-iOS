@@ -1,34 +1,41 @@
 //
-//  MainViewModel.swift
+//  DiaryListViewModel.swift
 //  Galapagos
 //
 //  Created by 박혜운 on 2023/06/11.
 //  Copyright © 2023 com.busyModernPeople. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-import RxCocoa
 import RxSwift
+import RxCocoa
 
-final class MainViewModel: ViewModelType {
+class DiaryListViewModel: ViewModelType {
   struct Input {
     let buttonTapped: Signal<Void>
+    let button2Tapped: Signal<Void>
   }
   
   struct Output {}
   
   var disposeBag: DisposeBag = DisposeBag()
-  weak var coordinator: MainCoordinator?
+  weak var coordinator: DiaryListCoordinator?
   
-  init(coordinator: MainCoordinator) {
+  init(coordinator: DiaryListCoordinator) {
     self.coordinator = coordinator
   }
   
   func transform(input: Input) -> Output {
     input.buttonTapped
       .emit(onNext: { [weak self] _ in
-        self?.coordinator?.userActionState.accept(.detailDiary)
+        self?.coordinator?.userActionState.accept(.diaryDetail)
+      })
+      .disposed(by: disposeBag)
+    
+    input.button2Tapped
+      .emit(onNext: { [weak self] _ in
+        self?.coordinator?.userActionState.accept(.addPet)
       })
       .disposed(by: disposeBag)
     return Output()

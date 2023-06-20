@@ -1,0 +1,41 @@
+//
+//  AddPetCoordinator.swift
+//  Galapagos
+//
+//  Created by 박혜운 on 2023/06/20.
+//  Copyright © 2023 com.busyModernPeople. All rights reserved.
+//
+
+import UIKit
+
+import RxSwift
+import RxRelay
+
+class AddPetCoordinator: Coordinator {
+  var navigationController: UINavigationController
+
+  var delegate: CoordinatorDelegate?
+  var childCoordinators: [Coordinator] = []
+  var disposeBag: DisposeBag = DisposeBag()
+
+  init(navigationController: UINavigationController) {
+    self.navigationController = navigationController
+  }
+  
+  func setState() {}
+
+  func start() {
+    pushToAddPet()
+  }
+  
+  func pushToAddPet() {
+    let addPetViewController = AddPetViewController(
+      viewModel: AddPetViewModel(
+        coordinator: self
+      )
+    )
+    self.pushViewController(viewController: addPetViewController)
+  }
+}
+
+
