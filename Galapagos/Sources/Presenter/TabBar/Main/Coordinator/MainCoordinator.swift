@@ -17,10 +17,8 @@ final class MainCoordinator: Coordinator {
   // MARK: - Coordinator DEPTH 2 -
   
   enum MainCoordinatorFlow {
-    case main, detailDiary
+    case addPet, detailDiary, detailPost //초기화면 삭제
   }
-  
-  // MARK: - Need To Initializing
   
   var navigationController: UINavigationController
   var parentsCoordinator: TabBarCoordinator
