@@ -53,9 +53,9 @@ class AppCoordinator: Coordinator {
           let tabBarCoordinator = TabBarCoordinator(
             navigationController: self.navigationController
           )
-          tabBarCoordinator.delegate = self
+          //tabBarCoordinator.delegate = self//삭제
           tabBarCoordinator.start()
-          self.childCoordinators.append(tabBarCoordinator)
+          //self.childCoordinators.append(tabBarCoordinator) //삭제
         }
       }).disposed(by: disposeBag)
   }

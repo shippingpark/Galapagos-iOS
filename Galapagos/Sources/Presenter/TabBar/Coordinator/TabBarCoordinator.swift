@@ -70,7 +70,8 @@ private extension TabBarCoordinator {
   private func configureTabBarController(with tabViewControllers: [UIViewController]) {
     self.tabBarController.setViewControllers(tabViewControllers, animated: true)
     self.navigationController.setNavigationBarHidden(true, animated: false)
-    self.navigationController.pushViewController(tabBarController, animated: true)
+    self.navigationController.viewControllers = [tabBarController] //아예 새로 시작
+//    self.navigationController.pushViewController(tabBarController, animated: true)//삭제
   }
   
   func createTabNavigationController(of page: TabBarCoordinatorFlow) -> UINavigationController {
@@ -89,7 +90,7 @@ private extension TabBarCoordinator {
       mainCoordinator.start()
       childCoordinators.append(mainCoordinator)
     case .diary:
-      let diaryCoordinator = DiaryCoordinator(navigationController: navigationController)
+      let diaryCoordinator = DiaryListCoordinator(navigationController: navigationController)
       diaryCoordinator.delegate = self
       diaryCoordinator.start()
       childCoordinators.append(diaryCoordinator)
