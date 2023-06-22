@@ -15,6 +15,7 @@ final class MainViewController: BaseViewController {
   
   // MARK: - UI
   
+  private var shadowView = ShadowView()
   private var button = UIButton().then {
     $0.backgroundColor = .darkGray
     $0.setTitle("펫 추가", for: .normal)
