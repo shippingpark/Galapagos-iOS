@@ -8,9 +8,17 @@
 
 import UIKit
 
+import SiriUIKit
+
 class DiaryListViewController: BaseViewController {
     
   // MARK: - UI
+  
+  private lazy var navigationBar: GalapagosNavigationTabBarView = {
+    let navigationBar = GalapagosNavigationTabBarView()
+    navigationBar.setPageType(.diary)
+    return navigationBar
+  }()
   
   private var button = UIButton().then {
     $0.backgroundColor = .darkGray
@@ -36,10 +44,20 @@ class DiaryListViewController: BaseViewController {
   // MARK: - Methods
   
   override func setAddSubView() {
-    self.view.addSubviews([button, button2])
+    self.view.addSubviews([
+      navigationBar,
+      button,
+      button2
+    ])
   }
   
   override func setConstraint() {
+    navigationBar.snp.makeConstraints{ navigationBar in
+        navigationBar.top.equalTo(self.view.safeAreaLayoutGuide)
+        navigationBar.leading.trailing.equalToSuperview()
+        navigationBar.height.equalTo(50)
+    }
+    
     button.snp.makeConstraints { make in
       make.width.equalTo(300)
       make.height.equalTo(40)
