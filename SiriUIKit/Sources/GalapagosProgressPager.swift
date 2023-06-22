@@ -1,0 +1,108 @@
+//
+//  GalapagosProgressPager.swift
+//  SiriUIKit
+//
+//  Created by 조용인 on 2023/06/19.
+//  Copyright © 2023 com.busyModernPeople. All rights reserved.
+//
+
+import UIKit
+
+import RxSwift
+import RxCocoa
+import RxGesture
+import SnapKit
+
+public final class GalapagosProgressPager: UIView {
+    // MARK: - UI
+    
+    private lazy var progressView: UIProgressView = {
+        let progressView = UIProgressView()
+        progressView.progressTintColor = SiriUIKitAsset.green.color
+        progressView.trackTintColor = SiriUIKitAsset.gray6DisableBtnBg.color
+        return progressView
+    }()
+    
+    private lazy var pagerScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.isPagingEnabled = true
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.backgroundColor = .blue
+        return scrollView
+    }()
+    
+    // MARK: - Properties
+    public var pagesCount: Int
+    
+    fileprivate var pages: [UIView] = []
+    
+    // MARK: - Initializers
+    public init(
+        pages: [UIView]
+    ) {
+        self.pages = pages
+        self.pagesCount = pages.count
+        
+        super.init(frame: .zero)
+        setAddSubView()
+        setConstraint()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    // MARK: - LifeCycle
+    
+    // MARK: - Methods
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        for (index, page) in pages.enumerated() {
+            pagerScrollView.addSubview(page)
+            page.snp.makeConstraints { make in
+                make.top.bottom.equalTo(self)
+                make.width.equalTo(self.frame.size.width)
+                make.leading.equalToSuperview().offset(CGFloat(index) * self.frame.size.width)
+            }
+        }
+        pagerScrollView.contentSize = CGSize(width: self.frame.size.width * CGFloat(pages.count), height: self.frame.size.height)
+    }
+    
+    func setAddSubView() {
+        
+        self.addSubview(progressView)
+        self.addSubview(pagerScrollView)
+    }
+    
+    func setConstraint() {
+        
+        self.progressView.snp.makeConstraints{ progressView in
+            progressView.top.equalToSuperview().offset(10)
+            progressView.height.equalTo(8)
+            progressView.leading.trailing.equalToSuperview().inset(24)
+        }
+        
+        self.pagerScrollView.snp.makeConstraints { scrollView in
+            scrollView.leading.trailing.equalToSuperview()
+            scrollView.bottom.equalToSuperview().inset(40)
+            scrollView.top.equalTo(progressView.snp.bottom).offset(40)
+        }
+    }
+    
+    public func nextPage(animated: Bool, next: CGFloat) {
+        let nextPoint = CGPoint(x:  next * self.frame.size.width, y: 0)
+        pagerScrollView.setContentOffset(nextPoint, animated: animated)
+        setProgress(animated: animated)
+    }
+    
+    public func setProgress(animated: Bool) {
+        let progress = Float(getCurrentPage() + 1) / Float(pagesCount - 1)
+        progressView.setProgress(progress, animated: animated)
+    }
+    
+    public func getCurrentPage() -> Int {
+        let page = Int(pagerScrollView.contentOffset.x / self.frame.size.width)
+        return page
+    }
+    
+}
