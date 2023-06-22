@@ -37,9 +37,7 @@ class AppCoordinator: Coordinator {
   
   func setState(){
     self.userActionState
-      .debug()
       .subscribe(onNext: { [weak self] state in
-        print("💛💛💛 AppCoordinator: \(state) 💛💛💛")
         guard let self = self else {return}
         switch state{
         case .Auth:
