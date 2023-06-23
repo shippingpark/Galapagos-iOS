@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-public final class GalapagosNavigationBarView: BaseView {
+public final class GalapagosNavigationBarView: UIView {
   
   // MARK: - UI
   public lazy var backButton: UIButton = {
@@ -36,16 +36,24 @@ public final class GalapagosNavigationBarView: BaseView {
   // MARK: - Properties
   
   // MARK: - Initializers
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    self.setAddSubView()
+    self.setConstraint()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   
   // MARK: - Methods
-  override func setAddSubView() {
-    super.setAddSubView()
+  private func setAddSubView() {
     self.addSubview(backButton)
     self.addSubview(rightItemStack)
   }
   
-  override func setConstraint() {
-    super.setConstraint()
+  private func setConstraint() {
     
     self.rightItemStack.snp.makeConstraints{ horizontalStack in
       horizontalStack.centerY.equalToSuperview()
