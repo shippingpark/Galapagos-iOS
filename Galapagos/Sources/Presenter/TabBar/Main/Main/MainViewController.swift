@@ -15,7 +15,8 @@ final class MainViewController: BaseViewController {
   
   // MARK: - UI
   
-  private var shadowView = ShadowView()
+
+  private var shadowView = RadiusBoxView()
 
   private lazy var navigationBar: GalapagosNavigationTabBarView = {
     let navigationBar = GalapagosNavigationTabBarView()
