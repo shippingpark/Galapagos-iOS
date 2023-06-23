@@ -8,31 +8,62 @@
 
 import UIKit
 
+
 class RadiusBoxView: UIView {
+  private var radius: RadiusSize
+  private var style: BoxStyle
   
   public enum radiusSize {
     case small
     case large
   }
   
-  override init(frame: CGRect) {
-      super.init(frame: frame)
-      commonInit()
+  public init(radius: RadiusSize, style: BoxStyle) {
+    self.radius = radius
+    self.style = style
+    super.init(frame: .zero)
+    
+    self.configureRadiusSet()
+    self.configureStyleSet()
   }
   
   required init?(coder aDecoder: NSCoder) {
-      super.init(coder: aDecoder)
-      commonInit()
+    fatalError("init(coder:) has not been implemented")
   }
   
-  private func commonInit() {
+  //MARK: - Methods
+  
+  private func configureRadiusSet() {
     self.backgroundColor = .white // 배경색 설정
-    self.layer.cornerRadius = 8.0 // 곡률 설정
-    self.layer.shadowColor = GalapagosAsset.blackHeading.color.withAlphaComponent(0.12).cgColor
-    self.layer.shadowOffset = CGSize(width: 0, height: 3)
-    self.layer.shadowRadius = 20.0 //Blur
-    self.layer.shadowOpacity = 1.0
+    self.layer.cornerRadius = CGFloat(self.radius.rawValue) // 곡률 설정
+  }
+  
+  private func configureStyleSet() {
+    switch style {
+    case .line:
+      self.layer.borderWidth = 1.0
+      self.layer.borderColor = GalapagosAsset.gray5OutLine.color.cgColor
+      self.layer.shadowColor = GalapagosAsset.whiteDefaultText.color.cgColor
+    case .shadow:
+      self.layer.shadowColor = GalapagosAsset.blackHeading.color.withAlphaComponent(0.12).cgColor
+      self.layer.shadowOffset = CGSize(width: 0, height: 3)
+      self.layer.shadowRadius = 20.0 //Blur
+      self.layer.shadowOpacity = 1.0
+    }
     self.layer.masksToBounds = false
   }
+}
+    
+
+// MARK: - RadiusBoxView.StyleType
+extension RadiusBoxView {
+  public enum RadiusSize: Int {
+    case small = 8
+    case large = 12
+  }
   
+  public enum BoxStyle {
+    case shadow
+    case line
+  }
 }
