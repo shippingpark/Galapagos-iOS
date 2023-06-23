@@ -35,11 +35,6 @@ class RadiusBoxView: UIView {
   
   private func configureRadiusSet() {
     self.backgroundColor = .white // 배경색 설정
-    self.layer.cornerRadius = 8.0 // 곡률 설정
-    self.layer.shadowColor = GalapagosAsset.blackHeading.color.withAlphaComponent(0.12).cgColor
-    self.layer.shadowOffset = CGSize(width: 0, height: 3)
-    self.layer.shadowRadius = 20.0 //Blur
-    self.layer.shadowOpacity = 1.0
     self.layer.cornerRadius = CGFloat(self.radius.rawValue) // 곡률 설정
   }
   
