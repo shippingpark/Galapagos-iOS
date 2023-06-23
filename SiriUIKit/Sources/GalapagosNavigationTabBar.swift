@@ -8,7 +8,7 @@
 
 import UIKit
 
-public final class GalapagosNavigationTabBarView: BaseView {
+public final class GalapagosNavigationTabBarView: UIView {
   
   public enum TabBarPages {
     case main
@@ -63,14 +63,25 @@ public final class GalapagosNavigationTabBarView: BaseView {
   
   // MARK: - Initializers
   
+  // MARK: - LifeCycle
+  override init(frame: CGRect) {
+      super.init(frame: frame)
+      
+      self.backgroundColor = SiriUIKitAsset.whiteDefaultText.color
+      setAddSubView()
+      setConstraint()
+  }
+    
+  required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+  }
+    
   // MARK: - Methods
-  override func setAddSubView() {
-    super.setAddSubView()
+  func setAddSubView() {
     self.addSubview(rightItemStack)
   }
   
-  override func setConstraint() {
-    super.setConstraint()
+  func setConstraint() {
 
     self.rightItemStack.snp.makeConstraints{ horizontalStack in
       horizontalStack.centerY.equalToSuperview()

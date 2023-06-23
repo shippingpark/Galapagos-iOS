@@ -18,7 +18,7 @@ public class BaseView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     
-    self.backgroundColor = SiriUIKitAsset.whiteDefaultText.color
+    self.backgroundColor = GalapagosAsset.whiteDefaultText.color
     setAddSubView()
     setAttribute()
     setConstraint()
