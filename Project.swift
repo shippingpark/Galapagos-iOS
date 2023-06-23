@@ -74,7 +74,7 @@ class BaseProjectProfile: ProjectProfile{
                 .external(name: "RxGesture"),
                 .external(name: "SnapKit"),
                 .external(name: "Then"),
-                .external(name: "KeychainSwift")
+                .external(name: "KeychainSwift"),
             ]
         }
     }
