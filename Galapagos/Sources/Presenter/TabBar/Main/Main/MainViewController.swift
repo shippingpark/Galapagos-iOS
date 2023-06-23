@@ -16,7 +16,7 @@ final class MainViewController: BaseViewController {
   // MARK: - UI
   
   private var shadowView = ShadowView()
-  
+
   private lazy var navigationBar: GalapagosNavigationTabBarView = {
     let navigationBar = GalapagosNavigationTabBarView()
     navigationBar.setPageType(.main)
