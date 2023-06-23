@@ -8,14 +8,22 @@
 
 import UIKit
 
-import Then
 import SnapKit
+import SiriUIKit
 
 final class MainViewController: BaseViewController {
   
   // MARK: - UI
   
+
   private var shadowView = RadiusBoxView()
+
+  private lazy var navigationBar: GalapagosNavigationTabBarView = {
+    let navigationBar = GalapagosNavigationTabBarView()
+    navigationBar.setPageType(.main)
+    return navigationBar
+  }()
+  
   private var button = UIButton().then {
     $0.backgroundColor = .darkGray
     $0.setTitle("펫 추가", for: .normal)
@@ -40,14 +48,33 @@ final class MainViewController: BaseViewController {
   // MARK: - Methods
   
   override func setAddSubView() {
-    self.view.addSubviews([button, button2])
+    self.view.addSubviews([
+      navigationBar,
+      shadowView,
+      button,
+      button2
+    ])
   }
   
   override func setConstraint() {
+    
+    navigationBar.snp.makeConstraints{ navigationBar in
+        navigationBar.top.equalTo(self.view.safeAreaLayoutGuide)
+        navigationBar.leading.trailing.equalToSuperview()
+        navigationBar.height.equalTo(50)
+    }
+    
+    shadowView.snp.makeConstraints { make in
+      make.top.equalTo(navigationBar.snp.bottom).offset(40)
+      make.centerX.equalToSuperview()
+      make.width.equalToSuperview().multipliedBy(0.88)
+      make.height.equalTo(shadowView.snp.width)
+    }
+    
     button.snp.makeConstraints { make in
       make.width.equalTo(300)
       make.height.equalTo(40)
-      make.center.equalToSuperview()
+      make.center.equalTo(shadowView.snp.center)
     }
     button2.snp.makeConstraints { make in
       make.centerX.equalToSuperview()
