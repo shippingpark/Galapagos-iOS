@@ -51,7 +51,7 @@ class SignInViewController: BaseViewController {
   }()
   
   private lazy var kakaoSignInButton: GalapagosButton = {
-    let button = GalapagosButton(buttonStyle: .fill, isCircle: true)
+      let button = GalapagosButton(buttonStyle: .fill, isCircle: true)
     button.setImage(GalapagosAsset.snsKakao.image, for: .normal)
     button.borderWidth = 0
     return  button

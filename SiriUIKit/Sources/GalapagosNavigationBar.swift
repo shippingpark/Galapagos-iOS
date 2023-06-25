@@ -14,7 +14,7 @@ public final class GalapagosNavigationBarView: UIView {
   // MARK: - UI
   public lazy var backButton: UIButton = {
     let button = UIButton()
-    button.setImage(SiriUIKitAsset.arrowL24x24.image, for: .normal)
+    button.setImage(SiriUIKitAsset._24x24arrowLeft.image, for: .normal)
     return button
   }()
   

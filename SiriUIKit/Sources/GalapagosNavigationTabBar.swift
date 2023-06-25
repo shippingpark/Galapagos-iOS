@@ -21,7 +21,7 @@ public final class GalapagosNavigationTabBarView: UIView {
   
   public lazy var alertButton: UIButton = {
     let button = UIButton()
-    button.setImage(SiriUIKitAsset.appBarNoti24x24.image, for: .normal)
+//    button.setImage(SiriUIKitAsset.appBarNoti24x24.image, for: .normal)
     return button
   }()
   
