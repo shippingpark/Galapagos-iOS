@@ -23,8 +23,7 @@ class EmailSignUpViewController: BaseViewController {
     }()
     
     private lazy var galapagosPager: GalapagosProgressPager = {
-        let page1 = UIView()
-        page1.backgroundColor = UIColor.red
+        let firstPage = TermsAndConditionsView()
         
         let page2 = UIView()
         page2.backgroundColor = UIColor.green
@@ -39,7 +38,7 @@ class EmailSignUpViewController: BaseViewController {
         page5.backgroundColor = UIColor.white
         print(1)
         let progressPager = GalapagosProgressPager(pages: [
-            page1,page2,page3,page4,page5
+            firstPage,page2,page3,page4,page5
         ])
         return progressPager
     }()
@@ -67,18 +66,10 @@ class EmailSignUpViewController: BaseViewController {
     }
     
     //MARK: - LifeCycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        rx.sentMessage(#selector(UIViewController.viewDidAppear(_:)))
-                    .take(1)
-                    .withUnretained(self)
-                    .subscribe(onNext: { owner, me in
-                        owner.setBind()
-                    })
-                    .disposed(by: disposeBag)
-    }
     
+    override func viewDidAppear(_ animated: Bool) {
+        setBind()
+    }
     
     //MARK: - Methods
     
