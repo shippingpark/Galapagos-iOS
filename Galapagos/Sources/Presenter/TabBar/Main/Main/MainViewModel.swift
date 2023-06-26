@@ -13,7 +13,7 @@ import RxSwift
 
 final class MainViewModel: ViewModelType {
   struct Input {
-    let buttonTapped: Signal<Void>
+    let addPetButtonTapped: Signal<Void>
     let button2Tapped: Signal<Void>
   }
   
@@ -27,7 +27,7 @@ final class MainViewModel: ViewModelType {
   }
   
   func transform(input: Input) -> Output {
-    input.buttonTapped
+    input.addPetButtonTapped
       .emit(onNext: { [weak self] _ in
         self?.coordinator?.userActionState.accept(.addPet)
       })
