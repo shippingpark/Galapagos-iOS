@@ -15,7 +15,6 @@ final class MainViewController: BaseViewController {
   
   // MARK: - UI
   
-
   private var shadowView = RadiusBoxView(radius: .small, style: .shadow)
 
   private lazy var navigationBar: GalapagosNavigationTabBarView = {
@@ -65,9 +64,10 @@ final class MainViewController: BaseViewController {
     }
     
     shadowView.snp.makeConstraints { make in
-      make.top.equalTo(navigationBar.snp.bottom).offset(40)
+      make.top.equalTo(navigationBar.snp.bottom).offset(navigationBarToContentsOffset)
       make.centerX.equalToSuperview()
-      make.width.equalToSuperview().multipliedBy(0.88)
+      //make.width.equalToSuperview().multipliedBy(0.88)
+      make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
       make.height.equalTo(shadowView.snp.width)
     }
     

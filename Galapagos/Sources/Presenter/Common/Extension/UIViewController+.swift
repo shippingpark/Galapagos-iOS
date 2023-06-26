@@ -9,6 +9,19 @@
 import UIKit
 
 extension UIViewController {
+  
+  var navigationBarToContentsOffset: CGFloat {
+    return 40 //세로도 화면 비율로 가져가는 게 좋을지
+  }
+  
+  var contentsToContentsOffset: CGFloat {
+    return 60 //세로도 화면 비율로 가져가는 게 좋을지
+  }
+  
+  var galpagosHorizontalOffset: CGFloat {
+    return UIScreen.main.bounds.width / 16.25 //좌우 간격
+  }
+  
   // MARK: 빈 화면을 눌렀을 때 키보드가 내려가도록 처리
   func dismissKeyboardWhenTappedAround() {
     let tap: UITapGestureRecognizer =

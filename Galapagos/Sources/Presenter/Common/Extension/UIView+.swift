@@ -10,6 +10,19 @@ import UIKit
 
 @IBDesignable
 extension UIView {
+  
+  var navigationBarToContentsOffset: CGFloat {
+    return 40 //세로도 화면 비율로 가져가는 게 좋을지
+  }
+  
+  var contentsToContentsOffset: CGFloat {
+    return 60 //세로도 화면 비율로 가져가는 게 좋을지
+  }
+  
+  var galpagosHorizontalOffset: CGFloat {
+    return UIScreen.main.bounds.width / 16.25 //좌우 간격
+  }
+  
   @IBInspectable var cornerRadius: CGFloat {
     get { return self.layer.cornerRadius }
     set {
