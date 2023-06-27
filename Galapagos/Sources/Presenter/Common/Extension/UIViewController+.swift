@@ -11,11 +11,11 @@ import UIKit
 extension UIViewController {
   
   var navigationBarToContentsOffset: CGFloat {
-    return 40 //세로도 화면 비율로 가져가는 게 좋을지
+    return 16 //비율로 변경 예정
   }
   
   var contentsToContentsOffset: CGFloat {
-    return 60 //세로도 화면 비율로 가져가는 게 좋을지
+    return 48 //
   }
   
   var galpagosHorizontalOffset: CGFloat {
