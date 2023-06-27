@@ -17,7 +17,7 @@ final class MainCoordinator: Coordinator {
   // MARK: - Coordinator DEPTH 2 -
   
   enum MainCoordinatorFlow {
-    case addPet, detailDiary, detailPost //초기화면 삭제
+    case addPet, detailDiary, moveCommunity, detailPost //초기화면 삭제
   }
   
   var navigationController: UINavigationController
@@ -51,6 +51,9 @@ final class MainCoordinator: Coordinator {
         case .detailDiary:
           self.pushToDetailDiary(petIdx: "임시") //Idx 가져 올 방법 고민 (enum 유력)
           
+        case .moveCommunity:
+          
+          self.moveToCommunityTab()
         case .detailPost:
             break
         }
@@ -82,6 +85,12 @@ extension MainCoordinator: AddPetCoordinating {
 extension MainCoordinator: DetailDiaryCoordinating {
   func pushToDetailDiary(petIdx: String) { //TabBar 거쳐야 하는 이례적인 상황
     self.parentsCoordinator.detailDiary()
+  }
+}
+
+extension MainCoordinator { //TabBar는 이례적으로 Coordinating X
+  func moveToCommunityTab() {
+    self.parentsCoordinator.userActionState.accept(.community)
   }
 }
 
