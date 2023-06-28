@@ -7,6 +7,10 @@
 //
 
 import UIKit
+
+import RxSwift
+import RxCocoa
+
 import SnapKit
 import Then
 
@@ -106,3 +110,14 @@ extension GalapagosButton {
     case boldOutline
   }
 }
+
+// MARK: - RxEnabled
+public extension Reactive where Base: GalapagosButton {
+    var isActive: Binder<Bool> {
+        return Binder(self.base) { button, active in
+            button.isEnabled = active
+            button.active = active
+        }
+    }
+}
+
