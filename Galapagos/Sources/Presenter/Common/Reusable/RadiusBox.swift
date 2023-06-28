@@ -44,6 +44,9 @@ class RadiusBoxView: UIView {
       self.layer.shadowOffset = CGSize(width: 0, height: 3)
       self.layer.shadowRadius = 20.0 //Blur
       self.layer.shadowOpacity = 1.0
+    case .fill:
+      self.layer.borderWidth = 0.0
+      self.backgroundColor = GalapagosAsset.gray6DisableBtnBg.color
     }
     self.layer.masksToBounds = false
   }
@@ -62,5 +65,6 @@ extension RadiusBoxView {
   public enum BoxStyle {
     case shadow
     case line
+    case fill
   }
 }
