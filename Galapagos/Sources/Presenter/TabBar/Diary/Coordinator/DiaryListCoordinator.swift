@@ -46,7 +46,10 @@ class DiaryListCoordinator: Coordinator {
   }
   
   func start() {
-    self.navigationController.tabBarController?.tabBar.isHidden = false
+    if let tabBarViewController = self.navigationController
+      .tabBarController as? CustomTabBarController {
+      tabBarViewController.hideCustomTabBar()
+    }
     let diaryListViewController = DiaryListViewController(
       viewModel: DiaryListViewModel(
         coordinator: self
@@ -58,7 +61,10 @@ class DiaryListCoordinator: Coordinator {
 
 extension DiaryListCoordinator: AddPetCoordinating {
   func pushToAddPet() {
-    self.navigationController.tabBarController?.tabBar.isHidden = true
+    if let tabBarViewController = self.navigationController
+      .tabBarController as? CustomTabBarController {
+      tabBarViewController.hideCustomTabBar()
+    }
     let addPetCoordinator = AddPetCoordinator(
       navigationController: self.navigationController
     )
@@ -70,7 +76,10 @@ extension DiaryListCoordinator: AddPetCoordinating {
 
 extension DiaryListCoordinator: DetailDiaryCoordinating {
   func pushToDetailDiary(petIdx: String) {
-    self.navigationController.tabBarController?.tabBar.isHidden = true
+    if let tabBarViewController = self.navigationController
+      .tabBarController as? CustomTabBarController {
+      tabBarViewController.hideCustomTabBar()
+    }
     let diaryDetailCoordinator = DetailDiaryCoordinator(
       petIdx: petIdx, navigationController: self.navigationController
     )
@@ -82,7 +91,10 @@ extension DiaryListCoordinator: DetailDiaryCoordinating {
 
 extension DiaryListCoordinator: CoordinatorDelegate {
   func didFinish(childCoordinator: Coordinator) {
-    self.navigationController.tabBarController?.tabBar.isHidden = false
+    if let tabBarViewController = self.navigationController
+      .tabBarController as? CustomTabBarController {
+      tabBarViewController.showCustomTabBar()
+    }
     self.popViewController()
   }
 }

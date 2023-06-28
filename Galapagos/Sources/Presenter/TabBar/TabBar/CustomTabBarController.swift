@@ -41,7 +41,7 @@ final class CustomTabBarController: UITabBarController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    navigationController?.isNavigationBarHidden = true
+    self.showCustomTabBar()
   }
   
   private func setAddSubView() {
@@ -49,8 +49,6 @@ final class CustomTabBarController: UITabBarController {
   }
   
   private func setAttribute() {
-    self.tabBar.isHidden = true
-    customTabBar.translatesAutoresizingMaskIntoConstraints = false
     customTabBar.setShadow()
   }
   
@@ -74,6 +72,18 @@ final class CustomTabBarController: UITabBarController {
   }
 }
 
+// MARK: - Extension
+extension CustomTabBarController {
+  func hideCustomTabBar() {
+    self.tabBar.isHidden = true
+    customTabBar.isHidden = true
+  }
+    
+  func showCustomTabBar() {
+    self.tabBar.isHidden = true
+    customTabBar.isHidden = false
+  }
+}
 
 // MARK: - UITabBarControllerDelegate
 

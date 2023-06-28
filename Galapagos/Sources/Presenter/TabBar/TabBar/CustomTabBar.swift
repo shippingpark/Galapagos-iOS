@@ -21,7 +21,6 @@ final class CustomTabBar: BaseView {
     var stackView = UIStackView()
     stackView.distribution = .fillEqually
     stackView.alignment = .top
-    stackView.backgroundColor = .clear //삭제?
     return stackView
   }()
   private let mainItem = CustomItemView(with: .main)
