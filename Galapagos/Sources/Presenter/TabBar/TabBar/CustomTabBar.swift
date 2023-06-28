@@ -39,21 +39,6 @@ final class CustomTabBar: BaseView {
   required init(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    
-    updateSubviewTopConstraint()
-  }
-  
-  private func updateSubviewTopConstraint() {
-    let stackViewHeight = itemStackView.frame.height
-    let constant = stackViewHeight * 0.12
-        
-    customItemViews.forEach { subview in
-      subview.topAnchor.constraint(equalTo: self.topAnchor, constant: constant).isActive = true
-    }
-  }
   
   override func setAddSubView() {
     self.addSubview(itemStackView)
@@ -62,19 +47,26 @@ final class CustomTabBar: BaseView {
     itemStackView.addArrangedSubview(subview) }
   }
   
+  override func layoutSubviews() {
+      super.layoutSubviews()
+  }
+  
   override func setAttribute() { //보강 필요
     self.layer.cornerRadius = 20
     self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+    
+    itemStackView.snp.makeConstraints { make in
+      make.top.equalTo(self.snp.top).offset(10)//유동적으로 바뀌게 만들어주기, 보류
+      make.horizontalEdges.equalToSuperview()
+    }
   }
     
-  private func selectItem(index: Int) {
-    itemStackView.snp.makeConstraints { make in
-      make.center.equalToSuperview()
-      make.edges.equalToSuperview()
-    }
-    
+  func selectItem(index: Int) {
+    itemTappedSubject.onNext(index)
+  }
+  
+  func changeImage(index: Int) {
     customItemViews.forEach { $0.isSelected = $0.item.rawValue == index }
-      itemTappedSubject.onNext(index)
   }
   
   func setShadow() {
