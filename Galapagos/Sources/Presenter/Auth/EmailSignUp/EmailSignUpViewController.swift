@@ -22,8 +22,12 @@ class EmailSignUpViewController: BaseViewController {
         return navigationBar
     }()
     
+    private lazy var termsAndConditionsView: TermsAndConditionsView = {
+        let view = TermsAndConditionsView(frame: .zero, viewModel: viewModel)
+        return view
+    }()
+    
     private lazy var galapagosPager: GalapagosProgressPager = {
-        let firstPage = TermsAndConditionsView()
         
         let page2 = UIView()
         page2.backgroundColor = UIColor.green
@@ -36,23 +40,19 @@ class EmailSignUpViewController: BaseViewController {
         
         let page5 = UIView()
         page5.backgroundColor = UIColor.white
-        print(1)
+        
         let progressPager = GalapagosProgressPager(pages: [
-            firstPage,page2,page3,page4,page5
+            termsAndConditionsView, page2, page3, page4, page5
         ])
         return progressPager
     }()
     
-    private lazy var nextButton: UIButton = {
-        let button = UIButton()
+    private lazy var nextButton: GalapagosButton = {
+        let button = GalapagosButton(buttonStyle: .fill, isEnable: false)
         button.setTitle("다음", for: .normal)
-        button.setTitleColor(GalapagosAsset.green.color, for: .normal)
         button.titleLabel?.font = GalapagosFontFamily.Pretendard.bold.font(size: 16)
         return button
     }()
-    
-    
-    
     
     //MARK: - Properties
     private let viewModel: EmailSignUpViewModel
@@ -63,13 +63,11 @@ class EmailSignUpViewController: BaseViewController {
     ) {
         self.viewModel = viewModel
         super.init()
+
+        setBind()
     }
     
     //MARK: - LifeCycle
-    
-    override func viewDidAppear(_ animated: Bool) {
-        setBind()
-    }
     
     //MARK: - Methods
     
@@ -79,7 +77,7 @@ class EmailSignUpViewController: BaseViewController {
             navigationBar.leading.trailing.equalToSuperview()
             navigationBar.height.equalTo(50)
         }
-        print(2)
+        
         galapagosPager.snp.makeConstraints{ galapagosPager in
             galapagosPager.top.equalTo(navigationBar.snp.bottom).offset(10)
             galapagosPager.leading.trailing.equalToSuperview()
@@ -88,7 +86,10 @@ class EmailSignUpViewController: BaseViewController {
         
         nextButton.snp.makeConstraints{ nextButton in
             nextButton.centerX.equalToSuperview()
-            nextButton.bottom.equalToSuperview().inset(40)
+            nextButton.width.equalToSuperview().multipliedBy(0.9)
+            nextButton.bottom.equalToSuperview().inset(50)
+            nextButton.height.equalTo(56)
+        
         }
     
     }
@@ -113,10 +114,13 @@ class EmailSignUpViewController: BaseViewController {
             .withUnretained(self)
             .take(galapagosPager.pagesCount - 1)
             .subscribe(onNext: { owner, next in
-                print("바뀌냐? 다음 페이지는? :\(next)")
                 owner.galapagosPager.nextPage(animated: true, next: CGFloat(next))
             })
             .disposed(by: disposeBag)
-    
+        
+        output.readyForNextButton
+            .debug()
+            .drive(nextButton.rx.isActive)
+            .disposed(by: disposeBag)
     }
 }
