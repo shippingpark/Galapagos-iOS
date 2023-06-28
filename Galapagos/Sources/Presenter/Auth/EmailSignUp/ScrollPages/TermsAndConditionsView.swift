@@ -13,8 +13,9 @@ import SnapKit
 
 import RxSwift
 import RxCocoa
+import RxGesture
 
-final class TermsAndConditionsView: BaseView {
+final class TermsAndConditionsView: UIView {
     // MARK: - UI
     
     private lazy var titleStackView: UIStackView = {
@@ -73,6 +74,7 @@ final class TermsAndConditionsView: BaseView {
     private lazy var allAgreeButton: UIButton = {
         let button = UIButton()
         button.setImage(GalapagosAsset._24x24checkRoundDefault.image, for: .normal)
+        button.setImage(GalapagosAsset._24x24checkRoundActive.image, for: .selected)
         button.contentMode = .scaleAspectFill
         return button
     }()
@@ -88,6 +90,7 @@ final class TermsAndConditionsView: BaseView {
     private lazy var termsAgreeButton: UIButton = {
         let button = UIButton()
         button.setImage(GalapagosAsset._24x24checkRoundDefault.image, for: .normal)
+        button.setImage(GalapagosAsset._24x24checkRoundActive.image, for: .selected)
         button.contentMode = .scaleAspectFill
         return button
     }()
@@ -119,6 +122,7 @@ final class TermsAndConditionsView: BaseView {
     private lazy var privacyAgreeButton: UIButton = {
         let button = UIButton()
         button.setImage(GalapagosAsset._24x24checkRoundDefault.image, for: .normal)
+        button.setImage(GalapagosAsset._24x24checkRoundActive.image, for: .selected)
         button.contentMode = .scaleAspectFill
         return button
     }()
@@ -147,19 +151,37 @@ final class TermsAndConditionsView: BaseView {
     }()
     
     // MARK: - Properties
+    private var disposeBag = DisposeBag()
+    private var viewModel: EmailSignUpViewModel
     
+    let termsAgreeSubject = BehaviorSubject<Bool>(value: false)
+    let privacyAgreeSubject = BehaviorSubject<Bool>(value: false)
     // MARK: - Initializers
+    init(
+        frame: CGRect,
+        viewModel: EmailSignUpViewModel
+    ) {
+        self.viewModel = viewModel
+        super.init(frame: .zero)
+        
+        setAddSubView()
+        setConstraint()
+        bind()
+    }
+    
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - LifeCycle
-    
     // MARK: - Methods
     
-    override func setAddSubView() {
-        super.setAddSubView()
+    private func setAddSubView() {
         self.addSubviews([
             titleStackView,
-            allAgreeView,
             allAgreeShadowView,
+            allAgreeView,
             allAgreeStackView,
             termsAgreeButton,
             termsAgreeLabel,
@@ -168,8 +190,7 @@ final class TermsAndConditionsView: BaseView {
         ])
     }
     
-    override func setConstraint() {
-        super.setConstraint()
+    private func setConstraint() {
         
         titleStackView.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -183,7 +204,7 @@ final class TermsAndConditionsView: BaseView {
         }
 
         allAgreeShadowView.snp.makeConstraints {
-            $0.edges.equalTo(allAgreeView)
+            $0.leading.trailing.top.bottom.equalTo(allAgreeView)
         }
         
         allAgreeStackView.snp.makeConstraints {
@@ -213,13 +234,50 @@ final class TermsAndConditionsView: BaseView {
             $0.leading.equalTo(privacyAgreeButton.snp.trailing).offset(10)
         }
     
-        
-        
-        
     }
     
-    override func bind() {
-        super.bind()
+    private func bind() {
+        
+        allAgreeButton.rx.tap
+            .debug()
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else {return}
+                self.allAgreeButton.isSelected.toggle()
+                self.termsAgreeButton.isSelected = self.allAgreeButton.isSelected ? true : false
+                self.privacyAgreeButton.isSelected = self.allAgreeButton.isSelected ? true : false
+                self.termsAgreeSubject.onNext(termsAgreeButton.isSelected)
+                self.privacyAgreeSubject.onNext(privacyAgreeButton.isSelected)
+            })
+            .disposed(by: disposeBag)
+        
+        termsAgreeButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else {return}
+                termsAgreeButton.isSelected.toggle()
+                self.termsAgreeSubject.onNext(termsAgreeButton.isSelected)
+            })
+            .disposed(by: disposeBag)
+
+        privacyAgreeButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else {return}
+                privacyAgreeButton.isSelected.toggle()
+                self.privacyAgreeSubject.onNext(privacyAgreeButton.isSelected)
+            })
+            .disposed(by: disposeBag)
+
+        Observable.combineLatest(termsAgreeSubject, privacyAgreeSubject)
+            .subscribe(onNext: { [weak self] termsAgree, privacyAgree in
+                guard let self = self else {return}
+                if termsAgree && privacyAgree {
+                    self.allAgreeButton.isSelected = true
+                    self.viewModel.readyForNextButton.accept(true)
+                } else {
+                    self.allAgreeButton.isSelected = false
+                    self.viewModel.readyForNextButton.accept(false)
+                }
+            })
+            .disposed(by: disposeBag)
         
         termsAgreeLabel.rx.tapGesture()
             .when(.recognized)
