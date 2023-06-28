@@ -15,7 +15,7 @@ import SnapKit
 
 class EmptyStarCommunityView: BaseView {
   
-  private var shadowView = RadiusBoxView(radius: .large, style: .shadow)
+  private var shadowView = RadiusBoxView(radius: .defaultLarge, style: .shadow)
   
   private lazy var communityStackView: UIStackView = {
     let stackView = UIStackView()
