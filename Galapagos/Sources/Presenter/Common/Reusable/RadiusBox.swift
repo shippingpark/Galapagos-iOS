@@ -13,11 +13,6 @@ class RadiusBoxView: UIView {
   private var radius: RadiusSize
   private var style: BoxStyle
   
-  public enum radiusSize {
-    case small
-    case large
-  }
-  
   public init(radius: RadiusSize, style: BoxStyle) {
     self.radius = radius
     self.style = style
@@ -57,6 +52,7 @@ class RadiusBoxView: UIView {
 
 // MARK: - RadiusBoxView.StyleType
 extension RadiusBoxView {
+  
   public enum RadiusSize: Int {
     case numberBox = 5
     case defaultSmall = 8

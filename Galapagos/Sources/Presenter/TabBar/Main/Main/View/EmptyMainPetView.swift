@@ -14,7 +14,7 @@ import SnapKit
 
 class EmptyMainPetView: BaseView {
   
-  private var shadowView = RadiusBoxView(radius: .large, style: .shadow)
+  private var shadowView = RadiusBoxView(radius: .defaultLarge, style: .shadow)
   
   private lazy var animalStackView: UIStackView = {
     let stackView = UIStackView()
