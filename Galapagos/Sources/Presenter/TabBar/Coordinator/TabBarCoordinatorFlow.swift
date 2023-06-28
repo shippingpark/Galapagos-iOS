@@ -20,26 +20,26 @@ enum TabBarCoordinatorFlow: Int, CaseIterable {
     case .main:
       return UITabBarItem(
         title: "홈",
-        image: UIImage(systemName: "plus.circle"),
-        selectedImage: UIImage(systemName: "plus.circle.fill")
+        image: GalapagosAsset.naviHomeOff.image,
+        selectedImage: GalapagosAsset.naviHomeOn.image
       )
     case .diary:
       return UITabBarItem(
         title: "다이어리",
-        image: UIImage(systemName: "plus.square"),
-        selectedImage: UIImage(systemName: "plus.square.fill")
+        image: GalapagosAsset.naviaviDiaryOff.image,
+        selectedImage: GalapagosAsset.naviaviDiaryOn.image
       )
     case .community:
       return UITabBarItem(
         title: "커뮤니티",
-        image: UIImage(systemName: "minus.circle"),
-        selectedImage: UIImage(systemName: "minus.circle.fill")
+        image: GalapagosAsset.naviCommunityOff.image,
+        selectedImage: GalapagosAsset.naviCommunityOn.image
       )
     case .mypage:
       return UITabBarItem(
         title: "마이페이지",
-        image: UIImage(systemName: "minus.square"),
-        selectedImage: UIImage(systemName: "minus.square.fill")
+        image: GalapagosAsset.naviMypageOff.image,
+        selectedImage: GalapagosAsset.naviMypageOn.image
       )
     }
   }

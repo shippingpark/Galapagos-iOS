@@ -70,14 +70,12 @@ private extension TabBarCoordinator {
   private func configureTabBarController(with tabViewControllers: [UIViewController]) {
     self.tabBarController.setViewControllers(tabViewControllers, animated: true)
     self.navigationController.setNavigationBarHidden(true, animated: false)
-    self.navigationController.viewControllers = [tabBarController] //아예 새로 시작
-//    self.navigationController.pushViewController(tabBarController, animated: true)//삭제
+    self.navigationController.viewControllers = [tabBarController]
   }
   
   func createTabNavigationController(of page: TabBarCoordinatorFlow) -> UINavigationController {
     let navigationController = UINavigationController()
     navigationController.setNavigationBarHidden(true, animated: false)
-    navigationController.tabBarItem = page.tabBarItem
     connectTabCoordinator(of: page, to: navigationController)
     return navigationController
   }

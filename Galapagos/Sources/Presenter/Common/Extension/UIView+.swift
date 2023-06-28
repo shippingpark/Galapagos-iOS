@@ -59,4 +59,14 @@ extension UIView {
   func addSubviews(_ subviews: [UIView]) {
     subviews.forEach(self.addSubview)
   }
+  
+  func animateClick(completion: @escaping () -> Void) {
+    UIView.animate(withDuration: 0.03) {
+      self.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+    } completion: { _ in
+      UIView.animate(withDuration: 0.03) {
+        self.transform = CGAffineTransform.identity
+      } completion: { _ in completion() }
+    }
+  }
 }
