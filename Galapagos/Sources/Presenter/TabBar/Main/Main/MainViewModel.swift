@@ -13,11 +13,15 @@ import RxSwift
 
 final class MainViewModel: ViewModelType {
   struct Input {
-    let buttonTapped: Signal<Void>
+    let addPetButtonTapped: Signal<Void>
+    let moveCommunityTapped: Signal<Void>
     let button2Tapped: Signal<Void>
   }
   
-  struct Output {}
+  struct Output {
+    let hasMainPet: Driver<Bool> //값을 가지고 오기 때문에 실제 적용 시 Bool 아닌 해당 Model 정보를 가져오는 게 좋을 듯 (isEmpty로 유무 판별)
+    let hasStarCommunity: Driver<Bool> //
+  }
   
   var disposeBag: DisposeBag = DisposeBag()
   weak var coordinator: MainCoordinator?
@@ -27,9 +31,15 @@ final class MainViewModel: ViewModelType {
   }
   
   func transform(input: Input) -> Output {
-    input.buttonTapped
+    input.addPetButtonTapped
       .emit(onNext: { [weak self] _ in
         self?.coordinator?.userActionState.accept(.addPet)
+      })
+      .disposed(by: disposeBag)
+    
+    input.moveCommunityTapped
+      .emit(onNext: { [weak self] _ in
+        self?.coordinator?.userActionState.accept(.moveCommunity)
       })
       .disposed(by: disposeBag)
     
@@ -38,6 +48,10 @@ final class MainViewModel: ViewModelType {
         self?.coordinator?.userActionState.accept(.detailDiary)
       })
       .disposed(by: disposeBag)
-    return Output()
+    
+    return Output(
+      hasMainPet: Driver.just(false), //강제 입력
+      hasStarCommunity: Driver.just(false)
+    )
   }
 }

@@ -28,7 +28,6 @@ public final class GalapagosProgressPager: UIView {
         let scrollView = UIScrollView()
         scrollView.isPagingEnabled = true
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.backgroundColor = .blue
         return scrollView
     }()
     
@@ -61,7 +60,7 @@ public final class GalapagosProgressPager: UIView {
         for (index, page) in pages.enumerated() {
             pagerScrollView.addSubview(page)
             page.snp.makeConstraints { make in
-                make.top.bottom.equalTo(self)
+                make.top.bottom.equalTo(pagerScrollView.snp.top)
                 make.width.equalTo(self.frame.size.width)
                 make.leading.equalToSuperview().offset(CGFloat(index) * self.frame.size.width)
             }

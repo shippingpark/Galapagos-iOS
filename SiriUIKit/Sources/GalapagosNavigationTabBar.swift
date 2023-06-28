@@ -21,19 +21,19 @@ public final class GalapagosNavigationTabBarView: UIView {
   
   public lazy var alertButton: UIButton = {
     let button = UIButton()
-    button.setImage(SiriUIKitAsset.appBarNoti24x24.image, for: .normal)
+    button.setImage(SiriUIKitAsset._24x24alarmDefault.image, for: .normal)
     return button
   }()
   
   public lazy var searchButton: UIButton = {
     let button = UIButton()
-    button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal) //임시 이미지
+    button.setImage(SiriUIKitAsset._24x24searchDefault.image, for: .normal)
     return button
   }()
   
   public lazy var settingButton: UIButton = {
     let button = UIButton()
-    button.setImage(UIImage(systemName: "gearshape"), for: .normal) //임시 이미지
+    button.setImage(SiriUIKitAsset._24x24settingDefault.image, for: .normal)
     return button
   }()
   
@@ -108,7 +108,7 @@ public final class GalapagosNavigationTabBarView: UIView {
   }
   
   private func setDiaryLogo() {
-    self.setLeftTitleText("다이어리")
+    self.setLeftTitleText("")
   }
   
   private func setCommunityLogo() {
