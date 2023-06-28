@@ -41,6 +41,7 @@ final class TabBarCoordinator: Coordinator {
         print("💚💚💚 TabBarCoordinator: \(state) 💚💚💚")
         guard let self = self else {return}
         self.tabBarController.selectedIndex = state.rawValue
+        self.handleSelectedItem(index: state.rawValue)
       }).disposed(by: disposeBag)
   }
   
@@ -51,6 +52,10 @@ final class TabBarCoordinator: Coordinator {
     }
     self.configureTabBarController(with: controllers)
     self.userActionState.accept(.main)
+  }
+  
+  func handleSelectedItem(index: Int) {
+    tabBarController.selectedItemSubject.accept(index)
   }
   
   func detailDiary() {

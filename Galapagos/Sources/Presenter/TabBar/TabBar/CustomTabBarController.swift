@@ -9,13 +9,16 @@
 import UIKit
 
 import RxSwift
+import RxRelay
 
 final class CustomTabBarController: UITabBarController {
   
   // MARK: - Properties
   
+  let selectedItemSubject = PublishRelay<Int>()
+  
   weak var coordinator: TabBarCoordinator?
-  private let customTabBar = CustomTabBar()
+  let customTabBar = CustomTabBar()
   private let disposeBag = DisposeBag()
   
   // MARK: - Initializers
@@ -63,12 +66,23 @@ final class CustomTabBarController: UITabBarController {
   //MARK: - Binding
   
   private func bind() {
-    customTabBar.itemTapped
-      .bind { [weak self] in self?.coordinator?.userActionState.accept(
+  customTabBar.itemTapped //Input, 터치가 감지되면 Coordinator에 상태 변경 요청, 발행자는 View
+    .bind { [weak self] in self?
+      .coordinator?
+      .userActionState
+      .accept(
         TabBarCoordinatorFlow(rawValue: $0) ?? .main
-        )
-      }
+      )}
       .disposed(by: disposeBag)
+  
+  selectedItemSubject //Output, Coordinator의 상태 변경 감지되면 UI 변경 View에게 전달, 빌헹자는 Coordinator
+    .distinctUntilChanged()
+    .subscribe(onNext: { [weak self] index in
+      guard let self = self else {return}
+      self.customTabBar
+        .changeImage(index: index)
+    })
+    .disposed(by: disposeBag)
   }
 }
 
@@ -85,10 +99,10 @@ extension CustomTabBarController {
   }
 }
 
-// MARK: - UITabBarControllerDelegate
-
+// MARK: - Extension UITabBarControllerDelegate
 extension CustomTabBarController: UITabBarControllerDelegate {
   func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
     return false
   }
 }
+
