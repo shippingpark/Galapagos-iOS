@@ -72,7 +72,9 @@ final class MainCoordinator: Coordinator {
 
 extension MainCoordinator: AddPetCoordinating {
   func pushToAddPet() {
-    self.navigationController.tabBarController?.tabBar.isHidden = true
+    if let tabBarViewController = self.navigationController.tabBarController as? CustomTabBarController {
+      tabBarViewController.hideCustomTabBar()
+    }
     let addPetCoordinator = AddPetCoordinator(
       navigationController: self.navigationController
     )
@@ -102,7 +104,9 @@ extension MainCoordinator: DetailPostCoordinating {
 
 extension MainCoordinator: CoordinatorDelegate {
   func didFinish(childCoordinator: Coordinator) {
-    self.navigationController.tabBarController?.tabBar.isHidden = false
+    if let tabBarViewController = self.navigationController.tabBarController as? CustomTabBarController {
+      tabBarViewController.showCustomTabBar()
+    }
     self.popViewController()
   }
 }
