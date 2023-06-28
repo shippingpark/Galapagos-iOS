@@ -27,6 +27,7 @@ public final class GalapagosProgressPager: UIView {
     private lazy var pagerScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isPagingEnabled = true
+        scrollView.isScrollEnabled = false
         scrollView.showsHorizontalScrollIndicator = false
         return scrollView
     }()
@@ -60,7 +61,8 @@ public final class GalapagosProgressPager: UIView {
         for (index, page) in pages.enumerated() {
             pagerScrollView.addSubview(page)
             page.snp.makeConstraints { make in
-                make.top.bottom.equalTo(pagerScrollView.snp.top)
+                make.top.equalTo(progressView.snp.bottom).offset(40)
+                make.bottom.equalTo(self.snp.bottom)
                 make.width.equalTo(self.frame.size.width)
                 make.leading.equalToSuperview().offset(CGFloat(index) * self.frame.size.width)
             }
@@ -68,24 +70,22 @@ public final class GalapagosProgressPager: UIView {
         pagerScrollView.contentSize = CGSize(width: self.frame.size.width * CGFloat(pages.count), height: self.frame.size.height)
     }
     
-    func setAddSubView() {
-        
+    private func setAddSubView() {
         self.addSubview(progressView)
         self.addSubview(pagerScrollView)
     }
     
-    func setConstraint() {
+    private func setConstraint() {
         
         self.progressView.snp.makeConstraints{ progressView in
-            progressView.top.equalToSuperview().offset(10)
+            progressView.top.equalTo(self).offset(10)
             progressView.height.equalTo(8)
-            progressView.leading.trailing.equalToSuperview().inset(24)
+            progressView.leading.trailing.equalTo(self).inset(24)
         }
         
         self.pagerScrollView.snp.makeConstraints { scrollView in
-            scrollView.leading.trailing.equalToSuperview()
-            scrollView.bottom.equalToSuperview().inset(40)
             scrollView.top.equalTo(progressView.snp.bottom).offset(40)
+            scrollView.leading.trailing.bottom.equalTo(self)
         }
     }
     
