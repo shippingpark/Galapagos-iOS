@@ -59,8 +59,8 @@ class RadiusBoxView: UIView {
 extension RadiusBoxView {
   public enum RadiusSize: Int {
     case numberBox = 5
-    case small = 8
-    case large = 12
+    case defaultSmall = 8
+    case defaultLarge = 12
   }
   
   public enum BoxStyle {
