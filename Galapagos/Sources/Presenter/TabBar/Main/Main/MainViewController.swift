@@ -10,13 +10,14 @@ import UIKit
 
 import SnapKit
 import SiriUIKit
+import RxCocoa
 
 final class MainViewController: BaseViewController {
   
   // MARK: - UI
-
+  
   private var shadowView = RadiusBoxView(radius: .defaultSmall, style: .shadow)
-
+  
   private lazy var navigationBar: GalapagosNavigationTabBarView = {
     let navigationBar = GalapagosNavigationTabBarView()
     navigationBar.setPageType(.main)
@@ -28,7 +29,7 @@ final class MainViewController: BaseViewController {
     scrollView.showsVerticalScrollIndicator = false
     return scrollView
   }()
-    
+  
   private lazy var contentView: UIView = {
     let contentView = UIView()
     return contentView
@@ -38,6 +39,9 @@ final class MainViewController: BaseViewController {
   private var communityContainerView = UIView()
   private var emptyMainPetView = EmptyMainPetView()
   private var emptyStarCommunityView = EmptyStarCommunityView()
+  private var mainPetView: MainPetView?
+  
+  private var moveMainPetDiaryTappedEvent = PublishRelay<Void>()
   
   private lazy var communityLabel: UILabel = {
     let label = UILabel()
@@ -46,11 +50,6 @@ final class MainViewController: BaseViewController {
     label.font = GalapagosFontFamily.Pretendard.bold.font(size: 24)
     return label
   }()
-
-  private var button2 = UIButton().then {
-    $0.backgroundColor = .blue
-    $0.setTitle("상세 다이어리", for: .normal)
-  }
   
   // MARK: - Properties
   
@@ -64,13 +63,13 @@ final class MainViewController: BaseViewController {
   }
   
   // MARK: - Methods
-
+  
   override func setAddSubView() {
     self.view.addSubviews([
       navigationBar,
       scrollView
     ])
-
+    
     scrollView.addSubview(contentView)
     contentView.addSubviews([
       petContainerView,
@@ -96,9 +95,8 @@ final class MainViewController: BaseViewController {
       make.edges.equalToSuperview()
       make.width.equalToSuperview()
       make.height.greaterThanOrEqualTo(view.safeAreaLayoutGuide).offset(60).priority(.low)//탭바 아이템 위치를 못 잡아서 기기마다 스크롤 최하단 위치 다른 문제 발생
-      //우선 가장 작은 휴대폰 SE 기준으로 설정, TabBar View 자체 커스텀화 할 예정
     }
-
+    
     petContainerView.snp.makeConstraints { make in
       make.top.equalToSuperview().offset(navigationBarToContentsOffset)
       make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
@@ -118,9 +116,16 @@ final class MainViewController: BaseViewController {
   
   func showViewBasedOnHasMain(_ hasMainPet: Bool) {
     if hasMainPet {
-      
+      mainPetView = MainPetView(name: "도랭이", days: String(111))//임시 입력 값
+      guard let mainPetView = mainPetView else { return }
+      petContainerView.addSubview(mainPetView)
+      self.mainPetViewConstraint()
+      mainPetView.mainPetDiaryButton.rx.tap
+        .bind(to: moveMainPetDiaryTappedEvent)
+        .disposed(by: disposeBag)
     } else {
       petContainerView.addSubview(emptyMainPetView)
+      
       self.emptyPetViewConstraint()
     }
   }
@@ -131,14 +136,6 @@ final class MainViewController: BaseViewController {
     } else {
       communityContainerView.addSubview(emptyStarCommunityView)
       self.emptyStarConmmnityViewConstraint()
-    }
-  }
-  
-  func mainPetConstraint() {
-    emptyMainPetView.snp.makeConstraints { make in
-      make.top.equalTo(petContainerView.snp.top)
-      make.center.equalToSuperview()
-      make.height.width.equalTo(petContainerView.snp.width)
     }
   }
   
@@ -155,6 +152,15 @@ final class MainViewController: BaseViewController {
     }
   }
   
+  func mainPetViewConstraint() {
+    guard let mainPetView = mainPetView else { return }
+    mainPetView.snp.makeConstraints { make in
+      make.top.equalTo(petContainerView.snp.top)
+      make.horizontalEdges.equalToSuperview()
+      make.bottom.equalToSuperview()
+    }
+  }
+  
   func emptyStarConmmnityViewConstraint() {
     emptyStarCommunityView.snp.makeConstraints { make in
       make.top.equalTo(communityLabel.snp.bottom).offset(navigationBarToContentsOffset)
@@ -168,17 +174,19 @@ final class MainViewController: BaseViewController {
     let input = MainViewModel.Input(
       addPetButtonTapped: emptyMainPetView.addPetButton.rx.tap.asSignal(),
       moveCommunityTapped: emptyStarCommunityView.moveCommunityTabButton.rx.tap.asSignal(),
-      button2Tapped: button2.rx.tap.asSignal()
+      moveMainPetDiaryTapped: moveMainPetDiaryTappedEvent.asSignal()
+        //button2TappedEvent.asSignal()
     )
     
     let output = viewModel.transform(input: input)
     output.hasMainPet
       .drive(onNext: { pet in
         print("pet")
-        self.showViewBasedOnHasMain(pet)
+        //self.showViewBasedOnHasMain(pet)//실제 코드
+        self.showViewBasedOnHasMain(true)//테스트용 강제
       })
       .disposed(by: disposeBag)
-  
+    
     output.hasStarCommunity
       .drive(onNext: { star in
         print("community")
