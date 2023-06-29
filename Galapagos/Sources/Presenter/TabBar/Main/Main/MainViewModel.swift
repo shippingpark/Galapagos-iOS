@@ -15,7 +15,7 @@ final class MainViewModel: ViewModelType {
   struct Input {
     let addPetButtonTapped: Signal<Void>
     let moveCommunityTapped: Signal<Void>
-    let button2Tapped: Signal<Void>
+    let moveMainPetDiaryTapped: Signal<Void>
   }
   
   struct Output {
@@ -43,7 +43,7 @@ final class MainViewModel: ViewModelType {
       })
       .disposed(by: disposeBag)
     
-    input.button2Tapped
+    input.moveMainPetDiaryTapped
       .emit(onNext: { [weak self] _ in
         self?.coordinator?.userActionState.accept(.detailDiary)
       })

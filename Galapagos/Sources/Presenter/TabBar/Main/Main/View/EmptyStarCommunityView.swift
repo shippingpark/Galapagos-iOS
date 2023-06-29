@@ -13,7 +13,7 @@ import SiriUIKit
 import SnapKit
 
 
-class EmptyStarCommunityView: BaseView {
+final class EmptyStarCommunityView: BaseView {
   
   private var shadowView = RadiusBoxView(radius: .defaultLarge, style: .shadow)
   
