@@ -25,16 +25,6 @@ public final class GalapagosTextField_SelectEmail: UIView{
         return textField
     }()
     
-    private lazy var selectEmailButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("이메일 선택", for: .normal)
-        button.setTitleColor(SiriUIKitAsset.gray2Annotation.color, for: .normal)
-        button.semanticContentAttribute = .forceRightToLeft
-        button.setImage(SiriUIKitAsset._20x20arrowDown.image, for: .normal)
-        button.titleLabel?.font = SiriUIKitFontFamily.Pretendard.medium.font(size: 14)
-        return button
-    }()
-    
     private lazy var errorMessagelabel: UILabel = {
         let label = UILabel()
         label.text = errorMessage
@@ -44,19 +34,9 @@ public final class GalapagosTextField_SelectEmail: UIView{
         return label
     }()
     
-    private lazy var emailStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.spacing = 20
-        stackView.addArrangedSubview(textField)
-        stackView.addArrangedSubview(selectEmailButton)
-        return stackView
-    }()
-    
     private lazy var fullStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.addArrangedSubview(emailStackView)
+        stackView.addArrangedSubview(textField)
         stackView.addArrangedSubview(errorMessagelabel)
         stackView.axis = .vertical
         stackView.spacing = 6
