@@ -182,8 +182,7 @@ final class MainViewController: BaseViewController {
     output.hasMainAnimal
       .drive(onNext: { animal in
         print("animal")
-        //self.showViewBasedOnHasMain(animal)//실제 코드
-        self.showViewBasedOnHasMain(true)//테스트용 강제
+        self.showViewBasedOnHasMain(animal)//실제 코드
       })
       .disposed(by: disposeBag)
     
