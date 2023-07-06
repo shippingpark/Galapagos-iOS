@@ -49,7 +49,7 @@ final class MainCoordinator: Coordinator {
           self.pushToAddPet()
 
         case .detailDiary:
-          self.pushToDetailDiary(petIdx: "임시") //Idx 가져 올 방법 고민 (enum 유력)
+          self.pushToDiary(petIdx: "임시") //Idx 가져 올 방법 고민 (enum 유력)
           
         case .moveCommunity:
           
@@ -84,13 +84,22 @@ extension MainCoordinator: AddPetCoordinating {
   }
 }
 
-extension MainCoordinator: DetailDiaryCoordinating {
-  func pushToDetailDiary(petIdx: String) { //TabBar 거쳐야 하는 이례적인 상황
-    self.parentsCoordinator.detailDiary()
+extension MainCoordinator: DiaryCoordinating {
+  func pushToDiary(petIdx: String) {
+    if let tabBarViewController = self.navigationController //이동 시 탭바 감춤
+      .tabBarController as? CustomTabBarController {
+      tabBarViewController.hideCustomTabBar()
+    }
+      let addPetCoordinator = AddPetCoordinator(
+        navigationController: self.navigationController
+      )
+      addPetCoordinator.delegate = self
+      addPetCoordinator.start()
+      self.childCoordinators.append(addPetCoordinator)
   }
 }
 
-extension MainCoordinator { //TabBar는 이례적으로 Coordinating X
+extension MainCoordinator { //이 기능만 유일하게 Coordinator가 finsh가 아닌 사유로 부모 Coordinator 접근
   func moveToCommunityTab() {
     self.parentsCoordinator.userActionState.accept(.community)
   }
@@ -103,7 +112,7 @@ extension MainCoordinator: DetailPostCoordinating {
 }
 
 extension MainCoordinator: CoordinatorDelegate {
-  func didFinish(childCoordinator: Coordinator) {
+  func didFinish(childCoordinator: Coordinator) { //복귀 시 탭바 재생성
     if let tabBarViewController = self.navigationController.tabBarController as? CustomTabBarController {
       tabBarViewController.showCustomTabBar()
     }

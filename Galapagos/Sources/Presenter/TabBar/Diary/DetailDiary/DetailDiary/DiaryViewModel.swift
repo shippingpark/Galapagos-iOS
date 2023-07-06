@@ -11,7 +11,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class DetailDiaryViewModel: ViewModelType {
+class DiaryViewModel: ViewModelType {
   struct Input {
     let backButtonTapped: Signal<Void>
     let buttonTapped: Signal<Void>
@@ -20,9 +20,9 @@ class DetailDiaryViewModel: ViewModelType {
   struct Output {}
   
   var disposeBag: DisposeBag = DisposeBag()
-  weak var coordinator: DetailDiaryCoordinator?
+  weak var coordinator: DiaryCoordinator?
   
-  init(coordinator: DetailDiaryCoordinator) {
+  init(coordinator: DiaryCoordinator) {
     self.coordinator = coordinator
   }
   

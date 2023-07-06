@@ -11,15 +11,15 @@ import UIKit
 import RxSwift
 import RxRelay
 
-class DetailDiaryCoordinator: Coordinator {
+class DiaryCoordinator: Coordinator {
 
-  enum DetailDiaryCoordinatorFlow {
+  enum DiaryCoordinatorFlow {
     case addDiary //초기화면 삭제
   }
   
   private var petIdx: String?
   
-  var userActionState: PublishRelay<DetailDiaryCoordinatorFlow> = PublishRelay()
+  var userActionState: PublishRelay<DiaryCoordinatorFlow> = PublishRelay()
   var delegate: CoordinatorDelegate?
 
   var navigationController: UINavigationController
@@ -36,7 +36,7 @@ class DetailDiaryCoordinator: Coordinator {
     self.userActionState
       .debug()
       .subscribe(onNext: { [weak self] state in
-        print("🌱🌱🌱 DiaryDetailCoordinator: \(state) 🌱🌱🌱")
+        print("🌱🌱🌱 DiaryCoordinator: \(state) 🌱🌱🌱")
         guard let self = self else { return }
         switch state {
         case .addDiary:
@@ -47,16 +47,16 @@ class DetailDiaryCoordinator: Coordinator {
 
   func start() {
     guard let petIdx else { return } //아직 안 사용
-    let diaryDetailViewController = DetailDiaryViewController(
-      viewModel: DetailDiaryViewModel(
+    let diaryViewController = DiaryViewController(
+      viewModel: DiaryViewModel(
         coordinator: self
       )
     )
-    self.pushViewController(viewController: diaryDetailViewController)
+    self.pushViewController(viewController: diaryViewController)
   }
 }
 
-extension DetailDiaryCoordinator: AddDiaryCoordinating {
+extension DiaryCoordinator: AddDiaryCoordinating {
   func pushToAddDiary(petIdx: String) {
     let addDiaryCoordinator = AddDiaryCoordinator(
       navigationController: self.navigationController
@@ -68,7 +68,7 @@ extension DetailDiaryCoordinator: AddDiaryCoordinating {
   }
 }
 
-extension DetailDiaryCoordinator: CoordinatorDelegate {
+extension DiaryCoordinator: CoordinatorDelegate {
   func didFinish(childCoordinator: Coordinator) {
     self.popViewController()
   }
