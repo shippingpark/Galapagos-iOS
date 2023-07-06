@@ -11,11 +11,11 @@ import UIKit
 import RxGesture
 import SiriUIKit
 
-class MainPetView: BaseView {
+class MainAnimalView: BaseView {
   private let name: String
   private let days: String
   
-  private lazy var mainPetInfoContainerView: UIView = {
+  private lazy var mainAnimalInfoContainerView: UIView = {
     let view = UIView()
     view.backgroundColor = .clear
     return view
@@ -61,14 +61,14 @@ class MainPetView: BaseView {
     return stackView
   }()
   
-  private lazy var mainPetImage: UIImageView = {
+  private lazy var mainAnimalImage: UIImageView = {
     let image = UIImageView()
     image.contentMode = .scaleAspectFill
     image.cornerRadius = 12
     return image
   }()
   
-  lazy var mainPetDiaryButton: UIButton = {
+  lazy var mainAnimalDiaryButton: UIButton = {
     let button = UIButton()
     button.isUserInteractionEnabled = true
     button.setImage(GalapagosAsset._56x56diaryRoundActive.image, for: .normal)
@@ -80,14 +80,14 @@ class MainPetView: BaseView {
     self.days = days
     super.init(frame: .zero)
     let url = URL(string: "https://i.ibb.co/4RLyK4J/1684243476793-2.png")!//테스트 코드 (추후 삭제)
-    self.mainPetImage.load(url: url)//테스트 코드 (추후 삭제)
+    self.mainAnimalImage.load(url: url)//테스트 코드 (추후 삭제)
   }
   
   override func setAddSubView() {
-    self.addSubviews([mainPetInfoContainerView, mainPetImage, mainPetDiaryButton])
+    self.addSubviews([mainAnimalInfoContainerView, mainAnimalImage, mainAnimalDiaryButton])
     
     [nameLabel, daysContainerView].forEach { subview in
-      mainPetInfoContainerView.addSubview(subview)
+      mainAnimalInfoContainerView.addSubview(subview)
     }
     
     [numberStackView, dayLabel].forEach { subview in
@@ -105,13 +105,13 @@ class MainPetView: BaseView {
   }
   
   override func setConstraint() {
-    mainPetInfoContainerView.snp.makeConstraints { make in
+    mainAnimalInfoContainerView.snp.makeConstraints { make in
       make.top.equalToSuperview()
       make.horizontalEdges.equalToSuperview()
     }
     
-    mainPetImage.snp.makeConstraints { make in
-      make.top.equalTo(mainPetInfoContainerView.snp.bottom).offset(25)
+    mainAnimalImage.snp.makeConstraints { make in
+      make.top.equalTo(mainAnimalInfoContainerView.snp.bottom).offset(25)
       make.horizontalEdges.equalToSuperview()
       
       make.width.equalToSuperview()
@@ -140,7 +140,7 @@ class MainPetView: BaseView {
       make.trailing.equalToSuperview()
     }
     
-    mainPetDiaryButton.snp.makeConstraints { make in
+    mainAnimalDiaryButton.snp.makeConstraints { make in
       make.trailing.bottom.equalToSuperview().inset(14)
       make.size.equalTo(56)
     }

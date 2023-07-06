@@ -1,5 +1,5 @@
 //
-//  AddPetShadowView.swift
+//  EmptyMainAnimalView.swift
 //  Galapagos
 //
 //  Created by 박혜운 on 2023/06/27.
@@ -12,7 +12,7 @@ import RxSwift
 import SiriUIKit
 import SnapKit
 
-class EmptyMainPetView: BaseView {
+class EmptyMainAnimalView: BaseView {
   
   private var shadowView = RadiusBoxView(radius: .defaultLarge, style: .shadow)
   
@@ -24,7 +24,7 @@ class EmptyMainPetView: BaseView {
     return stackView
   }()
   
-  private lazy var addPetInfoLabel: UILabel = {
+  private lazy var addAnimalInfoLabel: UILabel = {
     let label = UILabel()
     label.numberOfLines = 0
     let text = "아직 등록된 대표 동물이 없어요.\n동물을 추가하고 대표 동물을 설정해보세요!"
@@ -46,7 +46,7 @@ class EmptyMainPetView: BaseView {
     return label
   }()
   
-  var addPetButton: GalapagosButton = {
+  var addAnimalButton: GalapagosButton = {
     let button = GalapagosButton(buttonStyle: .fill, isCircle: true)
     //이미지 추가 시 라벨과 이미지 사이 간격 필요, 그러나 UIEdgeInsets는 15.0부터 deprecated 되는 기능
     //따라서 UIButton.Configuration.plain() 으로 image padding 설정해 주려 하였으나,
@@ -67,7 +67,7 @@ class EmptyMainPetView: BaseView {
     self.addSubview(shadowView)
     
     shadowView.addSubview(animalStackView)
-    [addPetInfoLabel, addPetButton].forEach { subview in
+    [addAnimalInfoLabel, addAnimalButton].forEach { subview in
       animalStackView.addArrangedSubview(subview) }
   }
   
@@ -81,11 +81,11 @@ class EmptyMainPetView: BaseView {
       make.center.equalToSuperview()
     }
 
-    addPetInfoLabel.snp.makeConstraints { make in
+    addAnimalInfoLabel.snp.makeConstraints { make in
       make.width.lessThanOrEqualToSuperview()
     }
     
-    addPetButton.snp.makeConstraints { make in
+    addAnimalButton.snp.makeConstraints { make in
       make.centerX.equalToSuperview()
       make.height.equalTo(52)
     }

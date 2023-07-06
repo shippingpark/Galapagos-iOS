@@ -25,10 +25,10 @@ class AddDiaryCoordinator: Coordinator {
   func setState() {}
 
   func start() {
-    pushToAddPet()
+    pushToAddAnimal()
   }
   
-  func pushToAddPet() {
+  func pushToAddAnimal() {
     let addDiaryViewController = AddDiaryViewController(
       viewModel: AddDiaryViewModel(
         coordinator: self

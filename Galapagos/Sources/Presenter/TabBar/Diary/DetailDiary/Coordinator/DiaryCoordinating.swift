@@ -9,5 +9,5 @@
 import Foundation
 
 protocol DiaryCoordinating {
-  func pushToDiary(petIdx: String)
+  func pushToDiary(animalIdx: String)
 }

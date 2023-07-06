@@ -17,7 +17,7 @@ final class MainCoordinator: Coordinator {
   // MARK: - Coordinator DEPTH 2 -
   
   enum MainCoordinatorFlow {
-    case addPet, detailDiary, moveCommunity, detailPost //초기화면 삭제
+    case addAnimal, detailDiary, moveCommunity, detailPost //초기화면 삭제
   }
   
   var navigationController: UINavigationController
@@ -45,11 +45,11 @@ final class MainCoordinator: Coordinator {
         print("💗💗💗 MainCoordinator: \(state) 💗💗💗")
         guard let self = self else { return }
         switch state {
-        case .addPet:
-          self.pushToAddPet()
+        case .addAnimal:
+          self.pushToAddAnimal()
 
         case .detailDiary:
-          self.pushToDiary(petIdx: "임시") //Idx 가져 올 방법 고민 (enum 유력)
+          self.pushToDiary(animalIdx: "임시") //Idx 가져 올 방법 고민 (enum 유력)
           
         case .moveCommunity:
           
@@ -70,32 +70,32 @@ final class MainCoordinator: Coordinator {
   }
 }
 
-extension MainCoordinator: AddPetCoordinating {
-  func pushToAddPet() {
+extension MainCoordinator: AddAnimalCoordinating {
+  func pushToAddAnimal() {
     if let tabBarViewController = self.navigationController.tabBarController as? CustomTabBarController {
       tabBarViewController.hideCustomTabBar()
     }
-    let addPetCoordinator = AddPetCoordinator(
+    let addAnimalCoordinator = AddAnimalCoordinator(
       navigationController: self.navigationController
     )
-    addPetCoordinator.delegate = self
-    addPetCoordinator.start()
-    self.childCoordinators.append(addPetCoordinator)
+    addAnimalCoordinator.delegate = self
+    addAnimalCoordinator.start()
+    self.childCoordinators.append(addAnimalCoordinator)
   }
 }
 
 extension MainCoordinator: DiaryCoordinating {
-  func pushToDiary(petIdx: String) {
+  func pushToDiary(animalIdx: String) {
     if let tabBarViewController = self.navigationController //이동 시 탭바 감춤
       .tabBarController as? CustomTabBarController {
       tabBarViewController.hideCustomTabBar()
     }
-      let addPetCoordinator = AddPetCoordinator(
+      let addAnimalCoordinator = AddAnimalCoordinator(
         navigationController: self.navigationController
       )
-      addPetCoordinator.delegate = self
-      addPetCoordinator.start()
-      self.childCoordinators.append(addPetCoordinator)
+      addAnimalCoordinator.delegate = self
+      addAnimalCoordinator.start()
+      self.childCoordinators.append(addAnimalCoordinator)
   }
 }
 
