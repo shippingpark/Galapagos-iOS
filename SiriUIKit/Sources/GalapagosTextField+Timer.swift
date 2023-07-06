@@ -58,6 +58,8 @@ public final class GalapagosTextField_Timer: UIView {
     private var timer: Disposable?
     private var MAX_TIME: Int
     
+    public var isButtonTapped: Observable<Bool> = .just(false)
+    
     
     // MARK: - Initializers
     
@@ -140,6 +142,16 @@ public final class GalapagosTextField_Timer: UIView {
                 }
             })
             .disposed(by: disposeBag)
+        
+        checkButton.rx.tap
+            .debug()
+            .withUnretained(self)
+            .subscribe(onNext: { owner, tap in
+                owner.isButtonTapped = .just(true)
+                owner.galapagosTextField.textField.resignFirstResponder()
+            })
+            .disposed(by: disposeBag)
+            
     }
     
     private func startTimer() {
