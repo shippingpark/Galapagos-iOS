@@ -115,7 +115,6 @@ extension GalapagosButton {
 public extension Reactive where Base: GalapagosButton {
     var isActive: Binder<Bool> {
         return Binder(self.base) { button, active in
-            button.isEnabled = active
             button.active = active
         }
     }
