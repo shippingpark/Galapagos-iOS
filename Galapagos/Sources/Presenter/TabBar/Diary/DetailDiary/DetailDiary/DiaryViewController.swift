@@ -13,7 +13,7 @@ import SiriUIKit
 import RxSwift
 import RxCocoa
 
-class DetailDiaryViewController: BaseViewController {
+class DiaryViewController: BaseViewController {
   
   //MARK: - UI
   private lazy var mockLabel: UILabel = {
@@ -36,11 +36,11 @@ class DetailDiaryViewController: BaseViewController {
   }()
   
   //MARK: - Properties
-  private let viewModel: DetailDiaryViewModel
+  private let viewModel: DiaryViewModel
   
   //MARK: - Initializers
   init(
-    viewModel: DetailDiaryViewModel
+    viewModel: DiaryViewModel
   ) {
     self.viewModel = viewModel
     super.init()
@@ -79,7 +79,7 @@ class DetailDiaryViewController: BaseViewController {
   }
   
   override func bind() {
-    let input = DetailDiaryViewModel.Input(
+    let input = DiaryViewModel.Input(
       backButtonTapped: navigationBar.backButton.rx.tap.asSignal(),
       buttonTapped: button.rx.tap.asSignal()
     )

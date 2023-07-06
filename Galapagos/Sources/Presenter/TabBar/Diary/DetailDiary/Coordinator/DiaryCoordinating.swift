@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol DetailDiaryCoordinating {
-  func pushToDetailDiary(petIdx: String)
+protocol DiaryCoordinating {
+  func pushToDiary(petIdx: String)
 }

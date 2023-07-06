@@ -114,7 +114,7 @@ final class MainViewController: BaseViewController {
     }
   }
   
-  func showViewBasedOnHasMain(_ hasMainPet: Bool) {
+  private func showViewBasedOnHasMain(_ hasMainPet: Bool) {
     if hasMainPet {
       mainPetView = MainPetView(name: "도랭이", days: String(111))//임시 입력 값
       guard let mainPetView = mainPetView else { return }
@@ -130,7 +130,7 @@ final class MainViewController: BaseViewController {
     }
   }
   
-  func showViewBasedOnHasCommunity(_ hasStarCommunity: Bool) {
+  private func showViewBasedOnHasCommunity(_ hasStarCommunity: Bool) {
     if hasStarCommunity {
       
     } else {
@@ -139,12 +139,12 @@ final class MainViewController: BaseViewController {
     }
   }
   
-  func starCommnunityConstraint() {
+  private func starCommnunityConstraint() {
     
     
   }
   
-  func emptyPetViewConstraint() {
+  private func emptyPetViewConstraint() {
     emptyMainPetView.snp.makeConstraints { make in
       make.top.equalTo(petContainerView.snp.top)
       make.center.equalToSuperview()
@@ -152,7 +152,7 @@ final class MainViewController: BaseViewController {
     }
   }
   
-  func mainPetViewConstraint() {
+  private func mainPetViewConstraint() {
     guard let mainPetView = mainPetView else { return }
     mainPetView.snp.makeConstraints { make in
       make.top.equalTo(petContainerView.snp.top)
@@ -161,7 +161,7 @@ final class MainViewController: BaseViewController {
     }
   }
   
-  func emptyStarConmmnityViewConstraint() {
+  private func emptyStarConmmnityViewConstraint() {
     emptyStarCommunityView.snp.makeConstraints { make in
       make.top.equalTo(communityLabel.snp.bottom).offset(navigationBarToContentsOffset)
       make.centerX.equalToSuperview()
