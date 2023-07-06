@@ -12,7 +12,7 @@ enum TabBarCoordinatorFlow: Int, CaseIterable {
   
   // MARK: - Coordinator DEPTH 1 -
   
-  case main, diary, community, mypage
+  case main, diaryList, community, mypage
   
   // 공식 이미지 확정 안 난 듯 해서 임시 이미지
   var tabBarItem: UITabBarItem {
@@ -23,7 +23,7 @@ enum TabBarCoordinatorFlow: Int, CaseIterable {
         image: GalapagosAsset.naviHomeOff.image,
         selectedImage: GalapagosAsset.naviHomeOn.image
       )
-    case .diary:
+    case .diaryList:
       return UITabBarItem(
         title: "다이어리",
         image: GalapagosAsset.naviaviDiaryOff.image,

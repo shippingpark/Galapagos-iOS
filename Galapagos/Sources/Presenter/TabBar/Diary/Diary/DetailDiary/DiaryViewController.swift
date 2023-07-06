@@ -1,5 +1,5 @@
 //
-//  DiaryDetailViewController.swift
+//  DiaryViewController.swift
 //  Galapagos
 //
 //  Created by 박혜운 on 2023/06/17.
@@ -18,7 +18,7 @@ class DiaryViewController: BaseViewController {
   //MARK: - UI
   private lazy var mockLabel: UILabel = {
     let label = UILabel()
-    label.text = "DetailDiaryView"
+    label.text = "DiaryView"
     label.textColor = GalapagosAsset.green.color
     label.font = GalapagosFontFamily.Pretendard.bold.font(size: 36)
     return label

@@ -17,7 +17,7 @@ final class MainCoordinator: Coordinator {
   // MARK: - Coordinator DEPTH 2 -
   
   enum MainCoordinatorFlow {
-    case addPet, detailDiary, moveCommunity, detailPost //초기화면 삭제
+    case addAnimal, mainAnimalDiary, moveCommunity, detailPost //초기화면 삭제
   }
   
   var navigationController: UINavigationController
@@ -45,14 +45,13 @@ final class MainCoordinator: Coordinator {
         print("💗💗💗 MainCoordinator: \(state) 💗💗💗")
         guard let self = self else { return }
         switch state {
-        case .addPet:
-          self.pushToAddPet()
+        case .addAnimal:
+          self.pushToAddAnimal()
 
-        case .detailDiary:
-          self.pushToDiary(petIdx: "임시") //Idx 가져 올 방법 고민 (enum 유력)
+        case .mainAnimalDiary:
+          self.pushToDiary(animalIdx: "임시") //Idx 가져 올 방법 고민 (enum 유력)
           
         case .moveCommunity:
-          
           self.moveToCommunityTab()
         case .detailPost:
             break
@@ -70,32 +69,33 @@ final class MainCoordinator: Coordinator {
   }
 }
 
-extension MainCoordinator: AddPetCoordinating {
-  func pushToAddPet() {
+extension MainCoordinator: AddAnimalCoordinating {
+  func pushToAddAnimal() {
     if let tabBarViewController = self.navigationController.tabBarController as? CustomTabBarController {
       tabBarViewController.hideCustomTabBar()
     }
-    let addPetCoordinator = AddPetCoordinator(
+    let addAnimalCoordinator = AddAnimalCoordinator(
       navigationController: self.navigationController
     )
-    addPetCoordinator.delegate = self
-    addPetCoordinator.start()
-    self.childCoordinators.append(addPetCoordinator)
+    addAnimalCoordinator.delegate = self
+    addAnimalCoordinator.start()
+    self.childCoordinators.append(addAnimalCoordinator)
   }
 }
 
 extension MainCoordinator: DiaryCoordinating {
-  func pushToDiary(petIdx: String) {
+  func pushToDiary(animalIdx: String) {
     if let tabBarViewController = self.navigationController //이동 시 탭바 감춤
       .tabBarController as? CustomTabBarController {
       tabBarViewController.hideCustomTabBar()
     }
-      let addPetCoordinator = AddPetCoordinator(
-        navigationController: self.navigationController
-      )
-      addPetCoordinator.delegate = self
-      addPetCoordinator.start()
-      self.childCoordinators.append(addPetCoordinator)
+    let diaryCoordinator = DiaryCoordinator(
+      animalIdx: "임시",
+      navigationController: self.navigationController
+    )
+    diaryCoordinator.delegate = self
+    diaryCoordinator.start()
+    self.childCoordinators.append(diaryCoordinator)
   }
 }
 

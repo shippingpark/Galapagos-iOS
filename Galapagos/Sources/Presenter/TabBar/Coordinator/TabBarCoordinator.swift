@@ -57,15 +57,6 @@ final class TabBarCoordinator: Coordinator {
   func handleSelectedItem(index: Int) {
     tabBarController.selectedItemSubject.accept(index)
   }
-  
-  func detailDiary() {
-    if let diaryListCoordinator = childCoordinators[1] as? DiaryListCoordinator {
-      self.userActionState.accept(.diary)
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
-           diaryListCoordinator.userActionState.accept(.diaryDetail)
-         }
-    }
-  }
 }
 
 
@@ -92,7 +83,7 @@ private extension TabBarCoordinator {
       mainCoordinator.delegate = self
       mainCoordinator.start()
       childCoordinators.append(mainCoordinator)
-    case .diary:
+    case .diaryList:
       let diaryCoordinator = DiaryListCoordinator(navigationController: navigationController)
       diaryCoordinator.delegate = self
       diaryCoordinator.start()

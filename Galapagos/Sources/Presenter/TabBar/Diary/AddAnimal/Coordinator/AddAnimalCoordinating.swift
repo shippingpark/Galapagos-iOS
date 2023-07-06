@@ -1,5 +1,5 @@
 //
-//  DetailDiaryCoordinating.swift
+//  AddAnimalCoordinating.swift
 //  Galapagos
 //
 //  Created by 박혜운 on 2023/06/20.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol DiaryCoordinating {
-  func pushToDiary(petIdx: String)
+protocol AddAnimalCoordinating {
+  func pushToAddAnimal()
 }

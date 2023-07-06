@@ -1,5 +1,5 @@
 //
-//  AddPetViewController.swift
+//  AddAnimalViewController.swift
 //  Galapagos
 //
 //  Created by 박혜운 on 2023/06/20.
@@ -14,12 +14,12 @@ import SiriUIKit
 import RxSwift
 import RxCocoa
 
-class AddPetViewController: BaseViewController {
+class AddAnimalViewController: BaseViewController {
   
   //MARK: - UI
   private lazy var mockLabel: UILabel = {
     let label = UILabel()
-    label.text = "AddPet"
+    label.text = "AddAnimal"
     label.textColor = GalapagosAsset.green.color
     label.font = GalapagosFontFamily.Pretendard.bold.font(size: 36)
     return label
@@ -32,11 +32,11 @@ class AddPetViewController: BaseViewController {
   }()
   
   //MARK: - Properties
-  private let viewModel: AddPetViewModel
+  private let viewModel: AddAnimalViewModel
   
   //MARK: - Initializers
   init(
-    viewModel: AddPetViewModel
+    viewModel: AddAnimalViewModel
   ) {
     self.viewModel = viewModel
     super.init()
@@ -67,7 +67,7 @@ class AddPetViewController: BaseViewController {
   }
   
   override func bind() {
-    let input = AddPetViewModel.Input(
+    let input = AddAnimalViewModel.Input(
       backButtonTapped: navigationBar.backButton.rx.tap.asSignal()
     )
     
