@@ -42,7 +42,7 @@ public final class GalapagosTextField_Timer: UIView {
         return label
     }()
     
-    private lazy var checkButton: GalapagosButton = {
+    public lazy var checkButton: GalapagosButton = {
         let button = GalapagosButton(buttonStyle: .fill, isEnable: false)
         button.setTitle("확인", for: .normal)
         button.titleLabel?.font = SiriUIKitFontFamily.Pretendard.semiBold.font(size: 16)
