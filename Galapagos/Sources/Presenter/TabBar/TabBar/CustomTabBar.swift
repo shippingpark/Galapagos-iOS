@@ -24,7 +24,7 @@ final class CustomTabBar: BaseView {
     return stackView
   }()
   private let mainItem = CustomItemView(with: .main)
-  private let diaryItem = CustomItemView(with: .diary)
+  private let diaryItem = CustomItemView(with: .diaryList)
   private let communityItem = CustomItemView(with: .community)
   private let myPageItem = CustomItemView(with: .mypage)
     

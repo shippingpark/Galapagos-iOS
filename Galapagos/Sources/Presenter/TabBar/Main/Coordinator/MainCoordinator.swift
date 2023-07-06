@@ -17,7 +17,7 @@ final class MainCoordinator: Coordinator {
   // MARK: - Coordinator DEPTH 2 -
   
   enum MainCoordinatorFlow {
-    case addAnimal, detailDiary, moveCommunity, detailPost //초기화면 삭제
+    case addAnimal, mainAnimalDiary, moveCommunity, detailPost //초기화면 삭제
   }
   
   var navigationController: UINavigationController
@@ -48,11 +48,10 @@ final class MainCoordinator: Coordinator {
         case .addAnimal:
           self.pushToAddAnimal()
 
-        case .detailDiary:
+        case .mainAnimalDiary:
           self.pushToDiary(animalIdx: "임시") //Idx 가져 올 방법 고민 (enum 유력)
           
         case .moveCommunity:
-          
           self.moveToCommunityTab()
         case .detailPost:
             break
@@ -90,12 +89,13 @@ extension MainCoordinator: DiaryCoordinating {
       .tabBarController as? CustomTabBarController {
       tabBarViewController.hideCustomTabBar()
     }
-      let addAnimalCoordinator = AddAnimalCoordinator(
-        navigationController: self.navigationController
-      )
-      addAnimalCoordinator.delegate = self
-      addAnimalCoordinator.start()
-      self.childCoordinators.append(addAnimalCoordinator)
+    let diaryCoordinator = DiaryCoordinator(
+      animalIdx: "임시",
+      navigationController: self.navigationController
+    )
+    diaryCoordinator.delegate = self
+    diaryCoordinator.start()
+    self.childCoordinators.append(diaryCoordinator)
   }
 }
 

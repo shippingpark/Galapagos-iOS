@@ -1,5 +1,5 @@
 //
-//  DiaryDetailCoordinator.swift
+//  DiaryCoordinator.swift
 //  Galapagos
 //
 //  Created by 박혜운 on 2023/06/17.

@@ -14,7 +14,7 @@ import RxRelay
 class DiaryListCoordinator: Coordinator {
   
   enum DiaryListCoordinatorFlow {
-    case addAnimal, diaryDetail
+    case addAnimal, diary
   }
   
   var disposeBag: DisposeBag = DisposeBag()
@@ -33,13 +33,13 @@ class DiaryListCoordinator: Coordinator {
     self.userActionState
       .debug()
       .subscribe(onNext: { [weak self] state in
-        print("💗💗💗 DiaryCoordinator: \(state) 💗💗💗")
+        print("💗💗💗 DiaryListCoordinator: \(state) 💗💗💗")
         guard let self = self else { return }
         switch state {
         case .addAnimal:
           self.pushToAddAnimal()
           
-        case .diaryDetail:
+        case .diary:
           self.pushToDiary(animalIdx: "임시")
         }
       }).disposed(by: disposeBag)

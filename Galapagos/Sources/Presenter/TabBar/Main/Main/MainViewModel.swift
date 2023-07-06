@@ -45,7 +45,7 @@ final class MainViewModel: ViewModelType {
     
     input.moveMainAnimalDiaryTapped
       .emit(onNext: { [weak self] _ in
-        self?.coordinator?.userActionState.accept(.detailDiary)
+        self?.coordinator?.userActionState.accept(.mainAnimalDiary)
       })
       .disposed(by: disposeBag)
     
