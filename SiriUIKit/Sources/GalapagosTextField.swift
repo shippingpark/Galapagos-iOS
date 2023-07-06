@@ -13,19 +13,19 @@ import RxCocoa
 
 import SnapKit
 
-public final class GalapagosTextField_SelectEmail: UIView{
+public final class GalapagosTextField: UIView{
     
     // MARK: - UI
-    private lazy var textField: UITextField = {
+    public lazy var textField: UITextField = {
         let textField = UITextField()
         textField.placeholder = placeHolder
         textField.borderStyle = .none
         textField.keyboardType = keyboardType
-        textField.clearButtonMode = .whileEditing
+        textField.clearButtonMode = clearMode
         return textField
     }()
     
-    private lazy var errorMessagelabel: UILabel = {
+    public lazy var errorMessagelabel: UILabel = {
         let label = UILabel()
         label.text = errorMessage
         label.textColor = SiriUIKitAsset.redErrorText.color
@@ -50,6 +50,7 @@ public final class GalapagosTextField_SelectEmail: UIView{
     private var placeHolder: String
     private var keyboardType: UIKeyboardType
     private var errorMessage: String
+    private var clearMode: UITextField.ViewMode
     
     public var isEnable: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     
@@ -66,11 +67,13 @@ public final class GalapagosTextField_SelectEmail: UIView{
     public init(
         placeHolder: String,
         keyboardType: UIKeyboardType,
-        errorMessage: String = ""
+        errorMessage: String = "",
+        clearMode: UITextField.ViewMode
     ) {
         self.placeHolder = placeHolder
         self.keyboardType = keyboardType
         self.errorMessage = errorMessage
+        self.clearMode = clearMode
         super.init(frame: .zero)
         
         textField.delegate = self
@@ -100,7 +103,7 @@ public final class GalapagosTextField_SelectEmail: UIView{
     
 }
 
-private extension GalapagosTextField_SelectEmail{
+private extension GalapagosTextField{
     typealias EmailSelectColorSet = (borderColor: UIColor, errorIsHidden: Bool, errorColor: UIColor, errorHidden: Bool)
     
     var colorSet: EmailSelectColorSet{
@@ -132,7 +135,7 @@ private extension GalapagosTextField_SelectEmail{
     }
 }
 
-extension GalapagosTextField_SelectEmail{
+extension GalapagosTextField{
     public enum Style {
         case normal     /// 입력 전, 입력 완료 후 상태
         case enabled    /// 필드에 포커스가 들어와있는 상태
@@ -142,7 +145,7 @@ extension GalapagosTextField_SelectEmail{
     
 }
 
-extension GalapagosTextField_SelectEmail: UITextFieldDelegate {
+extension GalapagosTextField: UITextFieldDelegate {
     
     public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         self.style = .enabled
