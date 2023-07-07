@@ -14,6 +14,7 @@ import RxCocoa
 class AddAnimalViewModel: ViewModelType {
   struct Input {
     let backButtonTapped: Signal<Void>
+    let profileTapped: Signal<Void>
   }
   
   struct Output {}
@@ -31,6 +32,13 @@ class AddAnimalViewModel: ViewModelType {
         self?.coordinator?.finish()
       })
       .disposed(by: disposeBag)
+    
+    input.profileTapped
+      .emit(onNext: { [weak self] _ in
+        print("터치 범위 확인")
+      })
+      .disposed(by: disposeBag)
+    
     return Output()
   }
 }
