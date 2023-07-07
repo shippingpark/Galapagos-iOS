@@ -58,7 +58,8 @@ public final class GalapagosTextField_Timer: UIView {
     private var timer: Disposable?
     private var MAX_TIME: Int
     
-    public var isButtonTapped: Observable<Bool> = .just(false)
+    public var isButtonTapped: BehaviorRelay<Bool>  = BehaviorRelay(value: false)
+    public var isTimerStarted: BehaviorRelay<Bool>  = BehaviorRelay(value: false)
     
     
     // MARK: - Initializers
@@ -128,6 +129,13 @@ public final class GalapagosTextField_Timer: UIView {
             })
             .disposed(by: disposeBag)
         
+        isTimerStarted
+            .withUnretained(self)
+            .subscribe(onNext: { owner, isStarted in
+                isStarted ? owner.startTimer() : owner.timer?.dispose()
+            })
+            .disposed(by: disposeBag)
+        
         galapagosTextField.textField.rx.controlEvent(.editingChanged)
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
@@ -147,7 +155,11 @@ public final class GalapagosTextField_Timer: UIView {
             .debug()
             .withUnretained(self)
             .subscribe(onNext: { owner, tap in
-                owner.isButtonTapped = .just(true)
+                owner.isButtonTapped.accept(true)
+                /// 임시 테스트 용도로 작성한 코드들임
+                owner.checkButton.rx.isActive.onNext(false)
+                owner.isUserInteractionEnabled = false
+                
                 owner.galapagosTextField.textField.resignFirstResponder()
             })
             .disposed(by: disposeBag)
