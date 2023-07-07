@@ -42,7 +42,7 @@ public final class GalapagosTextField_Timer: UIView {
         return label
     }()
     
-    private lazy var checkButton: GalapagosButton = {
+    public lazy var checkButton: GalapagosButton = {
         let button = GalapagosButton(buttonStyle: .fill, isEnable: false)
         button.setTitle("확인", for: .normal)
         button.titleLabel?.font = SiriUIKitFontFamily.Pretendard.semiBold.font(size: 16)
@@ -57,6 +57,9 @@ public final class GalapagosTextField_Timer: UIView {
     
     private var timer: Disposable?
     private var MAX_TIME: Int
+    
+    public var isButtonTapped: BehaviorRelay<Bool>  = BehaviorRelay(value: false)
+    public var isTimerStarted: BehaviorRelay<Bool>  = BehaviorRelay(value: false)
     
     
     // MARK: - Initializers
@@ -126,6 +129,13 @@ public final class GalapagosTextField_Timer: UIView {
             })
             .disposed(by: disposeBag)
         
+        isTimerStarted
+            .withUnretained(self)
+            .subscribe(onNext: { owner, isStarted in
+                isStarted ? owner.startTimer() : owner.timer?.dispose()
+            })
+            .disposed(by: disposeBag)
+        
         galapagosTextField.textField.rx.controlEvent(.editingChanged)
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
@@ -140,6 +150,20 @@ public final class GalapagosTextField_Timer: UIView {
                 }
             })
             .disposed(by: disposeBag)
+        
+        checkButton.rx.tap
+            .debug()
+            .withUnretained(self)
+            .subscribe(onNext: { owner, tap in
+                owner.isButtonTapped.accept(true)
+                /// 임시 테스트 용도로 작성한 코드들임
+                owner.checkButton.rx.isActive.onNext(false)
+                owner.isUserInteractionEnabled = false
+                
+                owner.galapagosTextField.textField.resignFirstResponder()
+            })
+            .disposed(by: disposeBag)
+            
     }
     
     private func startTimer() {
