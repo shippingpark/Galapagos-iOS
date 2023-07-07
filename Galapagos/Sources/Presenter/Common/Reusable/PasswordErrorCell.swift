@@ -41,7 +41,7 @@ final class PasswordErrorCell: UIView {
     
     // MARK: - Properties
     private let errorMessage: String
-    private var passwordErrorCase: PasswordErrorColorCase = .error {
+    public var passwordErrorCase: PasswordErrorColorCase = .error {
         didSet {
             errorMessageLabel.textColor = passwordErrorCase.color
             checkImage.image = passwordErrorCase.image
@@ -78,6 +78,10 @@ final class PasswordErrorCell: UIView {
             $0.top.bottom.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
         }
+    }
+    
+    func changeState(state: PasswordErrorColorCase){
+        self.passwordErrorCase = state
     }
     
 }
