@@ -32,11 +32,13 @@ class EmailSignUpViewController: BaseViewController {
         return view
     }()
     
+    private lazy var passwordCheckView: PasswordCheckView = {
+        let view = PasswordCheckView(frame: .zero, viewModel: viewModel)
+        return view
+    }()
+    
     private lazy var galapagosPager: GalapagosProgressPager = {
         
-        
-        let page3 = UIView()
-        page3.backgroundColor = UIColor.yellow
         
         let page4 = UIView()
         page4.backgroundColor = UIColor.blue
@@ -45,7 +47,7 @@ class EmailSignUpViewController: BaseViewController {
         page5.backgroundColor = UIColor.white
         
         let progressPager = GalapagosProgressPager(pages: [
-            termsAndConditionsView, emailCheckView, page3, page4, page5
+            termsAndConditionsView, emailCheckView, passwordCheckView, page4, page5
         ])
         return progressPager
     }()
