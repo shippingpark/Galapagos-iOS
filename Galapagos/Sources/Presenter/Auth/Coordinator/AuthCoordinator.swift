@@ -37,7 +37,6 @@ class AuthCoordinator: Coordinator {
   
   func setState() {
     self.userActionState
-      .debug()
       .subscribe(onNext: { [weak self] state in
         guard let self = self else {return}
         switch state{

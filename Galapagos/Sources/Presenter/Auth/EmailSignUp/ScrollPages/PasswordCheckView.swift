@@ -176,7 +176,6 @@ final class PasswordCheckView: UIView {
         
         passwordCheckTextField.textField.rx.text.orEmpty
             .asDriver()
-            .debug()
             .drive(onNext: { [weak self] text in
                 guard let self = self else { return }
                 text == passwordTextField.textField.text! && !text.isEmpty ? self.checkPasswordValied.onNext(true) : self.checkPasswordValied.onNext(false)
