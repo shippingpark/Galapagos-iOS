@@ -187,7 +187,7 @@ final class PasswordCheckView: UIView {
             .drive(onNext: { [weak self] isValidated in
                 guard let self = self else { return }
                 isValidated ? self.passwordCheckErrorCell.changeState(state: .success) : self.passwordCheckErrorCell.changeState(state: .error)
-                isValidated ? self.viewModel.readyForNextButton.accept(true) : self.viewModel.readyForNextButton.accept(false)
+                self.viewModel.readyForNextButton.accept(isValidated)
             })
             .disposed(by: disposeBag)
         
@@ -203,7 +203,7 @@ final class PasswordCheckView: UIView {
                 guard let self = self else { return }
                 guard let cell = passwordErrorStackView.subviews[0] as? TextFieldErrorCell else { return }
                 isValidated ? cell.changeState(state: .success) : cell.changeState(state: .error)
-                isValidated ? self.engValied.onNext(true) : self.engValied.onNext(false)
+                self.engValied.onNext(isValidated)
             })
             .disposed(by: disposeBag)
     }
@@ -218,7 +218,7 @@ final class PasswordCheckView: UIView {
                 guard let self = self else { return }
                 guard let cell = passwordErrorStackView.subviews[1] as? TextFieldErrorCell else { return }
                 isValidated ? cell.changeState(state: .success) : cell.changeState(state: .error)
-                isValidated ? self.numValied.onNext(true) : self.numValied.onNext(false)
+                self.numValied.onNext(isValidated)
             })
             .disposed(by: disposeBag)
     }
@@ -233,7 +233,7 @@ final class PasswordCheckView: UIView {
                 guard let self = self else { return }
                 guard let cell = passwordErrorStackView.subviews[2] as? TextFieldErrorCell else { return }
                 isValidated ? cell.changeState(state: .success) : cell.changeState(state: .error)
-                isValidated ? self.speValied.onNext(true) : self.speValied.onNext(false)
+                self.speValied.onNext(isValidated)
                 
             })
             .disposed(by: disposeBag)
@@ -247,7 +247,7 @@ final class PasswordCheckView: UIView {
                 guard let self = self else { return }
                 guard let cell = passwordErrorStackView.subviews[3] as? TextFieldErrorCell else { return }
                 isValidated ? cell.changeState(state: .success) : cell.changeState(state: .error)
-                isValidated ? self.couValied.onNext(true) : self.couValied.onNext(false)
+                self.couValied.onNext(isValidated)
                 
             })
             .disposed(by: disposeBag)
