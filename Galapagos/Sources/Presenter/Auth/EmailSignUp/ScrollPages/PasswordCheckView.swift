@@ -158,8 +158,8 @@ final class PasswordCheckView: UIView {
             .disposed(by: disposeBag)
         
         Observable.combineLatest(engValied, numValied, speValied, couValied)
-            .asDriver(onErrorJustReturn: (false, false, false, false))
-            .map { $0.0 && $0.1 && $0.2 && $0.3 }
+            .map { $0 && $1 && $2 && $3 }
+            .asDriver(onErrorJustReturn: false)
             .drive(onNext: { [weak self] isValidated in
                 guard let self = self else { return }
                 self.passwordResultCombined.onNext(isValidated)
