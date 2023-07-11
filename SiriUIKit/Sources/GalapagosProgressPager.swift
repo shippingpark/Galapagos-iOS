@@ -90,13 +90,26 @@ public final class GalapagosProgressPager: UIView {
     }
     
     public func nextPage(animated: Bool, next: CGFloat) {
-        let nextPoint = CGPoint(x:  next * self.frame.size.width, y: 0)
+        let nextXPoint: CGFloat = CGFloat(getCurrentPage()) + next
+        let nextPoint = CGPoint(x:  nextXPoint * self.frame.size.width, y: 0)
         pagerScrollView.setContentOffset(nextPoint, animated: animated)
-        setProgress(animated: animated)
+        setNextProgress(animated: animated)
     }
     
-    public func setProgress(animated: Bool) {
+    public func previousPage(animated: Bool, previous: CGFloat) {
+        let previousXPoint: CGFloat = CGFloat(getCurrentPage()) - previous
+        let previousPoint = CGPoint(x:  previousXPoint * self.frame.size.width, y: 0)
+        pagerScrollView.setContentOffset(previousPoint, animated: animated)
+        setPreviousProgress(animated: animated)
+    }
+    
+    public func setNextProgress(animated: Bool) {
         let progress = Float(getCurrentPage() + 1) / Float(pagesCount - 1)
+        progressView.setProgress(progress, animated: animated)
+    }
+    
+    public func setPreviousProgress(animated: Bool) {
+        let progress = Float(getCurrentPage() - 1) / Float(pagesCount - 1)
         progressView.setProgress(progress, animated: animated)
     }
     
