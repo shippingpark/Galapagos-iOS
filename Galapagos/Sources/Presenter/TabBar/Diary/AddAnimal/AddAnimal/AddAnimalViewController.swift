@@ -17,19 +17,57 @@ import RxCocoa
 class AddAnimalViewController: BaseViewController {
   
   //MARK: - UI
-  private lazy var mockLabel: UILabel = {
+  private lazy var navigationBar: GalapagosNavigationBarView = {
+    let navigationBar = GalapagosNavigationBarView()
+
+    navigationBar.setTitleText("반려동물 추가")
+    return navigationBar
+  }()
+  
+  private lazy var profileContainer = UIView()
+  private lazy var nameContainer = UIView()
+  private lazy var genderContainer = UIView()
+  private lazy var speciesContainer = UIView()
+  private lazy var adoptionDateContainer = UIView()
+  private lazy var birthDateContainer = UIView()
+  
+  private lazy var profileImageView = {
+    let imageView = UIImageView()
+    imageView.backgroundColor = GalapagosAsset.gray6DisableBtnBg.color
+    imageView.layer.cornerRadius = 12
+    imageView.contentMode = .scaleAspectFill
+    return imageView
+  }()
+  
+  private lazy var circleShadowCameraView = {
+    let radiusBoxView = RadiusBoxView(radius: 16, style: .shadow)
+    radiusBoxView.layer.shadowColor = GalapagosAsset.blackHeading.color.withAlphaComponent(0.25).cgColor
+    radiusBoxView.layer.shadowOffset = CGSize(width: 0, height: 4)
+    radiusBoxView.layer.shadowRadius = 4.0 //Blur
+    radiusBoxView.layer.shadowOpacity = 1
+    return radiusBoxView
+  }()
+  
+  private let cameraImageView = UIImageView(image:GalapagosAsset._16x16CameraDefault.image)
+  
+  private let nameLabel: UILabel = AddAnimalViewTextLabel(title: "이름*")
+  
+  private lazy var setMainAnimalButton: UIButton = {
+      let button = UIButton()
+      button.setImage(GalapagosAsset._24x24checkRoundDefault.image, for: .normal)
+      button.setImage(GalapagosAsset._24x24checkRoundActive.image, for: .selected)
+      button.contentMode = .scaleAspectFill
+      return button
+  }()
+  
+  private lazy var setMainButtonInfoLabel: UILabel = {
     let label = UILabel()
-    label.text = "AddAnimal"
-    label.textColor = GalapagosAsset.green.color
-    label.font = GalapagosFontFamily.Pretendard.bold.font(size: 36)
+    label.text = "대표동물로 설정하기"
+    label.textColor = GalapagosAsset.gray1Main.color
+    label.font = GalapagosFontFamily.Pretendard.medium.font(size: 14)
     return label
   }()
   
-  private lazy var navigationBar: GalapagosNavigationBarView = {
-    let navigationBar = GalapagosNavigationBarView()
-    navigationBar.setTitleText("")
-    return navigationBar
-  }()
   
   //MARK: - Properties
   private let viewModel: AddAnimalViewModel
@@ -46,6 +84,28 @@ class AddAnimalViewController: BaseViewController {
   
   //MARK: - Methods
   
+  override func setAddSubView() {
+    self.view.addSubviews([
+      navigationBar,
+      profileContainer,
+      nameContainer,
+      genderContainer,
+      speciesContainer,
+      adoptionDateContainer,
+      birthDateContainer
+    ])
+    
+    profileContainer.addSubview(profileImageView)
+    profileImageView.addSubview(circleShadowCameraView)
+    circleShadowCameraView.addSubview(cameraImageView)
+    
+    nameContainer.addSubviews([
+      nameLabel,
+      setMainAnimalButton,
+      setMainButtonInfoLabel
+    ])
+  }
+  
   override func setConstraint() {
     navigationBar.snp.makeConstraints{ navigationBar in
       navigationBar.top.equalTo(self.view.safeAreaLayoutGuide)
@@ -53,22 +113,64 @@ class AddAnimalViewController: BaseViewController {
       navigationBar.height.equalTo(50)
     }
     
-    mockLabel.snp.makeConstraints{ mockLabel in
-      mockLabel.centerX.equalToSuperview()
-      mockLabel.centerY.equalToSuperview()
+    profileContainer.snp.makeConstraints { make in
+      make.top.equalTo(navigationBar.snp.bottom).offset(38)
+      make.leading.equalTo(profileImageView)
+      make.trailing.equalTo(profileImageView.snp.trailing).offset(6)
+      make.bottom.equalTo(circleShadowCameraView)
+    }
+    profileContainer.backgroundColor = .blue
+    
+    profileImageView.snp.makeConstraints { make in
+      make.top.equalToSuperview()
+      make.centerX.equalTo(self.view.snp.centerX)
+      make.size.equalTo(110)
+    }
+    
+    circleShadowCameraView.snp.makeConstraints { make in
+      make.size.equalTo(32)
+      make.trailing.equalToSuperview().offset(6)
+      make.bottom.equalToSuperview().offset(6)
+    }
+    
+    cameraImageView.snp.makeConstraints { make in
+      make.center.equalTo(circleShadowCameraView.snp.center)
+    }
+    
+    nameContainer.snp.makeConstraints { make in
+      make.top.equalTo(profileContainer.snp.bottom).offset(64)
+      make.centerX.equalToSuperview()
+      make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
+    }
+    
+    nameLabel.snp.makeConstraints { make in
+      make.leading.equalToSuperview()
+      make.centerY.equalTo(setMainAnimalButton.snp.centerY)
+    }
+    
+    setMainAnimalButton.snp.makeConstraints { make in
+      make.top.equalToSuperview()
+      make.trailing.equalTo(setMainButtonInfoLabel.snp.leading).offset(-6)
+    }
+    
+    setMainButtonInfoLabel.snp.makeConstraints { make in
+      make.centerY.equalTo(setMainAnimalButton.snp.centerY)
+      make.trailing.equalToSuperview()
     }
   }
   
-  override func setAddSubView() {
-    self.view.addSubviews([
-      navigationBar,
-      mockLabel
-    ])
+  override func setAttribute() {
+    
   }
   
-  override func bind() {
+  
+  override func bind() { //대표 동물로 설정하기, 이름, 성별, 종, 입양일, 탄생일,
     let input = AddAnimalViewModel.Input(
-      backButtonTapped: navigationBar.backButton.rx.tap.asSignal()
+      backButtonTapped: navigationBar.backButton.rx.tap.asSignal(),
+      profileTapped: profileContainer.rx.tapGesture()
+        .when(.recognized)
+        .map { _ in }
+        .asSignal(onErrorJustReturn: ())
     )
     
     let output = viewModel.transform(input: input)

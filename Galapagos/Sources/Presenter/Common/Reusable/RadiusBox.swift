@@ -10,10 +10,10 @@ import UIKit
 
 
 class RadiusBoxView: UIView {
-  private var radius: RadiusSize
+  private var radius: CGFloat
   private var style: BoxStyle
   
-  public init(radius: RadiusSize, style: BoxStyle) {
+  public init(radius: CGFloat, style: BoxStyle) {
     self.radius = radius
     self.style = style
     super.init(frame: .zero)
@@ -30,7 +30,7 @@ class RadiusBoxView: UIView {
   
   private func configureRadiusSet() {
     self.backgroundColor = .white // 배경색 설정
-    self.layer.cornerRadius = CGFloat(self.radius.rawValue) // 곡률 설정
+    self.layer.cornerRadius = self.radius // 곡률 설정
   }
   
   private func configureStyleSet() {
@@ -43,7 +43,7 @@ class RadiusBoxView: UIView {
       self.layer.shadowColor = GalapagosAsset.blackHeading.color.withAlphaComponent(0.12).cgColor
       self.layer.shadowOffset = CGSize(width: 0, height: 3)
       self.layer.shadowRadius = 20.0 //Blur
-      self.layer.shadowOpacity = 1.0
+      self.layer.shadowOpacity = 0.75
     case .fill:
       self.layer.borderWidth = 0.0
       self.backgroundColor = GalapagosAsset.gray6DisableBtnBg.color
@@ -55,13 +55,6 @@ class RadiusBoxView: UIView {
 
 // MARK: - RadiusBoxView.StyleType
 extension RadiusBoxView {
-  
-  public enum RadiusSize: Int {
-    case numberBox = 5
-    case defaultSmall = 8
-    case defaultLarge = 12
-  }
-  
   public enum BoxStyle {
     case shadow
     case line

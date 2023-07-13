@@ -151,7 +151,7 @@ class MainAnimalView: BaseView {
 final class radiusNumberView: BaseView {
   private let number: String
   
-  private let shadowView = RadiusBoxView(radius: .numberBox, style: .shadow)
+  private let shadowView = RadiusBoxView(radius: 5, style: .shadow)
   private lazy var numberLabel: UILabel = {
     let label = UILabel()
     let text = number

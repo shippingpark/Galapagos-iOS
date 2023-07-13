@@ -20,7 +20,7 @@ public final class GalapagosNavigationBarView: UIView {
   
   private lazy var titleLabel: UILabel = {
     let label = UILabel()
-    label.font = SiriUIKitFontFamily.Pretendard.bold.font(size: 18)
+    label.font = SiriUIKitFontFamily.Pretendard.semiBold.font(size: 18)
     label.textColor = SiriUIKitAsset.blackHeading.color
     return label
   }()
