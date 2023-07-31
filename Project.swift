@@ -50,10 +50,17 @@ class BaseProjectProfile: ProjectProfile{
             "Item 1": "Pretendard-Regular.otf",
             "Item 2": "Pretendard-SemiBold.otf",
             "Item 3": "Pretendard-Bold.otf"
+        ],
+        "GIDClientID": "785218990545-f6eh18bsp2ej759a7etufpohr86vpju5.apps.googleusercontent.com",
+        "CFBundleURLTypes": [
+          [
+            "CFBundleURLSchemes": ["com.googleusercontent.apps.785218990545-f6eh18bsp2ej759a7etufpohr86vpju5"],
+            "CFBundleURLName": "com.busyModernPeople.Galapagos"
+          ]
         ]
     ]
-    
-    func generateDependencies(targetName target: TargetType) -> [TargetDependency] {
+  
+  func generateDependencies(targetName target: TargetType) -> [TargetDependency] {
         switch target{
         case .App:
             return [
