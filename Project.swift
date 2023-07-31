@@ -64,6 +64,7 @@ class BaseProjectProfile: ProjectProfile{
                 .external(name: "SnapKit"),
                 .external(name: "Then"),
                 .external(name: "KeychainSwift"),
+                .external(name: "GoogleSignIn"),
                 .target(name: "SiriUIKit")
             ]
         case .DesignSystem:
