@@ -49,11 +49,11 @@ final class PasswordCheckView: UIView {
     }()
     
     private lazy var passwordErrorStackView: UIStackView = {
-        let errorCell: [PasswordErrorCell] = [
-            PasswordErrorCell(errorMessage: "영문포함"),
-            PasswordErrorCell(errorMessage: "숫자포함"),
-            PasswordErrorCell(errorMessage: "특수문자포함"),
-            PasswordErrorCell(errorMessage: "8자~20자"),
+        let errorCell: [TextFieldErrorCell] = [
+            TextFieldErrorCell(errorMessage: "영문포함"),
+            TextFieldErrorCell(errorMessage: "숫자포함"),
+            TextFieldErrorCell(errorMessage: "특수문자포함"),
+            TextFieldErrorCell(errorMessage: "8자~20자"),
         ]
         let stackView = UIStackView(arrangedSubviews: errorCell)
         stackView.axis = .horizontal
@@ -61,8 +61,8 @@ final class PasswordCheckView: UIView {
         return stackView
     }()
     
-    private lazy var passwordCheckErrorCell: PasswordErrorCell = {
-        let errorCell = PasswordErrorCell(errorMessage: "비밀번호 일치")
+    private lazy var passwordCheckErrorCell: TextFieldErrorCell = {
+        let errorCell = TextFieldErrorCell(errorMessage: "비밀번호 일치")
         return errorCell
     }()
     
@@ -158,8 +158,8 @@ final class PasswordCheckView: UIView {
             .disposed(by: disposeBag)
         
         Observable.combineLatest(engValied, numValied, speValied, couValied)
-            .asDriver(onErrorJustReturn: (false, false, false, false))
-            .map { $0.0 && $0.1 && $0.2 && $0.3 }
+            .map { $0 && $1 && $2 && $3 }
+            .asDriver(onErrorJustReturn: false)
             .drive(onNext: { [weak self] isValidated in
                 guard let self = self else { return }
                 self.passwordResultCombined.onNext(isValidated)
@@ -176,7 +176,6 @@ final class PasswordCheckView: UIView {
         
         passwordCheckTextField.textField.rx.text.orEmpty
             .asDriver()
-            .debug()
             .drive(onNext: { [weak self] text in
                 guard let self = self else { return }
                 text == passwordTextField.textField.text! && !text.isEmpty ? self.checkPasswordValied.onNext(true) : self.checkPasswordValied.onNext(false)
@@ -188,7 +187,7 @@ final class PasswordCheckView: UIView {
             .drive(onNext: { [weak self] isValidated in
                 guard let self = self else { return }
                 isValidated ? self.passwordCheckErrorCell.changeState(state: .success) : self.passwordCheckErrorCell.changeState(state: .error)
-                isValidated ? self.viewModel.readyForNextButton.accept(true) : self.viewModel.readyForNextButton.accept(false)
+                self.viewModel.readyForNextButton.accept(isValidated)
             })
             .disposed(by: disposeBag)
         
@@ -202,9 +201,9 @@ final class PasswordCheckView: UIView {
             .asDriver(onErrorJustReturn: false)
             .drive(onNext: { [weak self] isValidated in
                 guard let self = self else { return }
-                guard let cell = passwordErrorStackView.subviews[0] as? PasswordErrorCell else { return }
+                guard let cell = passwordErrorStackView.subviews[0] as? TextFieldErrorCell else { return }
                 isValidated ? cell.changeState(state: .success) : cell.changeState(state: .error)
-                isValidated ? self.engValied.onNext(true) : self.engValied.onNext(false)
+                self.engValied.onNext(isValidated)
             })
             .disposed(by: disposeBag)
     }
@@ -217,9 +216,9 @@ final class PasswordCheckView: UIView {
             .asDriver(onErrorJustReturn: false)
             .drive(onNext: { [weak self] isValidated in
                 guard let self = self else { return }
-                guard let cell = passwordErrorStackView.subviews[1] as? PasswordErrorCell else { return }
+                guard let cell = passwordErrorStackView.subviews[1] as? TextFieldErrorCell else { return }
                 isValidated ? cell.changeState(state: .success) : cell.changeState(state: .error)
-                isValidated ? self.numValied.onNext(true) : self.numValied.onNext(false)
+                self.numValied.onNext(isValidated)
             })
             .disposed(by: disposeBag)
     }
@@ -232,9 +231,9 @@ final class PasswordCheckView: UIView {
             .asDriver(onErrorJustReturn: false)
             .drive(onNext: { [weak self] isValidated in
                 guard let self = self else { return }
-                guard let cell = passwordErrorStackView.subviews[2] as? PasswordErrorCell else { return }
+                guard let cell = passwordErrorStackView.subviews[2] as? TextFieldErrorCell else { return }
                 isValidated ? cell.changeState(state: .success) : cell.changeState(state: .error)
-                isValidated ? self.speValied.onNext(true) : self.speValied.onNext(false)
+                self.speValied.onNext(isValidated)
                 
             })
             .disposed(by: disposeBag)
@@ -246,9 +245,9 @@ final class PasswordCheckView: UIView {
             .asDriver(onErrorJustReturn: false)
             .drive(onNext: { [weak self] isValidated in
                 guard let self = self else { return }
-                guard let cell = passwordErrorStackView.subviews[3] as? PasswordErrorCell else { return }
+                guard let cell = passwordErrorStackView.subviews[3] as? TextFieldErrorCell else { return }
                 isValidated ? cell.changeState(state: .success) : cell.changeState(state: .error)
-                isValidated ? self.couValied.onNext(true) : self.couValied.onNext(false)
+                self.couValied.onNext(isValidated)
                 
             })
             .disposed(by: disposeBag)

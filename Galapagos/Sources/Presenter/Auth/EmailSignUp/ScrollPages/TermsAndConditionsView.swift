@@ -239,7 +239,6 @@ final class TermsAndConditionsView: UIView {
     private func bind() {
         
         allAgreeButton.rx.tap
-            .debug()
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else {return}
                 self.allAgreeButton.isSelected.toggle()

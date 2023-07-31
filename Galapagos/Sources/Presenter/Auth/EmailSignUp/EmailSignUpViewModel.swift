@@ -20,6 +20,7 @@ class EmailSignUpViewModel: ViewModelType{
     
     struct Output {
         let scrollTo: Observable<Int>
+        let backScrollTo: Observable<Int>
         let readyForNextButton: Driver<Bool>
     }
     
@@ -42,9 +43,10 @@ class EmailSignUpViewModel: ViewModelType{
     func transform(input: Input) -> Output {
         
         input.backButtonTapped
-            .emit(onNext: { [weak self] in
+            .asObservable()
+            .subscribe(onNext: { [weak self] in
                 guard let self = self else {return}
-                self.coordinator?.userActionState.accept(.SignIn)
+                self.readyForNextButton.accept(true)
             })
             .disposed(by: disposeBag)
         
@@ -57,13 +59,16 @@ class EmailSignUpViewModel: ViewModelType{
             .disposed(by: disposeBag)
         
         let scrollTo = input.nextButtonTapped
-            .scan(0) { accumulator, _ in
-                return accumulator + 1
-            }
             .asObservable()
+            .map{ return 1 }
+        
+        let backScrollTo = input.backButtonTapped
+            .asObservable()
+            .map{ return 1 }
         
         return Output(
             scrollTo: scrollTo,
+            backScrollTo: backScrollTo,
             readyForNextButton: readyForNextButton.asDriver()
         )
     }

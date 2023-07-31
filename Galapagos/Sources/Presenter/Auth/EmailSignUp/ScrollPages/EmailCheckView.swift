@@ -120,7 +120,6 @@ final class EmailCheckView: UIView {
     private func bind() {
         
         emailTextField.isEnable
-            .debug()
             .asDriver(onErrorJustReturn: false)
             .drive(certifyEmailButton.rx.isActive)
             .disposed(by: disposeBag)
@@ -141,7 +140,6 @@ final class EmailCheckView: UIView {
         // TODO: 이메일 인증받은 결과를 subscribe 해줘야함
         // 그리고, 결과에 따라서 인증코드 확인하는 View 보여줘야함
         emailCertified
-            .debug()
             .distinctUntilChanged() // 기본값이 false라서, 인증이 될 때만 통과함
             .subscribe(onNext: { [weak self] isCertified in
                 guard let self = self else { return }
@@ -158,7 +156,6 @@ final class EmailCheckView: UIView {
         // TODO: 확인버튼 눌렀을 때, API호출 해야함. 그리고 결과를 Observable<Bool>로 반환
         
         checkCertifiCodeView.isButtonTapped
-            .debug()
             .asDriver(onErrorJustReturn: false)
             .drive(onNext: { [weak self] isTapped in
                 guard let self = self else { return }

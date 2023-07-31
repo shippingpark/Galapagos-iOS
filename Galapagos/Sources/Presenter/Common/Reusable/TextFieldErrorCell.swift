@@ -1,5 +1,5 @@
 //
-//  textFieldErrorCell.swift
+//  TextFieldErrorCell.swift
 //  Galapagos
 //
 //  Created by 조용인 on 2023/07/07.
@@ -12,7 +12,7 @@ import SnapKit
 
 
 
-final class PasswordErrorCell: UIView {
+final class TextFieldErrorCell: UIView {
     // MARK: - UI
     
     
