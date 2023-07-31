@@ -37,17 +37,19 @@ class EmailSignUpViewController: BaseViewController {
         return view
     }()
     
+    private lazy var nicknameCheckView: NicknameCheckView = {
+        let view = NicknameCheckView(frame: .zero, viewModel: viewModel)
+        return view
+    }()
+    
+    
     private lazy var galapagosPager: GalapagosProgressPager = {
-        
-        
-        let page4 = UIView()
-        page4.backgroundColor = UIColor.blue
         
         let page5 = UIView()
         page5.backgroundColor = UIColor.white
         
         let progressPager = GalapagosProgressPager(pages: [
-            termsAndConditionsView, emailCheckView, passwordCheckView, page4, page5
+            termsAndConditionsView, emailCheckView, passwordCheckView, nicknameCheckView, page5
         ])
         return progressPager
     }()
@@ -75,6 +77,10 @@ class EmailSignUpViewController: BaseViewController {
     //MARK: - LifeCycle
     
     //MARK: - Methods
+    
+    
+    
+    
     
     override func setConstraint() {
         navigationBar.snp.makeConstraints{ navigationBar in
@@ -117,9 +123,21 @@ class EmailSignUpViewController: BaseViewController {
         
         output.scrollTo
             .withUnretained(self)
-            .take(galapagosPager.pagesCount - 1)
             .subscribe(onNext: { owner, next in
                 owner.galapagosPager.nextPage(animated: true, next: CGFloat(next))
+                if next == 3 { owner.nextButton.setTitle("가입완료", for: .normal) }
+                else { owner.nextButton.setTitle("다음", for: .normal) }
+            })
+            .disposed(by: disposeBag)
+        
+        output.backScrollTo
+            .withUnretained(self)
+            .subscribe(onNext: { owner, previus in
+                if owner.galapagosPager.getCurrentPage() == 0 {
+                    owner.viewModel.coordinator?.userActionState.accept(.SignIn)
+                } else {
+                    owner.galapagosPager.previousPage(animated: true, previous: CGFloat(previus))
+                }
             })
             .disposed(by: disposeBag)
         
