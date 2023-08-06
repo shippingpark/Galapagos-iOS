@@ -44,7 +44,8 @@ class AuthCoordinator: Coordinator {
           let signInViewController = SignInViewController(
             viewModel: SignInViewModel(
               /// 여기에 나중에는 useCase도 추가 되어야겠지
-              coordinator: self
+              coordinator: self,
+              socialCreateUsecase: DefaultSocialUserCreateUseCase()
             )
           )
           if self.navigationController.viewControllers.contains(where: {$0 is SignInViewController}) {

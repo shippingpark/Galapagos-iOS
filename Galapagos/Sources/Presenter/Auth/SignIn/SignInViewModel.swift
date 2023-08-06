@@ -10,22 +10,31 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+import GoogleSignIn
+
 class SignInViewModel: ViewModelType{
   
   struct Input {
     let emailSignUpBtnTapped: Observable<Void>
     let emailSignInBtnTapped: Observable<Void>
+    let googleSignInBtnTapped: Observable<Void>
+    
+    
   }
   
   struct Output {}
   
   var disposeBag: DisposeBag = DisposeBag()
+  
+  private let socialCreateUsecase: SocialUserCreateUseCase
   weak var coordinator: AuthCoordinator?
   
   init(
-    coordinator: AuthCoordinator
+    coordinator: AuthCoordinator,
+    socialCreateUsecase: SocialUserCreateUseCase
   ) {
     self.coordinator = coordinator
+    self.socialCreateUsecase = socialCreateUsecase
   }
   
   
@@ -45,5 +54,8 @@ class SignInViewModel: ViewModelType{
     return Output()
   }
   
+//  func requestGoogleLogin(result: GIDSignInResult?) {
+//    
+//  }
   
 }

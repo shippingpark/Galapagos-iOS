@@ -1,20 +1,22 @@
-//
-//  SignInViewController.swift
-//  Galapagos
-//
-//  Created by 조용인 on 2023/06/07.
-//  Copyright © 2023 com.busyModernPeople. All rights reserved.
-//
+  //
+  //  SignInViewController.swift
+  //  Galapagos
+  //
+  //  Created by 조용인 on 2023/06/07.
+  //  Copyright © 2023 com.busyModernPeople. All rights reserved.
+  //
 
 import UIKit
 import SnapKit
 import Then
 import SiriUIKit
 
+import GoogleSignIn
+
 
 class SignInViewController: BaseViewController {
   
-  //MARK: - UI
+    //MARK: - UI
   private lazy var titleLabel: UILabel = {
     let label = UILabel()
     label.text = "갈파 텍스트 로고"
@@ -51,7 +53,7 @@ class SignInViewController: BaseViewController {
   }()
   
   private lazy var kakaoSignInButton: GalapagosButton = {
-      let button = GalapagosButton(buttonStyle: .fill, isCircle: true)
+    let button = GalapagosButton(buttonStyle: .fill, isCircle: true)
     button.setImage(GalapagosAsset.snsKakao.image, for: .normal)
     button.borderWidth = 0
     return  button
@@ -127,10 +129,10 @@ class SignInViewController: BaseViewController {
     return stackView
   }()
   
-  //MARK: - Properties
+    //MARK: - Properties
   private let viewModel: SignInViewModel
   
-  //MARK: - Initializers
+    //MARK: - Initializers
   init(
     viewModel: SignInViewModel
   ) {
@@ -138,12 +140,12 @@ class SignInViewController: BaseViewController {
     super.init()
   }
   
-  //MARK: - LifeCycle
+    //MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
   }
   
-  //MARK: - Methods
+    //MARK: - Methods
   override func setConstraint() {
     titleLabel.snp.makeConstraints{ titleLable in
       titleLable.centerX.equalToSuperview()
@@ -204,15 +206,45 @@ class SignInViewController: BaseViewController {
   }
   
   override func bind() {
+    
+    
     let emailSignUpBtnTapped = emailSignUpButton.rx.tap
       .asObservable()
     let emailSignInBtnTapped = emailSignInButton.rx.tap
       .asObservable()
+    let googleSignInBtnTapped = googleSignInButton.rx.tap
+      .asObservable()
+  
+    googleSignInBtnTapped
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        self.signInWithGoogle()
+      })
+      .disposed(by: disposeBag)
     
     let input = SignInViewModel.Input(
       emailSignUpBtnTapped: emailSignUpBtnTapped,
-      emailSignInBtnTapped: emailSignInBtnTapped
+      emailSignInBtnTapped: emailSignInBtnTapped,
+      googleSignInBtnTapped: googleSignInBtnTapped
     )
     let output = viewModel.transform(input: input)
+  }
+}
+
+extension SignInViewController {
+  private func signInWithGoogle() {
+    let id = "785218990545-f6eh18bsp2ej759a7etufpohr86vpju5.apps.googleusercontent.com" // 여기서는 반전시키지 말고 ID값 그대로 적용한다.
+    let signInConfig = GIDConfiguration(clientID: id)
+    GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { [weak self] result, error in
+      guard let self = self else { return }
+      if error != nil {
+        // TODO: 아예 구글로그인 자체가 실패를 한다면?
+        print(error?.localizedDescription ?? "")
+        return
+      }
+      print("💛액세스토큰: \(result?.authentication.accessToken)💛")
+      print("💛아이디토큰: 💛")
+//      self.viewModel.requestGoogleLogin(result: result)
+    }
   }
 }
