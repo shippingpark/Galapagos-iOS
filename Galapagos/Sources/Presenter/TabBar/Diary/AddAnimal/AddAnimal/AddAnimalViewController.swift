@@ -7,19 +7,17 @@
 //
 
 
-import UIKit
-
+import RxCocoa
+import RxSwift
 import SnapKit
 import SiriUIKit
-import RxSwift
-import RxCocoa
+import UIKit
 
 class AddAnimalViewController: BaseViewController {
   
   //MARK: - UI
   private lazy var navigationBar: GalapagosNavigationBarView = {
     let navigationBar = GalapagosNavigationBarView()
-
     navigationBar.setTitleText("반려동물 추가")
     return navigationBar
   }()
@@ -92,7 +90,7 @@ class AddAnimalViewController: BaseViewController {
       genderContainer,
       speciesContainer,
       adoptionDateContainer,
-      birthDateContainer
+      birthDateContainer,
     ])
     
     profileContainer.addSubview(profileImageView)
@@ -169,7 +167,9 @@ class AddAnimalViewController: BaseViewController {
       backButtonTapped: navigationBar.backButton.rx.tap.asSignal(),
       profileTapped: profileContainer.rx.tapGesture()
         .when(.recognized)
-        .map { _ in }
+        .map { [weak self] _ in
+          self?.present(CalendarViewController(events: ["2023-08-09"]), animated: false) //테스트용, 추후 달력 버튼 위치로 변경
+        }
         .asSignal(onErrorJustReturn: ())
     )
     
