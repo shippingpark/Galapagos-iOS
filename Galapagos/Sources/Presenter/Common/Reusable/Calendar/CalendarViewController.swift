@@ -14,51 +14,43 @@ final class CalendarViewController: UIViewController {
   
   private lazy var contentView = {
     let view = UIView()
-    view.backgroundColor = .lightGray
     view.layoutMargins = .zero
-    view.translatesAutoresizingMaskIntoConstraints = false
+    view.backgroundColor = .white
     return view
   }()
   private lazy var headerContainView = {
     let view = UIView()
-    view.backgroundColor = .blue
     view.layoutMargins = .zero
-    view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()
   private lazy var titleLabel = {
     let label = UILabel()
     label.text = "2000년 01월"
-    label.font = .monospacedSystemFont(ofSize: 18, weight: .bold)
-    label.translatesAutoresizingMaskIntoConstraints = false
+    label.font = GalapagosFontFamily.Pretendard.bold.font(size: 20)
     return label
   }()
   private lazy var previousButton = {
     let button = UIButton()
-    button.tintColor = .label
-    button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+    button.setImage(GalapagosAsset._20x20arrowLeft.image, for: .normal)
     button.addTarget(self, action: #selector(self.didPreviousButtonTouched), for: .touchUpInside)
-    button.translatesAutoresizingMaskIntoConstraints = false
     return button
   }()
   private lazy var nextButton = {
     let button = UIButton()
-    button.tintColor = .label
-    button.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+    button.setImage(GalapagosAsset._20x20arrowRight.image, for: .normal)
     button.addTarget(self, action: #selector(self.didNextButtonTouched), for: .touchUpInside)
-    button.translatesAutoresizingMaskIntoConstraints = false
     return button
   }()
   private lazy var weekStackView = {
     let stackView = UIStackView()
     stackView.distribution = .fillEqually
-    stackView.translatesAutoresizingMaskIntoConstraints = false
-    stackView.backgroundColor = .yellow
     let dayOfTheWeek = ["일", "월", "화", "수", "목", "금", "토"]
     
     for i in 0..<7 {
       let label = UILabel()
       label.text = dayOfTheWeek[i]
+      label.font = GalapagosFontFamily.Pretendard.semiBold.font(size: 14)
+      label.textColor = GalapagosAsset.gray2Annotation.color
       label.textAlignment = .center
       stackView.addArrangedSubview(label)
     }
@@ -71,8 +63,6 @@ final class CalendarViewController: UIViewController {
     collectionView.register(CalendarCollectionViewCell.self, forCellWithReuseIdentifier: CalendarCollectionViewCell.identifier)
     collectionView.layoutMargins = .zero
     collectionView.allowsMultipleSelection = false
-    collectionView.translatesAutoresizingMaskIntoConstraints = false
-    collectionView.backgroundColor = .lightGray
     return collectionView
   }()
   
@@ -137,11 +127,11 @@ final class CalendarViewController: UIViewController {
   private func setAddSubView() {
     self.view.addSubview(self.contentView)
     self.contentView.addSubview(self.headerContainView)
+    self.contentView.addSubview(self.weekStackView)
+    self.contentView.addSubview(self.collectionView)
     headerContainView.addSubview(self.titleLabel)
     headerContainView.addSubview(self.previousButton)
     headerContainView.addSubview(self.nextButton)
-    self.contentView.addSubview(self.weekStackView)
-    self.contentView.addSubview(self.collectionView)
   }
     
   private func setConstraint() {
@@ -175,10 +165,11 @@ final class CalendarViewController: UIViewController {
     }
 
     self.weekStackView.snp.makeConstraints { make in
-      make.top.equalTo(self.headerContainView.snp.bottom)
+      make.top.equalTo(self.headerContainView.snp.bottom).offset(20)
       make.leading.equalTo(self.contentView.snp.leading)
       make.trailing.equalTo(self.contentView.snp.trailing)
-      make.height.equalTo(self.contentView.snp.width).multipliedBy(1.0/7.0)
+//      make.height.equalTo(42)
+      make.height.equalTo(self.contentView.snp.width).multipliedBy(1.0 / 7.0)
     }
 
     self.collectionView.snp.makeConstraints { make in
@@ -186,7 +177,7 @@ final class CalendarViewController: UIViewController {
       make.leading.equalTo(self.weekStackView.snp.leading)
       make.trailing.equalTo(self.weekStackView.snp.trailing)
       make.bottom.equalTo(self.contentView.snp.bottom)
-      make.height.equalTo(self.contentView.snp.width).multipliedBy(6.0/7.0)
+      make.height.equalTo(self.contentView.snp.width).multipliedBy(6.0 / 7.0)
     }
   }
   
@@ -269,7 +260,7 @@ extension CalendarViewController: UICollectionViewDelegate {
     return self.calendarDaysCell(date: self.calendarDate)[indexPath.item] != "" ? true : false //day가 없는 빈 cell은 아예 선택 불가
   }
   
-  func collectionView(_ collectionView: UICollectionView,
+  func collectionView(_ collectionView: UICollectionView, // 디퍼블 사용한 개선 여지 유 
                       didSelectItemAt indexPath: IndexPath) {
     guard let cell = collectionView.cellForItem(at: indexPath) as? CalendarCollectionViewCell
     else { return }

@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.busyModernPeople. All rights reserved.
 //
 
+import SnapKit
 import UIKit
 
 final class CalendarCollectionViewCell: UICollectionViewCell {
@@ -13,25 +14,23 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
   //MARK: - UI
   private var isCurrentDay: Bool = false
   private var myDate: Date?
-  private let eventDot: UIView = {
+  private lazy var eventDot: UIView = {
     let dotView = UIView()
-    dotView.backgroundColor = .red
-    dotView.translatesAutoresizingMaskIntoConstraints = false
+    dotView.backgroundColor = GalapagosAsset.green.color
     dotView.isHidden = true
     return dotView
   }()
   
   private let dayLabel: UILabel = {
     let label = UILabel()
-    label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+    label.font = GalapagosFontFamily.Pretendard.medium.font(size: 14)
     label.textAlignment = .center
-    label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()
     
   //MARK: - Properties
   static let identifier = "CalendarCollectionViewCell"
-  var day: String = "" //외부 접근 (임시)
+  var day: String = "" // 디퍼블로 개선 후 private 변경 
   
   //MARK: - Initializers
   required init?(coder: NSCoder) {
@@ -48,34 +47,37 @@ final class CalendarCollectionViewCell: UICollectionViewCell {
   override func layoutSubviews() {
     super.layoutSubviews()
     self.contentView.layer.cornerRadius = bounds.width / 2
+    self.eventDot.layer.cornerRadius = eventDot.bounds.width / 2.0
+    self.eventDot.clipsToBounds = true
   }
   
   //MARK: - Methods
   private func configure() {
     self.contentView.addSubview(self.dayLabel)
     self.contentView.addSubview(eventDot)
-      self.dayLabel.font = .boldSystemFont(ofSize: 12)
-      self.dayLabel.translatesAutoresizingMaskIntoConstraints = false
-      NSLayoutConstraint.activate([
-        eventDot.topAnchor.constraint(equalTo: topAnchor, constant: 2),
-        eventDot.centerXAnchor.constraint(equalTo: centerXAnchor),
-        eventDot.widthAnchor.constraint(equalToConstant: 6),
-        eventDot.heightAnchor.constraint(equalTo: eventDot.widthAnchor),
-        
-        dayLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-        dayLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
-      ])
+    
+    eventDot.snp.makeConstraints { make in
+      make.top.equalToSuperview()
+      make.centerX.equalToSuperview()
+      make.width.equalTo(6)
+      make.height.equalTo(eventDot.snp.width)
+    }
+
+    dayLabel.snp.makeConstraints { make in
+      make.centerX.equalToSuperview()
+      make.centerY.equalToSuperview()
+    }
   }
   
   override var isSelected: Bool {
     willSet{
       super.isSelected = newValue
       if newValue {
-        self.contentView.backgroundColor = .blue
+        self.contentView.backgroundColor = GalapagosAsset.green.color
         self.dayLabel.textColor = .white
       } else {
         self.contentView.backgroundColor = .clear
-        self.dayLabel.textColor = isCurrentDay ? .green : .black
+        self.dayLabel.textColor = isCurrentDay ? GalapagosAsset.green.color : .black
       }
     }
   }
