@@ -1,0 +1,48 @@
+AppName = "Galapagos"
+BundleId = "com.busyModernPeople.Galapagos"
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+
+    # ✅ Cert, Sigh 방식으로 인증할 때 사용하는 인증 함수다.
+    # get_certificates로 인증서를, get_provisioning_profile로 프로필을 가져온다.
+    get_certificates
+    get_provisioning_profile
+
+    # ✅ 자동으로 빌드 넘버를 증가
+    increment_build_number(xcodeproj: AppName + ".xcodeproj")
+
+    # ✅ appstore API Key를 변수로 사용
+    api_key = app_store_connect_api_key(
+     	key_id: ENV['APP_STORE_KEY_ID'],
+     	issuer_id: ENV['APP_STORE_ISSUER_ID'],
+      	key_content: ENV['APP_STORE_PRIVATE_KEY'],
+	duration: 500,
+	in_house: false
+    )
+
+    # ✅ 빌드할 워크스페이스와 빌드 스키마 지정
+    build_app(
+ 	workspace: AppName + ".xcworkspace",
+	scheme: AppName,
+	export_method: "app-store",
+	export_options: {
+	    provisioningProfiles: {
+		  "com.busyModernPeople.Galapagos" => "com.busyModernPeople.Galapagos.AppStore"
+		}
+	  }
+    )
+
+    # ✅ TestFlight 업로드
+    upload_to_testflight(
+	api_key: api_key,
+	distribute_external: true,
+    	groups: ["galapagos"],
+    	changelog: "- fastlane 첫번째 배포"
+    )
+
+  end
+end
