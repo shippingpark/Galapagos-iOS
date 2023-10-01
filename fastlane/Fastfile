@@ -13,7 +13,9 @@ platform :ios do
     get_provisioning_profile
 
     # ✅ 자동으로 빌드 넘버를 증가
-    increment_build_number(xcodeproj: AppName + ".xcodeproj")
+    increment_build_number({
+		build_number: latest_testflight_build_number + 1
+    })
 
     # ✅ appstore API Key를 변수로 사용
     api_key = app_store_connect_api_key(
@@ -26,12 +28,12 @@ platform :ios do
 
     # ✅ 빌드할 워크스페이스와 빌드 스키마 지정
     build_app(
- 	workspace: AppName + ".xcworkspace",
-	scheme: AppName,
+ 	workspace: "Galapagos.xcworkspace",
+	scheme: "Galapagos",
 	export_method: "app-store",
 	export_options: {
 	    provisioningProfiles: {
-		  "com.busyModernPeople.Galapagos" => "com.busyModernPeople.Galapagos.AppStore"
+		  "com.busyModernPeople.Galapagos" => "AppStore_com.busyModernPeople.Galapagos.mobileprovision"
 		}
 	  }
     )
@@ -39,8 +41,6 @@ platform :ios do
     # ✅ TestFlight 업로드
     upload_to_testflight(
 	api_key: api_key,
-	distribute_external: true,
-    	groups: ["galapagos"],
     	changelog: "- fastlane 첫번째 배포"
     )
 
