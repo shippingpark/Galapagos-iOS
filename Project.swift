@@ -39,7 +39,8 @@ class BaseProjectProfile: ProjectProfile{
   let projectName: String = "Galapagos"
   
   
-  let infoPlist: [String: InfoPlist.Value] = [
+  let infoPlist: [String: Plist.Value] = [
+    "ITSAppUsesNonExemptEncryption": false,
     "CFBundleShortVersionString": "1.0",
     "CFBundleVersion": "1",
     "CFBundleDevelopmentRegion": "ko_KR",
