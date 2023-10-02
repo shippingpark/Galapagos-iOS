@@ -150,17 +150,44 @@ final class TermsAndConditionsView: UIView {
         return label
     }()
     
+    private lazy var eventAgreeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(GalapagosAsset._24x24checkRoundDefault.image, for: .normal)
+        button.setImage(GalapagosAsset._24x24checkRoundActive.image, for: .selected)
+        button.contentMode = .scaleAspectFill
+        return button
+    }()
+    
+    private lazy var eventAgreeLabel: UILabel = {
+        let label = UILabel()
+        let text = "이벤트 및 마케팅 정보 이메일 수신 동의(선택)"
+        let attributedString = NSMutableAttributedString(string: text)
+        let blackAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: GalapagosAsset.blackHeading.color
+        ]
+        let greenAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: GalapagosAsset.gray3DisableText1.color
+        ]
+        let galapagosRange = (text as NSString).range(of: "(선택)")
+        attributedString.addAttributes(blackAttributes, range: NSRange(location: 0, length: text.count))
+        attributedString.addAttributes(greenAttributes, range: galapagosRange)
+        label.attributedText = attributedString
+        label.font = GalapagosFontFamily.Pretendard.regular.font(size: 16)
+        return label
+    }()
+    
     // MARK: - Properties
     private var disposeBag = DisposeBag()
-    private var viewModel: EmailSignUpViewModel
+    private var parentViewModel: EmailSignUpViewModel
+    private var viewModel: TermsAndConditionsViewModel
     
-    let termsAgreeSubject = BehaviorSubject<Bool>(value: false)
-    let privacyAgreeSubject = BehaviorSubject<Bool>(value: false)
     // MARK: - Initializers
     init(
         frame: CGRect,
-        viewModel: EmailSignUpViewModel
+        parentViewModel: EmailSignUpViewModel,
+        viewModel: TermsAndConditionsViewModel
     ) {
+        self.parentViewModel = parentViewModel
         self.viewModel = viewModel
         super.init(frame: .zero)
         
@@ -186,7 +213,9 @@ final class TermsAndConditionsView: UIView {
             termsAgreeButton,
             termsAgreeLabel,
             privacyAgreeButton,
-            privacyAgreeLabel
+            privacyAgreeLabel,
+            eventAgreeButton,
+            eventAgreeLabel
         ])
     }
     
@@ -196,13 +225,13 @@ final class TermsAndConditionsView: UIView {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(24)
         }
-
+        
         allAgreeView.snp.makeConstraints {
             $0.top.equalTo(titleStackView.snp.bottom).offset(40)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(70)
         }
-
+        
         allAgreeShadowView.snp.makeConstraints {
             $0.leading.trailing.top.bottom.equalTo(allAgreeView)
         }
@@ -211,7 +240,7 @@ final class TermsAndConditionsView: UIView {
             $0.centerY.equalTo(allAgreeView)
             $0.leading.equalTo(allAgreeView).offset(20)
         }
-
+        
         termsAgreeButton.snp.makeConstraints {
             $0.top.equalTo(allAgreeView.snp.bottom).offset(40)
             $0.leading.equalToSuperview().offset(24)
@@ -233,48 +262,51 @@ final class TermsAndConditionsView: UIView {
             $0.bottom.equalTo(privacyAgreeButton).offset(2)
             $0.leading.equalTo(privacyAgreeButton.snp.trailing).offset(10)
         }
-    
+        
+        eventAgreeButton.snp.makeConstraints {
+            $0.top.equalTo(privacyAgreeButton.snp.bottom).offset(16)
+            $0.leading.equalToSuperview().offset(24)
+            $0.width.height.equalTo(24)
+        }
+        
+        eventAgreeLabel.snp.makeConstraints {
+            $0.centerY.equalTo(eventAgreeButton)
+            $0.leading.equalTo(eventAgreeButton.snp.trailing).offset(10)
+        }
+        
     }
     
     private func bind() {
         
-        allAgreeButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                guard let self = self else {return}
-                self.allAgreeButton.isSelected.toggle()
-                self.termsAgreeButton.isSelected = self.allAgreeButton.isSelected ? true : false
-                self.privacyAgreeButton.isSelected = self.allAgreeButton.isSelected ? true : false
-                self.termsAgreeSubject.onNext(termsAgreeButton.isSelected)
-                self.privacyAgreeSubject.onNext(privacyAgreeButton.isSelected)
-            })
+        let input = TermsAndConditionsViewModel.Input(
+            allAgreeBtnTapped: allAgreeButton.rx.tap.asObservable(),
+            termsBtnTapped: termsAgreeButton.rx.tap.asObservable(),
+            conditionBtnTapped: privacyAgreeButton.rx.tap.asObservable(),
+            eventBtnTapped: eventAgreeButton.rx.tap.asObservable()
+        )
+        
+        let output = viewModel.transform(input: input)
+        
+        output.allAgreeBtnState
+            .bind(to: allAgreeButton.rx.isSelected)
             .disposed(by: disposeBag)
         
-        termsAgreeButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                guard let self = self else {return}
-                termsAgreeButton.isSelected.toggle()
-                self.termsAgreeSubject.onNext(termsAgreeButton.isSelected)
-            })
+        output.termsBtnState
+            .bind(to: termsAgreeButton.rx.isSelected)
             .disposed(by: disposeBag)
-
-        privacyAgreeButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                guard let self = self else {return}
-                privacyAgreeButton.isSelected.toggle()
-                self.privacyAgreeSubject.onNext(privacyAgreeButton.isSelected)
-            })
+        
+        output.conditionBtnState
+            .bind(to: privacyAgreeButton.rx.isSelected)
             .disposed(by: disposeBag)
-
-        Observable.combineLatest(termsAgreeSubject, privacyAgreeSubject)
-            .subscribe(onNext: { [weak self] termsAgree, privacyAgree in
-                guard let self = self else {return}
-                if termsAgree && privacyAgree {
-                    self.allAgreeButton.isSelected = true
-                    self.viewModel.readyForNextButton.accept(true)
-                } else {
-                    self.allAgreeButton.isSelected = false
-                    self.viewModel.readyForNextButton.accept(false)
-                }
+        
+        output.eventBtnState
+            .bind(to: eventAgreeButton.rx.isSelected)
+            .disposed(by: disposeBag)
+        
+        output.moveToNext
+            .withUnretained(self)
+            .bind(onNext: { owner, state in
+                owner.parentViewModel.readyForNextButton.accept(state)
             })
             .disposed(by: disposeBag)
         
@@ -293,7 +325,5 @@ final class TermsAndConditionsView: UIView {
                 ///개인정보 취급방침 하이퍼링크 등록
             })
             .disposed(by: disposeBag)
-        
-        
     }
 }
