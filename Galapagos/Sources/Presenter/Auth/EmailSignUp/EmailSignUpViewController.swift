@@ -23,9 +23,7 @@ class EmailSignUpViewController: BaseViewController {
     }()
     
     private lazy var termsAndConditionsView: TermsAndConditionsView = {
-        let view = TermsAndConditionsView(frame: .zero,
-                                          parentViewModel: viewModel,
-                                          viewModel: TermsAndConditionViewModel())
+        let view = TermsAndConditionsView(frame: .zero, viewModel: viewModel)
         return view
     }()
     
