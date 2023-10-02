@@ -20,7 +20,7 @@ public final class GalapagosProgressPager: UIView {
         let progressView = UIProgressView()
         progressView.progressTintColor = SiriUIKitAsset.green.color
         progressView.trackTintColor = SiriUIKitAsset.gray6DisableBtnBg.color
-        progressView.progress = 0.01
+        progressView.progress = 0.02
         return progressView
     }()
     
@@ -109,7 +109,12 @@ public final class GalapagosProgressPager: UIView {
     }
     
     public func setPreviousProgress(animated: Bool) {
-        let progress = Float(getCurrentPage() - 1) / Float(pagesCount - 1)
+        var progress = Float(0.0)
+        if getCurrentPage() == 1 {
+            progress = 0.02
+        } else {
+            progress = Float(getCurrentPage() - 1) / Float(pagesCount - 1)
+        }
         progressView.setProgress(progress, animated: animated)
     }
     
