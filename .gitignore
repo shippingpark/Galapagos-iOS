@@ -6,14 +6,12 @@
 
 
 # Fastlane
-fastlane/.env
 *.cer
 *.mobileprovision
 *.p12
 *.certSigningRequest
 *.ipa
 *.app.dSYM.zip
-.env.default
 
 # Icon must end with two
 Icon

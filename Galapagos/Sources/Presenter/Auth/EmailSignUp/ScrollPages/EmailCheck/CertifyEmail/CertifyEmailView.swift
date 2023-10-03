@@ -42,7 +42,7 @@ final class CertifyEmailView: BaseView {
     // MARK: - Initialize
     init(viewModel: CertifyEmailViewModel) {
         self.viewModel = viewModel
-        super.init()
+        super.init(frame: .zero)
     }
     
     // MARK: - Methods
@@ -85,6 +85,12 @@ final class CertifyEmailView: BaseView {
         )
         
         let output = viewModel.transform(input: input)
+        
+        output.receovedMessage
+            .subscribe(onNext: { message in
+                print("😀 message: \(message) 😀")
+            })
+            .disposed(by: disposeBag)
         
         emailTextField.rxType   /// 얘는 디자인시스템에 종속되는 놈이라서,,,, 그냥 여기서 동작하자
             .asObservable()
