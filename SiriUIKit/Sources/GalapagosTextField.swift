@@ -59,14 +59,14 @@ public final class GalapagosTextField: UIView{
     
     private var disposeBag = DisposeBag()
     
-    var placeHolder: String
-    var maxCount: Int
-    var errorMessage: String
+    private var placeHolder: String
+    private var maxCount: Int
+    private var errorMessage: String
     
-    var keyboardType: UIKeyboardType = .emailAddress
-    var clearMode: Bool = false
+    private var keyboardType: UIKeyboardType = .emailAddress
+    private var clearMode: Bool = false
     
-    private var textFiledStyle = BehaviorRelay<TextFieldType>(value: .def)
+    public var rxType = BehaviorRelay<TextFieldType>(value: .def)
     
     /// 텍스트필드의 `placeHolder`, `maxCount`, `errorMessage`를 설정합니다.
     /// - Parameters:
@@ -137,9 +137,6 @@ public final class GalapagosTextField: UIView{
     }
     
     private func bind() {
-        if maxCount == 0 {
-            charCountLabel.isHidden = true
-        }
         
         rxType
             .debug()
@@ -180,6 +177,9 @@ public final class GalapagosTextField: UIView{
         clearButton.isHidden = !colorSet.clearMode
         self.isUserInteractionEnabled = colorSet.isUserInteractive
         
+        if maxCount == 0 {
+            charCountLabel.isHidden = true
+        }
     }
     
     func makeCustomState(textFieldState: TextFieldType) {
@@ -274,7 +274,7 @@ extension GalapagosTextField: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
-        return newLength <= maxCount
+        return maxCount == 0 ? true : newLength <= maxCount
     }
     
     public func textFieldShouldClear(_ textField: UITextField) -> Bool {
