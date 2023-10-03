@@ -239,7 +239,6 @@ class SignInViewController: BaseViewController {
     googleSignInBtnTapped
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
-        self.signInWithGoogle()
       })
       .disposed(by: disposeBag)
     
@@ -249,23 +248,5 @@ class SignInViewController: BaseViewController {
       googleSignInBtnTapped: googleSignInBtnTapped
     )
     let output = viewModel.transform(input: input)
-  }
-}
-
-extension SignInViewController {
-  private func signInWithGoogle() {
-    let id = "785218990545-f6eh18bsp2ej759a7etufpohr86vpju5.apps.googleusercontent.com" // 여기서는 반전시키지 말고 ID값 그대로 적용한다.
-    let signInConfig = GIDConfiguration(clientID: id)
-    GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { [weak self] result, error in
-      guard let self = self else { return }
-      if error != nil {
-        // TODO: 아예 구글로그인 자체가 실패를 한다면?
-        print(error?.localizedDescription ?? "")
-        return
-      }
-      print("💛액세스토큰: \(result?.authentication.accessToken)💛")
-      print("💛아이디토큰: 💛")
-//      self.viewModel.requestGoogleLogin(result: result)
-    }
   }
 }

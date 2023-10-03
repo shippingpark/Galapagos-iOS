@@ -40,6 +40,7 @@ class BaseProjectProfile: ProjectProfile{
   
   
   let infoPlist: [String: Plist.Value] = [
+    "Base_Url" : "$(BASE_URL)",
     "ITSAppUsesNonExemptEncryption": false,
     "CFBundleShortVersionString": "1.0",
     "CFBundleVersion": "1",
@@ -95,8 +96,8 @@ class BaseProjectProfile: ProjectProfile{
       "HEADER_SEARCH_PATHS": ["$(inherited) $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleSignIn/Sources/Public $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/AppAuth-iOS/Source/AppAuth $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/AppAuth-iOS/Source/AppAuthCore $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/gtm-session-fetcher/Source/SwiftPackage $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleSignIn/Sources/../../ $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GTMAppAuth/GTMAppAuth/Sources/Public/GTMAppAuth"]
     ],
                               configurations: [
-                                .debug(name: "DEV", xcconfig: .relativeToCurrentFile("Galapagos/Sources/Configure/DEV.xcconfig")),
-                                .release(name: "Release", xcconfig: .relativeToCurrentFile("Galapagos/Sources/Configure/Release.xcconfig")),
+                                .debug(name: "DEV", xcconfig: .relativeToCurrentFile("Galapagos/Resources/Configure/DEV.xcconfig")),
+                                .release(name: "Release", xcconfig: .relativeToCurrentFile("Galapagos/Resources/Configure/Release.xcconfig")),
                               ])
   }
   
@@ -137,7 +138,7 @@ let project: Project = .init(
   organizationName: "com.busyModernPeople",
   settings: .settings(configurations: [
     .debug(name: "DEV"),
-    .release(name: .release)
+    .release(name: "Release")
   ]),
   targets: profile.generateTarget()
 )
