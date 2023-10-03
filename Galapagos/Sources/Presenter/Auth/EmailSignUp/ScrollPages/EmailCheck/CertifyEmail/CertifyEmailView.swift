@@ -21,7 +21,7 @@ final class CertifyEmailView: BaseView {
         let textField = GalapagosTextField(
             placeHolder: "이메일을 입력해주세요",
             maxCount: 0,
-            errorMessage: "이메일 형식이 아닙니다."
+            errorMessage: ""
         )
         return textField
     }()
@@ -44,10 +44,27 @@ final class CertifyEmailView: BaseView {
     
     override func setAddSubView() {
         super.setAddSubView()
+        addSubviews([
+            emailTextField,
+            certifyEmailButton
+        ])
     }
     
     override func setConstraint() {
         super.setConstraint()
+        
+        emailTextField.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(68)
+        }
+        
+        certifyEmailButton.snp.makeConstraints {
+            $0.top.equalTo(emailTextField.snp.bottom).offset(12)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(52)
+        }
+    
     }
     
     override func setAttribute() {
@@ -56,5 +73,17 @@ final class CertifyEmailView: BaseView {
     
     override func bind() {
         super.bind()
+        
+        /// 뷰모델 트랜스폼 함수
+        emailTextField.rxType
+            .asObservable()
+            .subscribe(onNext: { type in
+                if type == .filed {
+                    self.certifyEmailButton.rxType.accept(.Usage(.Inactive))
+                } else {
+                    self.certifyEmailButton.rxType.accept(.Usage(.Disabled))
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }

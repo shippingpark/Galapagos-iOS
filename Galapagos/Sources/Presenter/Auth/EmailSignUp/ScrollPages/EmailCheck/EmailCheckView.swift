@@ -27,25 +27,10 @@ final class EmailCheckView: UIView {
         return label
     }()
     
-    private lazy var emailTextField: GalapagosTextField = {
-        let textField = GalapagosTextField(
-            placeHolder: "이메일을 입력해주세요",
-            maxCount: 8,
-            errorMessage: "이메일 형식이 아닙니다."
-        )
-        return textField
+    private lazy var certifyEmailView: CertifyEmailView = {
+        let view = CertifyEmailView()
+        return view
     }()
-    
-    private lazy var certifyEmailButton: GalapagosButton = {
-        let button = GalapagosButton(
-            isRound: false,
-            iconTitle: nil,
-            type: .Usage(.Disabled),
-            title: "이메일 인증하기"
-        )
-        return button
-    }()
-    
     
     // MARK: - Properties
     private var disposeBag = DisposeBag()
@@ -79,8 +64,7 @@ final class EmailCheckView: UIView {
     private func setAddSubView() {
         self.addSubviews([
             titleLabel,
-            emailTextField,
-            certifyEmailButton
+            certifyEmailView
         ])
     }
     
@@ -90,18 +74,11 @@ final class EmailCheckView: UIView {
             $0.leading.equalTo(self).offset(24)
         }
         
-        emailTextField.snp.makeConstraints {
+        certifyEmailView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(40)
-            $0.leading.trailing.equalTo(self).inset(24)
-            $0.height.equalTo(68)
+            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.height.equalTo(132)
         }
-    
-        certifyEmailButton.snp.makeConstraints {
-            $0.top.equalTo(emailTextField.snp.bottom).offset(10)
-            $0.leading.trailing.equalTo(self).inset(24)
-            $0.height.equalTo(50)
-        }
-        
     }
     
     private func bind() {
