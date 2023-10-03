@@ -20,16 +20,19 @@ final class CertifyEmailView: BaseView {
     private lazy var emailTextField: GalapagosTextField = {
         let textField = GalapagosTextField(
             placeHolder: "이메일을 입력해주세요",
-            maxCount: 8,
+            maxCount: 0,
             errorMessage: "이메일 형식이 아닙니다."
         )
         return textField
     }()
     
     private lazy var certifyEmailButton: GalapagosButton = {
-        let button = GalapagosButton(buttonStyle: .fill, isEnable: false)
-        button.setTitle("이메일 인증하기", for: .normal)
-        button.titleLabel?.font = GalapagosFontFamily.Pretendard.semiBold.font(size: 16)
+        let button = GalapagosButton(
+            isRound: false,
+            iconTitle: nil,
+            type: .Usage(.Disabled),
+            title: "이메일 인증하기"
+        )
         return button
     }()
     

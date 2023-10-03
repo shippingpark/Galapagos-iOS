@@ -15,28 +15,26 @@ class EmailSignUpViewModel: ViewModelType{
     
     struct Input {
         let backButtonTapped: Signal<Void>
-        let nextButtonTapped: Signal<Void>
+        let nextButtonTapped: Observable<Void>
     }
     
     struct Output {
         let scrollTo: Observable<Int>
         let backScrollTo: Observable<Int>
-        let readyForNextButton: Driver<Bool>
+        let readyForNextButton: Observable<Bool>
     }
     
     // MARK: - Properties
     var disposeBag: DisposeBag = DisposeBag()
     weak var coordinator: AuthCoordinator?
     
-    var readyForNextButton: BehaviorRelay<Bool>
+    var readyForNextButton = BehaviorRelay<Bool>(value: false)
     
     // MARK: - Initializers
     init(
         coordinator: AuthCoordinator
     ) {
         self.coordinator = coordinator
-        self.readyForNextButton = BehaviorRelay<Bool>(value: false)
-    
     }
     
     // MARK: - Methods
@@ -51,7 +49,6 @@ class EmailSignUpViewModel: ViewModelType{
             .disposed(by: disposeBag)
         
         input.nextButtonTapped
-            .asObservable()
             .subscribe(onNext: { [weak self] in
                 guard let self = self else {return}
                 self.readyForNextButton.accept(false)
@@ -69,7 +66,7 @@ class EmailSignUpViewModel: ViewModelType{
         return Output(
             scrollTo: scrollTo,
             backScrollTo: backScrollTo,
-            readyForNextButton: readyForNextButton.asDriver()
+            readyForNextButton: readyForNextButton.asObservable()
         )
     }
 }

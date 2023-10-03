@@ -57,9 +57,12 @@ class EmailSignUpViewController: BaseViewController {
     }()
     
     private lazy var nextButton: GalapagosButton = {
-        let button = GalapagosButton(buttonStyle: .fill, isEnable: false)
-        button.setTitle("다음", for: .normal)
-        button.titleLabel?.font = GalapagosFontFamily.Pretendard.bold.font(size: 16)
+        let button = GalapagosButton(
+            isRound: false,
+            iconTitle: nil,
+            type: .Usage(.Disabled),
+            title: "다음"
+        )
         return button
     }()
     
@@ -118,17 +121,15 @@ class EmailSignUpViewController: BaseViewController {
     private func setBind() {
         let input = EmailSignUpViewModel.Input(
             backButtonTapped: navigationBar.backButton.rx.tap.asSignal(),
-            nextButtonTapped: nextButton.rx.tap.asSignal()
+            nextButtonTapped: nextButton.rx.tapGesture().when(.recognized).map{ _ in }.asObservable()
         )
         
         let output = viewModel.transform(input: input)
         
         output.scrollTo
-            .withUnretained(self)
-            .subscribe(onNext: { owner, next in
-                owner.galapagosPager.nextPage(animated: true, next: CGFloat(next))
-                if next == 3 { owner.nextButton.setTitle("가입완료", for: .normal) }
-                else { owner.nextButton.setTitle("다음", for: .normal) }
+            .subscribe(onNext: { [weak self] next in
+                guard let self = self else { return }
+                self.galapagosPager.nextPage(animated: true, next: CGFloat(next))
             })
             .disposed(by: disposeBag)
         
@@ -144,7 +145,13 @@ class EmailSignUpViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         output.readyForNextButton
-            .drive(nextButton.rx.isActive)
+            .asObservable()
+            .withUnretained(self)
+            .subscribe(onNext: { owner, isActive in
+                isActive 
+                ? owner.nextButton.makeCustomState(type: .Fill)
+                : owner.nextButton.makeCustomState(type: .Usage(.Disabled))
+            })
             .disposed(by: disposeBag)
     }
 }

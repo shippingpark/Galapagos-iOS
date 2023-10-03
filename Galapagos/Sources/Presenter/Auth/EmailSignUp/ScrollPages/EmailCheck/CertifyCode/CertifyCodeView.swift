@@ -17,15 +17,6 @@ final class CertifyCodeView: BaseView {
     
     // MARK: - UI Components
     
-    private lazy var checkCertifiCodeView: GalapagosTextField_Timer = {
-        let view = GalapagosTextField_Timer(
-            MAX_TIME: 10,
-            startTime: "00:10"
-        )
-        view.isHidden = true
-        return view
-    }()
-    
     // MARK: - Properties
     
     
