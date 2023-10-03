@@ -52,62 +52,75 @@ class SignInViewController: BaseViewController {
     return label
   }()
   
-  private lazy var kakaoSignInButton: GalapagosButton = {
-    let button = GalapagosButton(buttonStyle: .fill, isCircle: true)
+  private lazy var kakaoSignInButton: UIButton = {
+    let button = UIButton()
+    button.layer.cornerRadius = button.frame.height/2
     button.setImage(GalapagosAsset.snsKakao.image, for: .normal)
     button.borderWidth = 0
     return  button
   }()
   
-  private lazy var naverSignInButton: GalapagosButton = {
-    let button = GalapagosButton(buttonStyle: .fill, isCircle: true)
+  private lazy var naverSignInButton: UIButton = {
+    let button = UIButton()
+    button.layer.cornerRadius = button.frame.height/2
     button.setImage(GalapagosAsset.snsNaver.image, for: .normal)
     button.borderWidth = 0
     return  button
   }()
   
-  private lazy var appleSignInButton: GalapagosButton = {
-    let button = GalapagosButton(buttonStyle: .fill, isCircle: true)
+  private lazy var appleSignInButton: UIButton = {
+    let button = UIButton()
+    button.layer.cornerRadius = button.frame.height/2
     button.setImage(GalapagosAsset.snsApple.image, for: .normal)
     button.borderWidth = 0
     return  button
   }()
   
-  private lazy var googleSignInButton: GalapagosButton = {
-    let button = GalapagosButton(buttonStyle: .fill, isCircle: true)
+  private lazy var googleSignInButton: UIButton = {
+    let button = UIButton()
     button.setImage(GalapagosAsset.snsGoogle.image, for: .normal)
     button.borderWidth = 0
     return  button
   }()
   
   private lazy var emailSignUpButton: GalapagosButton = {
-    let button = GalapagosButton(buttonStyle: .outline)
-    let attributedString = NSAttributedString(string: "이메일 회원가입",
-                                              attributes: [
-                                                .underlineStyle : NSUnderlineStyle.single.rawValue,
-                                                .baselineOffset : NSNumber(value: 2),
-                                                .underlineColor : GalapagosAsset.gray1본문Body.color
-                                              ])
-    button.setAttributedTitle(attributedString, for: .normal)
-    button.setTitleColor(GalapagosAsset.gray1본문Body.color, for: .normal)
-    button.titleLabel?.font = GalapagosFontFamily.Pretendard.medium.font(size: 14)
-    button.borderWidth = 0
+      let button = GalapagosButton(
+        isRound: false,
+        iconTitle: nil,
+        type: .Outline(.Nornal),
+        title: "이메일 회원가입"
+      )
+//    let attributedString = NSAttributedString(string: "이메일 회원가입",
+//                                              attributes: [
+//                                                .underlineStyle : NSUnderlineStyle.single.rawValue,
+//                                                .baselineOffset : NSNumber(value: 2),
+//                                                .underlineColor : GalapagosAsset.gray1본문Body.color
+//                                              ])
+//    button.setAttributedTitle(attributedString, for: .normal)
+//    button.setTitleColor(GalapagosAsset.gray1본문Body.color, for: .normal)
+//    button.titleLabel?.font = GalapagosFontFamily.Pretendard.medium.font(size: 14)
+//    button.borderWidth = 0
     return  button
   }()
   
   private lazy var emailSignInButton: GalapagosButton = {
-    let button = GalapagosButton(buttonStyle: .outline)
-    let attributedString =
-    NSAttributedString(string: "이메일 로그인",
-                       attributes: [
-                        .underlineStyle : NSUnderlineStyle.single.rawValue,
-                        .baselineOffset : NSNumber(value: 2),
-                        .underlineColor : GalapagosAsset.gray1본문Body.color
-                       ])
-    button.setAttributedTitle(attributedString, for: .normal)
-    button.setTitleColor(GalapagosAsset.gray1본문Body.color, for: .normal)
-    button.titleLabel?.font = GalapagosFontFamily.Pretendard.medium.font(size: 14)
-    button.borderWidth = 0
+      let button = GalapagosButton(
+        isRound: false,
+        iconTitle: nil,
+        type: .Outline(.Nornal),
+        title: "이메일 로그인"
+      )
+//    let attributedString =
+//    NSAttributedString(string: "이메일 로그인",
+//                       attributes: [
+//                        .underlineStyle : NSUnderlineStyle.single.rawValue,
+//                        .baselineOffset : NSNumber(value: 2),
+//                        .underlineColor : GalapagosAsset.gray1본문Body.color
+//                       ])
+//    button.setAttributedTitle(attributedString, for: .normal)
+//    button.setTitleColor(GalapagosAsset.gray1본문Body.color, for: .normal)
+//    button.titleLabel?.font = GalapagosFontFamily.Pretendard.medium.font(size: 14)
+//    button.borderWidth = 0
     return  button
   }()
   
@@ -184,6 +197,16 @@ class SignInViewController: BaseViewController {
       socialStack.top.equalTo(galapagosInfoLable.snp.bottom).multipliedBy(1.25)
     }
     
+    emailSignUpButton.snp.makeConstraints { emailSignUp in
+        emailSignUp.height.equalTo(56)
+        emailSignUp.width.equalTo(124)
+    }
+      
+    emailSignInButton.snp.makeConstraints { emailSignIn in
+        emailSignIn.height.equalTo(56)
+        emailSignIn.width.equalTo(124)
+    }
+      
     emailLoginStackView.snp.makeConstraints{ emailStack in
       emailStack.centerX.equalToSuperview()
       emailStack.top.equalTo(socialLoginStackView.snp.bottom)
@@ -208,10 +231,8 @@ class SignInViewController: BaseViewController {
   override func bind() {
     
     
-    let emailSignUpBtnTapped = emailSignUpButton.rx.tap
-      .asObservable()
-    let emailSignInBtnTapped = emailSignInButton.rx.tap
-      .asObservable()
+    let emailSignUpBtnTapped = emailSignUpButton.rx.tapGesture().when(.recognized).map{_ in }.asObservable()
+    let emailSignInBtnTapped = emailSignInButton.rx.tapGesture().when(.recognized).map{_ in }.asObservable()
     let googleSignInBtnTapped = googleSignInButton.rx.tap
       .asObservable()
   

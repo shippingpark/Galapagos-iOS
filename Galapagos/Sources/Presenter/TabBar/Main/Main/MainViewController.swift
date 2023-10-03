@@ -171,27 +171,27 @@ final class MainViewController: BaseViewController {
   }
   
   override func bind() {
-    let input = MainViewModel.Input(
-      addAnimalButtonTapped: emptyMainAnimalView.addAnimalButton.rx.tap.asSignal(),
-      moveCommunityTapped: emptyStarCommunityView.moveCommunityTabButton.rx.tap.asSignal(),
-      moveMainAnimalDiaryTapped: moveMainAnimalDiaryTappedEvent.asSignal()
-        //button2TappedEvent.asSignal()
-    )
-    
-    let output = viewModel.transform(input: input)
-    output.hasMainAnimal
-      .drive(onNext: { animal in
-        print("animal")
-        self.showViewBasedOnHasMain(animal)//실제 코드
-      })
-      .disposed(by: disposeBag)
-    
-    output.hasStarCommunity
-      .drive(onNext: { star in
-        print("community")
-        self.showViewBasedOnHasCommunity(star)
-      })
-      .disposed(by: disposeBag)
+//    let input = MainViewModel.Input(
+//      addAnimalButtonTapped: emptyMainAnimalView.addAnimalButton.rx.tap.asSignal(),
+//      moveCommunityTapped: emptyStarCommunityView.moveCommunityTabButton.rx.tap.asSignal(),
+//      moveMainAnimalDiaryTapped: moveMainAnimalDiaryTappedEvent.asSignal()
+//        //button2TappedEvent.asSignal()
+//    )
+//    
+//    let output = viewModel.transform(input: input)
+//    output.hasMainAnimal
+//      .drive(onNext: { animal in
+//        print("animal")
+//        self.showViewBasedOnHasMain(animal)//실제 코드
+//      })
+//      .disposed(by: disposeBag)
+//    
+//    output.hasStarCommunity
+//      .drive(onNext: { star in
+//        print("community")
+//        self.showViewBasedOnHasCommunity(star)
+//      })
+//      .disposed(by: disposeBag)
   }
 }
 
