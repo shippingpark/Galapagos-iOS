@@ -13,5 +13,5 @@ import RxSwift
 protocol NetworkService {
     
     // MARK: - Methods
-    func request(_ endpoint: Endpoint) -> Observable<Data>
+    func request(_ endpoint: Endpoint) -> Single<Data>
 }

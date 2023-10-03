@@ -37,13 +37,8 @@ final class CertifyEmailView: BaseView {
     }()
     
     // MARK: - Properties
-    private let viewModel: CertifyEmailViewModel
     
     // MARK: - Initialize
-    init(viewModel: CertifyEmailViewModel) {
-        self.viewModel = viewModel
-        super.init()
-    }
     
     // MARK: - Methods
     
@@ -79,14 +74,7 @@ final class CertifyEmailView: BaseView {
     override func bind() {
         super.bind()
         
-        let input = CertifyEmailViewModel.Input(
-            email: emailTextField.textField.rx.text.orEmpty.asObservable(),
-            sendCodeButtonTapped: certifyEmailButton.rx.tapGesture().when(.recognized).map{_ in }.asObservable()
-        )
-        
-        let output = viewModel.transform(input: input)
-        
-        emailTextField.rxType   /// 얘는 디자인시스템에 종속되는 놈이라서,,,, 그냥 여기서 동작하자
+        emailTextField.rxType
             .asObservable()
             .subscribe(onNext: { type in
                 if type == .filed {
