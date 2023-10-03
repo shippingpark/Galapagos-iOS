@@ -22,15 +22,15 @@ final class PasswordCheckView: UIView {
         label.text = "비밀번호를\n입력해주세요"
         label.numberOfLines = 2
         label.font = GalapagosFontFamily.Pretendard.bold.font(size: 28)
-        label.textColor = GalapagosAsset.blackHeading.color
+        label.textColor = GalapagosAsset.black제목DisplayHeadingBody.color
         return label
     }()
     
     private lazy var passwordTextField: GalapagosTextField = {
         let textFieldView = GalapagosTextField(
             placeHolder: "비밀번호를 입력해주세요",
-            keyboardType: .default,
-            clearMode: .whileEditing
+            maxCount: 20,
+            errorMessage: "잘못된 비밀번호 입니다."
         )
         textFieldView.textField.isSecureTextEntry = true
         return textFieldView
@@ -39,8 +39,8 @@ final class PasswordCheckView: UIView {
     private lazy var passwordCheckTextField: GalapagosTextField = {
         let textFieldView = GalapagosTextField(
             placeHolder: "비밀번호를 재입력해주세요",
-            keyboardType: .default,
-            clearMode: .whileEditing
+            maxCount: 20,
+            errorMessage: "잘못된 비밀번호 입니다."
         )
         /// 비밀번호 확인은 우선 터치 막아두자
         textFieldView.isUserInteractionEnabled = false

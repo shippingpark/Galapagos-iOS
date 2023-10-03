@@ -28,7 +28,7 @@ class SignInViewController: BaseViewController {
   private lazy var logoImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.contentMode = .scaleAspectFit
-    imageView.backgroundColor = GalapagosAsset.gray6DisableBtnBg.color
+    imageView.backgroundColor = GalapagosAsset.gray3DisableButtonBg.color
     imageView.clipsToBounds = true
     imageView.cornerRadius = 12
     return imageView
@@ -42,7 +42,7 @@ class SignInViewController: BaseViewController {
     let text = "동물들의 지상낙원,\n갈라파고스에 오신 것을 환영해요!"
     let attributedString = NSMutableAttributedString(string: text)
     
-    let blackAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.blackHeading.color]
+    let blackAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color]
     let greenAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.green.color]
     let galapagosRange = (text as NSString).range(of: "갈라파고스")
     attributedString.addAttributes(blackAttributes, range: NSRange(location: 0, length: text.count))
@@ -86,10 +86,10 @@ class SignInViewController: BaseViewController {
                                               attributes: [
                                                 .underlineStyle : NSUnderlineStyle.single.rawValue,
                                                 .baselineOffset : NSNumber(value: 2),
-                                                .underlineColor : GalapagosAsset.gray1Main.color
+                                                .underlineColor : GalapagosAsset.gray1본문Body.color
                                               ])
     button.setAttributedTitle(attributedString, for: .normal)
-    button.setTitleColor(GalapagosAsset.gray1Main.color, for: .normal)
+    button.setTitleColor(GalapagosAsset.gray1본문Body.color, for: .normal)
     button.titleLabel?.font = GalapagosFontFamily.Pretendard.medium.font(size: 14)
     button.borderWidth = 0
     return  button
@@ -102,10 +102,10 @@ class SignInViewController: BaseViewController {
                        attributes: [
                         .underlineStyle : NSUnderlineStyle.single.rawValue,
                         .baselineOffset : NSNumber(value: 2),
-                        .underlineColor : GalapagosAsset.gray1Main.color
+                        .underlineColor : GalapagosAsset.gray1본문Body.color
                        ])
     button.setAttributedTitle(attributedString, for: .normal)
-    button.setTitleColor(GalapagosAsset.gray1Main.color, for: .normal)
+    button.setTitleColor(GalapagosAsset.gray1본문Body.color, for: .normal)
     button.titleLabel?.font = GalapagosFontFamily.Pretendard.medium.font(size: 14)
     button.borderWidth = 0
     return  button

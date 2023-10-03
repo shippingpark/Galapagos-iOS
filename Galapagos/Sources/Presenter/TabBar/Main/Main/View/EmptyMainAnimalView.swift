@@ -36,7 +36,7 @@ class EmptyMainAnimalView: BaseView {
     let attributedString = NSMutableAttributedString(string: text)
     attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: text.count))
     
-    let blackAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.blackHeading.color]
+    let blackAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color]
     let greenAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.green.color]
     let greenRange = (text as NSString).range(of: "동물을 추가하고 대표 동물을 설정")
     attributedString.addAttributes(blackAttributes, range: NSRange(location: 0, length: text.count))

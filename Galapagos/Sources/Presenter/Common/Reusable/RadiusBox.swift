@@ -37,16 +37,16 @@ class RadiusBoxView: UIView {
     switch style {
     case .line:
       self.layer.borderWidth = 1.0
-      self.layer.borderColor = GalapagosAsset.gray5OutLine.color.cgColor
-      self.layer.shadowColor = GalapagosAsset.whiteDefaultText.color.cgColor
+      self.layer.borderColor = GalapagosAsset.gray1Outline.color.cgColor
+      self.layer.shadowColor = GalapagosAsset.white기본화이트.color.cgColor
     case .shadow:
-      self.layer.shadowColor = GalapagosAsset.blackHeading.color.withAlphaComponent(0.12).cgColor
+      self.layer.shadowColor = GalapagosAsset.black제목DisplayHeadingBody.color.withAlphaComponent(0.12).cgColor
       self.layer.shadowOffset = CGSize(width: 0, height: 3)
       self.layer.shadowRadius = 20.0 //Blur
       self.layer.shadowOpacity = 0.75
     case .fill:
       self.layer.borderWidth = 0.0
-      self.backgroundColor = GalapagosAsset.gray6DisableBtnBg.color
+      self.backgroundColor = GalapagosAsset.gray3DisableButtonBg.color
     }
     self.layer.masksToBounds = false
   }

@@ -18,7 +18,7 @@ public class BaseView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     
-    self.backgroundColor = GalapagosAsset.whiteDefaultText.color
+    self.backgroundColor = GalapagosAsset.white기본화이트.color
     setAddSubView()
     setAttribute()
     setConstraint()
