@@ -23,15 +23,15 @@ final class EmailCheckView: UIView {
         label.text = "이메일을\n입력해주세요"
         label.numberOfLines = 2
         label.font = GalapagosFontFamily.Pretendard.bold.font(size: 28)
-        label.textColor = GalapagosAsset.blackHeading.color
+        label.textColor = GalapagosAsset.black제목DisplayHeadingBody.color
         return label
     }()
     
     private lazy var emailTextField: GalapagosTextField = {
         let textField = GalapagosTextField(
             placeHolder: "이메일을 입력해주세요",
-            keyboardType: .emailAddress,
-            clearMode: .whileEditing
+            maxCount: 8,
+            errorMessage: "이메일 형식이 아닙니다."
         )
         return textField
     }()
@@ -118,25 +118,25 @@ final class EmailCheckView: UIView {
     }
     
     private func bind() {
-        
-        emailTextField.isEnable
-            .asDriver(onErrorJustReturn: false)
-            .drive(certifyEmailButton.rx.isActive)
-            .disposed(by: disposeBag)
-        
-        certifyEmailButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                // TODO: 이메엘 인증 API호출 (Usecase통해서)
-                // 인증 성공 결과를 Observable<Bool>로 전달 해줘야함
-                
-                /// 임시 fake
-                self.emailCertified.accept(true)
-                self.emailTextField.isEnable.accept(false)
-                self.emailTextField.isUserInteractionEnabled = false
-            })
-            .disposed(by: disposeBag)
-        
+//        
+//        emailTextField.isEnable
+//            .asDriver(onErrorJustReturn: false)
+//            .drive(certifyEmailButton.rx.isActive)
+//            .disposed(by: disposeBag)
+//        
+//        certifyEmailButton.rx.tap
+//            .subscribe(onNext: { [weak self] in
+//                guard let self = self else { return }
+//                // TODO: 이메엘 인증 API호출 (Usecase통해서)
+//                // 인증 성공 결과를 Observable<Bool>로 전달 해줘야함
+//                
+//                /// 임시 fake
+//                self.emailCertified.accept(true)
+//                self.emailTextField.isEnable.accept(false)
+//                self.emailTextField.isUserInteractionEnabled = false
+//            })
+//            .disposed(by: disposeBag)
+//        
         // TODO: 이메일 인증받은 결과를 subscribe 해줘야함
         // 그리고, 결과에 따라서 인증코드 확인하는 View 보여줘야함
         emailCertified

@@ -19,16 +19,16 @@ public final class GalapagosTextField_Timer: UIView {
     private lazy var certifyInfoLabel: UILabel = {
         let label = UILabel()
         label.text = "이메일로 전송된 인증코드를 입력해주세요."
-        label.textColor = SiriUIKitAsset.gray1Main.color
+        label.textColor = SiriUIKitAsset.gray1본문Body.color
         label.font = SiriUIKitFontFamily.Pretendard.regular.font(size: 14)
         return label
     }()
     
     private lazy var galapagosTextField: GalapagosTextField = {
         let textField = GalapagosTextField(
-            placeHolder: "인증코드 6자리 입력",
-            keyboardType: .numberPad,
-            clearMode: .whileEditing
+            placeHolder: "이메일을 입력해주세요",
+            maxCount: 8,
+            errorMessage: "이메일 형식이 아닙니다."
         )
         return textField
     }()

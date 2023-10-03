@@ -81,12 +81,12 @@ private extension GalapagosButton {
     switch self.buttonStyle {
     case .fill:
       return self.active ?
-      (SiriUIKitAsset.green.color, SiriUIKitAsset.green.color, SiriUIKitAsset.whiteDefaultText.color) :
-      (SiriUIKitAsset.gray6DisableBtnBg.color, SiriUIKitAsset.gray6DisableBtnBg.color, SiriUIKitAsset.gray3DisableText1.color)
+      (SiriUIKitAsset.green.color, SiriUIKitAsset.green.color, SiriUIKitAsset.white기본화이트.color) :
+      (SiriUIKitAsset.gray3DisableButtonBg.color, SiriUIKitAsset.gray3DisableButtonBg.color, SiriUIKitAsset.gray3DisableText1.color)
     case .outline:
-      return (SiriUIKitAsset.gray5DisableText2.color, SiriUIKitAsset.whiteDefaultText.color, SiriUIKitAsset.gray1Main.color)
+      return (SiriUIKitAsset.gray5DisableText2.color, SiriUIKitAsset.white기본화이트.color, SiriUIKitAsset.gray1본문Body.color)
     case .boldOutline:
-      return (SiriUIKitAsset.gray1Main.color, SiriUIKitAsset.whiteDefaultText.color, SiriUIKitAsset.gray1Main.color)
+      return (SiriUIKitAsset.gray1본문Body.color, SiriUIKitAsset.white기본화이트.color, SiriUIKitAsset.gray1본문Body.color)
     }
   }
   

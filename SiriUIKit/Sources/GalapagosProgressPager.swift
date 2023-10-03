@@ -19,7 +19,7 @@ public final class GalapagosProgressPager: UIView {
     private lazy var progressView: UIProgressView = {
         let progressView = UIProgressView()
         progressView.progressTintColor = SiriUIKitAsset.green.color
-        progressView.trackTintColor = SiriUIKitAsset.gray6DisableBtnBg.color
+        progressView.trackTintColor = SiriUIKitAsset.gray3DisableButtonBg.color
         progressView.progress = 0.02
         return progressView
     }()

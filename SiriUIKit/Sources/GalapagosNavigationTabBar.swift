@@ -40,14 +40,14 @@ public final class GalapagosNavigationTabBarView: UIView {
   private let largeLabel: UILabel = {
     let label = UILabel()
     label.font = SiriUIKitFontFamily.Pretendard.bold.font(size: 28)
-    label.textColor = SiriUIKitAsset.blackHeading.color
+    label.textColor = SiriUIKitAsset.black제목DisplayHeadingBody.color
     return label
   }()
   
   private lazy var middleLabel: UILabel = {
     let label = UILabel()
     label.font = SiriUIKitFontFamily.Pretendard.bold.font(size: 18)
-    label.textColor = SiriUIKitAsset.blackHeading.color
+    label.textColor = SiriUIKitAsset.black제목DisplayHeadingBody.color
     return label
   }()
   
@@ -67,7 +67,7 @@ public final class GalapagosNavigationTabBarView: UIView {
   override init(frame: CGRect) {
       super.init(frame: frame)
       
-      self.backgroundColor = SiriUIKitAsset.whiteDefaultText.color
+      self.backgroundColor = SiriUIKitAsset.white기본화이트.color
       setAddSubView()
       setConstraint()
   }

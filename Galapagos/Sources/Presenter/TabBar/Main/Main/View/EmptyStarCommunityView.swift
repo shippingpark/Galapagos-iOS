@@ -37,7 +37,7 @@ final class EmptyStarCommunityView: BaseView {
     let attributedString = NSMutableAttributedString(string: text)
     attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: text.count))
     
-    let blackAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.blackHeading.color]
+    let blackAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color]
     attributedString.addAttributes(blackAttributes, range: NSRange(location: 0, length: text.count))
     
     let greenAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.green.color]

@@ -25,7 +25,7 @@ class MainAnimalView: BaseView {
     let label = UILabel()
     let text = "\(name)와 함께한지"
     let attributedString = NSMutableAttributedString(string: text)
-    let blackAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.blackHeading.color]
+    let blackAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color]
     attributedString.addAttributes(blackAttributes, range: NSRange(location: 0, length: text.count))
     let greenAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.green.color]
     let greenRange = (text as NSString).range(of: name)
@@ -45,7 +45,7 @@ class MainAnimalView: BaseView {
     let label = UILabel()
     let text = "일째"
     let attributedString = NSMutableAttributedString(string: text)
-    let blackAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.blackHeading.color]
+    let blackAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color]
     attributedString.addAttributes(blackAttributes, range: NSRange(location: 0, length: text.count))
     label.attributedText = attributedString
     
@@ -156,7 +156,7 @@ final class radiusNumberView: BaseView {
     let label = UILabel()
     let text = number
     let attributedString = NSMutableAttributedString(string: text)
-    let blackAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.blackHeading.color]
+    let blackAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color]
     attributedString.addAttributes(blackAttributes, range: NSRange(location: 0, length: text.count))
     label.attributedText = attributedString
     

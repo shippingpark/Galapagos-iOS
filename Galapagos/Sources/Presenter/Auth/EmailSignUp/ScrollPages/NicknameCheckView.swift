@@ -22,18 +22,18 @@ final class NicknameCheckView: UIView {
         label.text = "닉네임을\n입력해주세요"
         label.numberOfLines = 2
         label.font = GalapagosFontFamily.Pretendard.bold.font(size: 28)
-        label.textColor = GalapagosAsset.blackHeading.color
+        label.textColor = GalapagosAsset.black제목DisplayHeadingBody.color
         return label
     }()
     
     private lazy var nickNameTextField: GalapagosTextField = {
         let textField = GalapagosTextField(
             placeHolder: "2-6자리로 입력해주세요",
-            keyboardType: .default,
-            clearMode: .whileEditing
+            maxCount: 6,
+            errorMessage: "잘못된 닉네임 입니다."
         )
         textField.textField.font = GalapagosFontFamily.Pretendard.medium.font(size: 18)
-        textField.textField.textColor = GalapagosAsset.blackHeading.color
+        textField.textField.textColor = GalapagosAsset.black제목DisplayHeadingBody.color
         return textField
     }()
     
