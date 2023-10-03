@@ -13,10 +13,7 @@ enum AuthEndpoint: Endpoint {
     case sendCodeWithEmail(body: SendCodeWithEmailBody)
     
     var baseURL: URL? {
-        switch self {
-            case .sendCodeWithEmail:
-                return URL(string: "/")
-        }
+        return URL(string: "http://3.34.8.109:3040/email")
     }
     
     var method: HTTPMethod {
@@ -29,7 +26,7 @@ enum AuthEndpoint: Endpoint {
     var path: String {
         switch self {
             case .sendCodeWithEmail:
-                return "email/send-code"
+                return "/send-code"
         }
     
     }

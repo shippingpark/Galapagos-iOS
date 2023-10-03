@@ -10,14 +10,10 @@ import Foundation
 
 
 struct CertifyCodeWithEmailDTO: Codable {
-    let code: Result
-    
-    struct Result: Codable {
-        let message: String
-    }
+    let message: String
     
     func toDomain() -> CertifyCode {
-        return CertifyCode(code: code.message)
+        return CertifyCode(message: message)
     }
 }
 

@@ -26,15 +26,15 @@ class SignInViewModel: ViewModelType{
   
   var disposeBag: DisposeBag = DisposeBag()
   
-  private let socialCreateUsecase: SocialUserCreateUseCase
+//  private let socialCreateUsecase: SocialUserCreateUseCase
   weak var coordinator: AuthCoordinator?
   
   init(
-    coordinator: AuthCoordinator,
-    socialCreateUsecase: SocialUserCreateUseCase
+    coordinator: AuthCoordinator
+//    socialCreateUsecase: SocialUserCreateUseCase
   ) {
     self.coordinator = coordinator
-    self.socialCreateUsecase = socialCreateUsecase
+//    self.socialCreateUsecase = socialCreateUsecase
   }
   
   
