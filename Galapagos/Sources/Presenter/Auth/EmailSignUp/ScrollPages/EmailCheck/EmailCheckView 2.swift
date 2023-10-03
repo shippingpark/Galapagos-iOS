@@ -28,13 +28,7 @@ final class EmailCheckView: UIView {
     }()
     
     private lazy var certifyEmailView: CertifyEmailView = {
-        let view = CertifyEmailView(
-            viewModel: CertifyEmailViewModel(
-                usecase: DefaultCertifyCodeWithEmailUsecase(
-                    authRepository: DefaultAuthRepository()
-                )
-            )
-        )
+        let view = CertifyEmailView()
         return view
     }()
     

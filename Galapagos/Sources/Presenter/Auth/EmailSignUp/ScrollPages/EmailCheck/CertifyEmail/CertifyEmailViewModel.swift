@@ -13,15 +13,37 @@ import RxSwift
 
 final class CertifyEmailViewModel: ViewModelType {
     
-    struct Input { }
+    struct Input {
+        let email: Observable<String>
+        let sendCodeButtonTapped: Observable<Void>
+    }
     
-    struct Output { }
+    struct Output {
+        let receovedMessage: Observable<String>
+    }
     
     var disposeBag: DisposeBag = DisposeBag()
+    private let usecase: CertifyCodeWithEmailUsecase
     
+    init(usecase: CertifyCodeWithEmailUsecase) {
+        self.usecase = usecase
+    }
+    
+
     func transform(input: Input) -> Output {
         
-        return Output()
+        let receivedMessage = input.sendCodeButtonTapped
+            .withLatestFrom(input.email)
+            .withUnretained(self)
+            .flatMapLatest{ owner, email -> Observable<String> in
+                let body = SendCodeWithEmailBody(email: email)  /// 뷰모델에서부터 body를 완성해서 넘겨주는게 맞는걸까....?
+                return owner.usecase.sendCodeWithEmail(body: body)
+                    .asObservable()
+                    .catchAndReturn("오류다~")
+            }
+        return Output(
+            receovedMessage: receivedMessage
+        )
     }
-
+    
 }

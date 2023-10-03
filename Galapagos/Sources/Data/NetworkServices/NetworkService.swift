@@ -17,11 +17,11 @@ final class DefaultNetworkService: NetworkService {
     
     // MARK: - Methods
 
-    func request(_ endpoint: Endpoint) -> Observable<Data> {
+    func request(_ endpoint: Endpoint) -> Single<Data> {
         guard let urlRequest = endpoint.toURLRequest() else { return .error(NetworkError.invalidURL) }
         
         return session.rx
             .data(request: urlRequest)
-            .asObservable()
+            .asSingle()
     }
 }
