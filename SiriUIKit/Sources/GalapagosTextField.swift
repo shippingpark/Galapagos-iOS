@@ -59,14 +59,14 @@ public final class GalapagosTextField: UIView{
     
     private var disposeBag = DisposeBag()
     
-    var placeHolder: String
-    var maxCount: Int
-    var errorMessage: String
+    private var placeHolder: String
+    private var maxCount: Int
+    private var errorMessage: String
     
-    var keyboardType: UIKeyboardType = .emailAddress
-    var clearMode: Bool = false
+    private var keyboardType: UIKeyboardType = .emailAddress
+    private var clearMode: Bool = false
     
-    private var textFiledStyle = BehaviorRelay<TextFieldType>(value: .def)
+    public var rxType = BehaviorRelay<TextFieldType>(value: .def)
     
     /// 텍스트필드의 `placeHolder`, `maxCount`, `errorMessage`를 설정합니다.
     /// - Parameters:
@@ -137,11 +137,8 @@ public final class GalapagosTextField: UIView{
     }
     
     private func bind() {
-        if maxCount == 0 {
-            charCountLabel.isHidden = true
-        }
         
-        textFiledStyle
+        rxType
             .debug()
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: .def)
@@ -165,7 +162,7 @@ public final class GalapagosTextField: UIView{
             .subscribe(onNext: { owner, _ in
                 owner.textField.text = ""
                 owner.textField.sendActions(for: .editingChanged)
-                if owner.textFiledStyle.value != .focus { owner.textFiledStyle.accept(.def) }
+                if owner.rxType.value != .focus { owner.rxType.accept(.def) }
             })
             .disposed(by: disposeBag)
     }
@@ -180,10 +177,13 @@ public final class GalapagosTextField: UIView{
         clearButton.isHidden = !colorSet.clearMode
         self.isUserInteractionEnabled = colorSet.isUserInteractive
         
+        if maxCount == 0 {
+            charCountLabel.isHidden = true
+        }
     }
     
     func makeCustomState(textFieldState: TextFieldType) {
-        textFiledStyle.accept(textFieldState)
+        rxType.accept(textFieldState)
     }
 }
 
@@ -274,26 +274,26 @@ extension GalapagosTextField: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
-        return newLength <= maxCount
+        return maxCount == 0 ? true : newLength <= maxCount
     }
     
     public func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        self.textFiledStyle.accept(.focus)
+        self.rxType.accept(.focus)
         return true
     }
     
     public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        self.textFiledStyle.accept(.focus)
+        self.rxType.accept(.focus)
         return true
     }
     
     public func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        textField.text?.count == 0 ? self.textFiledStyle.accept(.def) : self.textFiledStyle.accept(.filed)
+        textField.text?.count == 0 ? self.rxType.accept(.def) : self.rxType.accept(.filed)
         return true
     }
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.text?.count == 0 ? self.textFiledStyle.accept(.def) : self.textFiledStyle.accept(.filed)
+        textField.text?.count == 0 ? self.rxType.accept(.def) : self.rxType.accept(.filed)
         return true
     }
 }
