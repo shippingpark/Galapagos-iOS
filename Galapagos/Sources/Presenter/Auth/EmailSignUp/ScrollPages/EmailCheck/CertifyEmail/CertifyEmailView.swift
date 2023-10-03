@@ -86,9 +86,15 @@ final class CertifyEmailView: BaseView {
         
         let output = viewModel.transform(input: input)
         
-        output.receovedMessage
+        output.receivedMessage
+            .debug()
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { message in
-                print("😀 message: \(message) 😀")
+                self.certifyEmailButton.rxType.accept(.Usage(.Disabled))
+                self.emailTextField.rxType.accept(.disabled)
+                print("😀 인증코드 보내기 성공: \(message)😀")
+            }, onError: { error in
+                print("😀 인증코드 보내기 실패: \(error.localizedDescription)😀")
             })
             .disposed(by: disposeBag)
         

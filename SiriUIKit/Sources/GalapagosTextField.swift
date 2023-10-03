@@ -139,7 +139,6 @@ public final class GalapagosTextField: UIView{
     private func bind() {
         
         rxType
-            .debug()
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: .def)
             .drive(onNext: { [weak self] colorSet in
@@ -149,7 +148,6 @@ public final class GalapagosTextField: UIView{
             .disposed(by: disposeBag)
         
         textField.rx.text
-            .debug()
             .withUnretained(self)
             .map { owner, text in
                 "\(text?.count ?? 0)/\(owner.maxCount)"

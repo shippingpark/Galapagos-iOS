@@ -19,7 +19,7 @@ final class CertifyEmailViewModel: ViewModelType {
     }
     
     struct Output {
-        let receovedMessage: Observable<String>
+        let receivedMessage: Observable<String>
     }
     
     var disposeBag: DisposeBag = DisposeBag()
@@ -39,10 +39,10 @@ final class CertifyEmailViewModel: ViewModelType {
                 let body = SendCodeWithEmailBody(email: email)  /// 뷰모델에서부터 body를 완성해서 넘겨주는게 맞는걸까....?
                 return owner.usecase.sendCodeWithEmail(body: body)
                     .asObservable()
-                    .catchAndReturn("오류다~")
             }
+        
         return Output(
-            receovedMessage: receivedMessage
+            receivedMessage: receivedMessage
         )
     }
     
