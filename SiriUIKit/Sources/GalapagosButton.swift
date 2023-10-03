@@ -49,7 +49,7 @@ public final class GalapagosButton: UIView{
     
     public var isSelected = BehaviorRelay<Bool>(value: false)
     
-    private var rxType = BehaviorRelay<GalapagosButtonType>(value: .Fill)
+    public var rxType = BehaviorRelay<GalapagosButtonType>(value: .Fill)
     
     //MARK: - Initializers
     
