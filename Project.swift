@@ -60,6 +60,9 @@ class BaseProjectProfile: ProjectProfile{
         "CFBundleURLSchemes": ["com.googleusercontent.apps.785218990545-f6eh18bsp2ej759a7etufpohr86vpju5"],
         "CFBundleURLName": "com.busyModernPeople.Galapagos"
       ]
+    ],
+    "NSAppTransportSecurity": [
+        "NSAllowsArbitraryLoads": true
     ]
   ]
   
