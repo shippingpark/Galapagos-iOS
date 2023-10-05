@@ -80,7 +80,7 @@ final class CertifyEmailView: BaseView {
         super.bind()
         
         let input = CertifyEmailViewModel.Input(
-            email: emailTextField.textField.rx.text.orEmpty.asObservable(),
+            email: emailTextField.rx.text.orEmpty.asObservable(),
             sendCodeButtonTapped: certifyEmailButton.rx.tapGesture().when(.recognized).map{_ in }.asObservable()
         )
         

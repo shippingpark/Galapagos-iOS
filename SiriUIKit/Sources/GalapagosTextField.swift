@@ -305,4 +305,8 @@ extension Reactive where Base: GalapagosTextField {
         return ControlEvent(events: source)
     }
     
+    public var text: ControlProperty<String?> {
+        return self.base.textField.rx.text
+    }
+    
 }
