@@ -16,7 +16,7 @@ import SnapKit
 public final class GalapagosTextField: UIView{
     
     // MARK: - UI
-    public lazy var textField: UITextField = {
+    fileprivate lazy var textField: UITextField = {
         let textField = UITextField()
         let leftPadding = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: textField.frame.height))
         let rightPadding = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: textField.frame.height))
@@ -31,7 +31,7 @@ public final class GalapagosTextField: UIView{
         return textField
     }()
     
-    public lazy var charCountLabel: UILabel = {
+    private lazy var charCountLabel: UILabel = {
         let label = UILabel()
         label.font = SiriUIKitFontFamily.Pretendard.medium.font(size: 14)
         label.text = "0/\(maxCount)"
@@ -39,13 +39,13 @@ public final class GalapagosTextField: UIView{
         return label
     }()
     
-    public lazy var clearButton: UIButton = {
+    private lazy var clearButton: UIButton = {
         let button = UIButton()
         button.setImage(SiriUIKitAsset._24x24cancleRoundDefault.image, for: .normal)
         return button
     }()
     
-    public lazy var errorMessagelabel: UILabel = {
+    private lazy var errorMessagelabel: UILabel = {
         let label = UILabel()
         label.text = errorMessage
         label.textColor = SiriUIKitAsset.redErrorText.color
@@ -294,4 +294,15 @@ extension GalapagosTextField: UITextFieldDelegate {
         textField.text?.count == 0 ? self.rxType.accept(.def) : self.rxType.accept(.filed)
         return true
     }
+}
+
+
+//MARK: - GalapagosTextField+RxSwift
+extension Reactive where Base: GalapagosTextField {
+    
+    public func controlEvent(_ events: UIControl.Event) -> ControlEvent<Void> {
+        let source = self.base.textField.rx.controlEvent(events).map { _ in }
+        return ControlEvent(events: source)
+    }
+    
 }
