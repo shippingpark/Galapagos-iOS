@@ -12,6 +12,8 @@
 *.certSigningRequest
 *.ipa
 *.app.dSYM.zip
+.env.default
+fastlane/.env
 
 # Icon must end with two
 Icon
