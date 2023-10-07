@@ -26,17 +26,18 @@ final class CertifyCodeView: BaseView {
     public lazy var timerTextField: GalapagosTextField_Timer = {
         let textField = GalapagosTextField_Timer(
             placeHolder: "인증코드 6자리 입력",
-            maxCount: 6,
-            errorMessage: ""
+            maxCount: 6
         )
         return textField
     }()
     
     public lazy var reSendEmail: UIButton = {
         let button = UIButton()
-        button.setTitle("인증코드 재전송", for: .normal)
-        button.titleLabel?.font = SiriUIKitFontFamily.Pretendard.medium.font(size: 14)
-        button.setTitleColor(GalapagosAsset.black제목DisplayHeadingBody.color, for: .normal)
+        button.setUnderlineTitle(
+            "인증코드 재전송",
+            font: SiriUIKitFontFamily.Pretendard.medium.font(size: 14),
+            color: GalapagosAsset.black제목DisplayHeadingBody.color
+        )
         return button
     }()
     
