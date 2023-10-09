@@ -31,7 +31,7 @@ final class EmailCheckView: UIView {
         let view = CertifyEmailView(
             viewModel: CertifyEmailViewModel(
                 usecase: DefaultCertifyCodeWithEmailUsecase(
-                    authRepository: DefaultEmailRepository()
+                    emailRepository: DefaultEmailRepository()
                 )
             ),
             parentViewModel: viewModel
@@ -43,7 +43,7 @@ final class EmailCheckView: UIView {
         let view = CertifyCodeView(
             viewModel: CertifyCodeViewModel(
                 usecase: DefaultCertifyCodeWithEmailUsecase(
-                    authRepository: DefaultEmailRepository()
+                    emailRepository: DefaultEmailRepository()
                 )
             ),
             parentViewModel: viewModel
@@ -151,6 +151,14 @@ final class EmailCheckView: UIView {
                     owner.frame.origin.y += (owner.titleLabel.frame.height + 40)
                     owner.layoutIfNeeded()
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        certifyEmailView.emailTextField.rx.text.orEmpty
+            .asDriver()
+            .drive(onNext: { [weak self] email in
+                guard let self = self else { return }
+                self.parentViewModel.email.accept(email)
             })
             .disposed(by: disposeBag)
     }
