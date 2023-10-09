@@ -31,6 +31,11 @@ class EmailSignUpViewModel: ViewModelType{
     var readyForNextButton = BehaviorRelay<Bool>(value: false)
     var letsGoSignUp = BehaviorRelay<Bool>(value: false)
     
+    var email = BehaviorRelay<String>(value: "")
+    var password = BehaviorRelay<String>(value: "")
+    var nickname = BehaviorRelay<String>(value: "")
+    var socialType = BehaviorRelay<String>(value: "email")
+    
     // MARK: - Initializers
     init(
         coordinator: AuthCoordinator
@@ -56,6 +61,12 @@ class EmailSignUpViewModel: ViewModelType{
             })
             .disposed(by: disposeBag)
         
+        let signupBody = Observable.combineLatest(email, password, nickname, socialType)
+            .map{ SignUpBody(email: $0, 
+                             password: $1,
+                             nickName: $2,
+                             socialType: $3
+            ) }
         
         //TODO: 여기서, 회원가입 진행하자!
 //        letsGoSignUp
