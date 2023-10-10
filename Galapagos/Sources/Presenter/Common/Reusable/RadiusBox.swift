@@ -26,7 +26,7 @@ class RadiusBoxView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  //MARK: - Methods
+  // MARK: - Methods
   
   private func configureRadiusSet() {
     self.backgroundColor = .white // 배경색 설정
@@ -38,11 +38,11 @@ class RadiusBoxView: UIView {
     case .line:
       self.layer.borderWidth = 1.0
       self.layer.borderColor = GalapagosAsset.gray1Outline.color.cgColor
-      self.layer.shadowColor = GalapagosAsset.white기본화이트.color.cgColor
+      self.layer.shadowColor = GalapagosAsset.white기본화이트.color.cgColor
     case .shadow:
-      self.layer.shadowColor = GalapagosAsset.black제목DisplayHeadingBody.color.withAlphaComponent(0.12).cgColor
+      self.layer.shadowColor = GalapagosAsset.black제목DisplayHeadingBody.color.withAlphaComponent(0.12).cgColor
       self.layer.shadowOffset = CGSize(width: 0, height: 3)
-      self.layer.shadowRadius = 20.0 //Blur
+      self.layer.shadowRadius = 20.0 // Blur
       self.layer.shadowOpacity = 0.75
     case .fill:
       self.layer.borderWidth = 0.0

@@ -7,9 +7,8 @@
 //
 
 import Foundation
-
-import RxSwift
 import RxCocoa
+import RxSwift
 
 class AddAnimalViewModel: ViewModelType {
   struct Input {
@@ -42,4 +41,3 @@ class AddAnimalViewModel: ViewModelType {
     return Output()
   }
 }
-

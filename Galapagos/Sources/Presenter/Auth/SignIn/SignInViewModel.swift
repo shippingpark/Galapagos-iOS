@@ -42,13 +42,13 @@ class SignInViewModel: ViewModelType{
     input.emailSignUpBtnTapped.subscribe(onNext: {
       [weak self] _ in
       guard let self = self else {return}
-      self.coordinator?.userActionState.accept(.EmailSignUp)
+      self.coordinator?.userActionState.accept(.emailSignUp)
     }).disposed(by: disposeBag)
     
     input.emailSignInBtnTapped.subscribe(onNext: {
       [weak self] _ in
       guard let self = self else {return}
-      self.coordinator?.userActionState.accept(.EmailSignIn)
+      self.coordinator?.userActionState.accept(.emailSignIn)
     }).disposed(by: disposeBag)
     
     return Output()

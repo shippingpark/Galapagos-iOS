@@ -29,7 +29,7 @@ public final class GalapagosTextField: UIView{
         textField.layer.borderWidth = 1
         textField.keyboardType = keyboardType
         textField.font = SiriUIKitFontFamily.Pretendard.medium.font(size: 18)
-        textField.textColor = SiriUIKitAsset.black제목DisplayHeadingBody.color
+      textField.textColor = SiriUIKitAsset.black제목DisplayHeadingBody.color
         return textField
     }()
     
@@ -212,8 +212,8 @@ extension GalapagosTextField{
                 case .def:
                     return TextFieldColorSet(
                         borderColor: SiriUIKitAsset.gray1Outline.color,
-                        textFieldBackgroundColor: SiriUIKitAsset.white기본화이트.color,
-                        textFieldTextColor: SiriUIKitAsset.gray1본문Body.color,
+                        textFieldBackgroundColor: SiriUIKitAsset.white기본화이트.color,
+                        textFieldTextColor: SiriUIKitAsset.gray1본문Body.color,
                         charCountHidden: true,
                         clearMode: false,
                         isUserInteractive: true
@@ -221,8 +221,8 @@ extension GalapagosTextField{
                 case .focus:
                     return TextFieldColorSet(
                         borderColor: SiriUIKitAsset.green.color,
-                        textFieldBackgroundColor: SiriUIKitAsset.white기본화이트.color,
-                        textFieldTextColor: SiriUIKitAsset.gray1본문Body.color,
+                        textFieldBackgroundColor: SiriUIKitAsset.white기본화이트.color,
+                        textFieldTextColor: SiriUIKitAsset.gray1본문Body.color,
                         charCountHidden: false,
                         clearMode: true,
                         isUserInteractive: true
@@ -230,8 +230,8 @@ extension GalapagosTextField{
                 case .filed:
                     return TextFieldColorSet(
                         borderColor: SiriUIKitAsset.gray1Outline.color,
-                        textFieldBackgroundColor: SiriUIKitAsset.white기본화이트.color,
-                        textFieldTextColor: SiriUIKitAsset.gray1본문Body.color,
+                        textFieldBackgroundColor: SiriUIKitAsset.white기본화이트.color,
+                        textFieldTextColor: SiriUIKitAsset.gray1본문Body.color,
                         charCountHidden: true,
                         clearMode: true,
                         isUserInteractive: true
@@ -248,8 +248,8 @@ extension GalapagosTextField{
                 case .error:
                     return TextFieldColorSet(
                         borderColor: SiriUIKitAsset.redErrorText.color,
-                        textFieldBackgroundColor: SiriUIKitAsset.white기본화이트.color,
-                        textFieldTextColor: SiriUIKitAsset.gray1본문Body.color,
+                        textFieldBackgroundColor: SiriUIKitAsset.white기본화이트.color,
+                        textFieldTextColor: SiriUIKitAsset.gray1본문Body.color,
                         charCountHidden: true,
                         clearMode: true,
                         isUserInteractive: true

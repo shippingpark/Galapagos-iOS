@@ -23,7 +23,7 @@ final class EmailCheckView: UIView {
         label.text = "이메일을\n입력해주세요"
         label.numberOfLines = 2
         label.font = GalapagosFontFamily.Pretendard.bold.font(size: 28)
-        label.textColor = GalapagosAsset.black제목DisplayHeadingBody.color
+      label.textColor = GalapagosAsset.black제목DisplayHeadingBody.color
         return label
     }()
     

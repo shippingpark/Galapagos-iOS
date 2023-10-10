@@ -42,7 +42,7 @@ class SignInViewController: BaseViewController {
     let text = "동물들의 지상낙원,\n갈라파고스에 오신 것을 환영해요!"
     let attributedString = NSMutableAttributedString(string: text)
     
-    let blackAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color]
+    let blackAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color]
     let greenAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.green.color]
     let galapagosRange = (text as NSString).range(of: "갈라파고스")
     attributedString.addAttributes(blackAttributes, range: NSRange(location: 0, length: text.count))

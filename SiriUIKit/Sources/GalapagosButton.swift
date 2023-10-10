@@ -178,7 +178,7 @@ extension GalapagosButton{
                 case .Fill:
                     return GalapagosButton_56UISet(
                         boarderColor: SiriUIKitAsset.green.color,
-                        mainColor: SiriUIKitAsset.white기본화이트.color,
+                        mainColor: SiriUIKitAsset.white기본화이트.color,
                         backgroundColor: SiriUIKitAsset.green.color
                     )
                 case .Outline(let style):
@@ -186,14 +186,14 @@ extension GalapagosButton{
                         case .Nornal:
                             return GalapagosButton_56UISet(
                                 boarderColor: SiriUIKitAsset.gray5DisableText2.color,
-                                mainColor: SiriUIKitAsset.gray1본문Body.color,
-                                backgroundColor: SiriUIKitAsset.white기본화이트.color
+                                mainColor: SiriUIKitAsset.gray1본문Body.color,
+                                backgroundColor: SiriUIKitAsset.white기본화이트.color
                             )
                         case .Bold:
                             return GalapagosButton_56UISet(
-                                boarderColor: SiriUIKitAsset.gray1본문Body.color,
-                                mainColor: SiriUIKitAsset.gray1본문Body.color,
-                                backgroundColor: SiriUIKitAsset.gray1본문Body.color
+                                boarderColor: SiriUIKitAsset.gray1본문Body.color,
+                                mainColor: SiriUIKitAsset.gray1본문Body.color,
+                                backgroundColor: SiriUIKitAsset.gray1본문Body.color
                             )
                     }
                 case .Usage(let style):
@@ -201,7 +201,7 @@ extension GalapagosButton{
                         case .Inactive:
                             return GalapagosButton_56UISet(
                                 boarderColor: SiriUIKitAsset.green.color,
-                                mainColor: SiriUIKitAsset.white기본화이트.color,
+                                mainColor: SiriUIKitAsset.white기본화이트.color,
                                 backgroundColor: SiriUIKitAsset.green.color
                             )
                         case .Disabled:
@@ -214,7 +214,7 @@ extension GalapagosButton{
                             return GalapagosButton_56UISet(
                                 boarderColor: SiriUIKitAsset.green.color,
                                 mainColor: SiriUIKitAsset.gray3DisableText1.color,
-                                backgroundColor: SiriUIKitAsset.white기본화이트.color
+                                backgroundColor: SiriUIKitAsset.white기본화이트.color
                             )
                         case .SoftInactive:
                             return GalapagosButton_56UISet(
