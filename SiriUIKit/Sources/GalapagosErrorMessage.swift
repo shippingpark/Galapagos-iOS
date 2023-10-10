@@ -137,7 +137,7 @@ extension GalapagosErrorMessage {
         var UISet: GalapagosErrorMessageUISet {
             switch self {
                 case .Info:
-                    return (errorMessageColor: SiriUIKitAsset.gray2주석CaptionSmall힌트PlaceholderText.color,
+                    return (errorMessageColor: SiriUIKitAsset.gray2주석CaptionSmall힌트PlaceholderText.color,
                             accessoryImage: SiriUIKitAsset._20x20infoDefault.image)
                 case .Error:
                     return (errorMessageColor: SiriUIKitAsset.redErrorText.color,

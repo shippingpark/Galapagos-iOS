@@ -23,7 +23,7 @@ class AddAnimalViewTextLabel: UILabel {
       
   private func setAttribute() {
     self.text = title
-    self.textColor = GalapagosAsset.gray2주석CaptionSmall힌트PlaceholderText.color
+    self.textColor = GalapagosAsset.gray2주석CaptionSmall힌트PlaceholderText.color
     self.font = GalapagosFontFamily.Pretendard.medium.font(size: 16)
   }
 }

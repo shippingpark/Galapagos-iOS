@@ -153,7 +153,7 @@ class EmailSignUpViewController: BaseViewController {
             .withUnretained(self)
             .subscribe(onNext: { owner, previus in
                 if owner.galapagosPager.getCurrentPage() == 0 {
-                    owner.viewModel.coordinator?.userActionState.accept(.SignIn)
+                    owner.viewModel.coordinator?.userActionState.accept(.signIn)
                 } else {
                     owner.galapagosPager.previousPage(animated: true, previous: CGFloat(previus))
                 }

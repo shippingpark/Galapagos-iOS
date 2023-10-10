@@ -6,8 +6,8 @@
 //  Copyright © 2023 com.busyModernPeople. All rights reserved.
 //
 
-import UIKit
 import RxSwift
+import UIKit
 
 public class BaseView: UIView {
   
@@ -18,7 +18,7 @@ public class BaseView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     
-    self.backgroundColor = GalapagosAsset.white기본화이트.color
+    self.backgroundColor = GalapagosAsset.white기본화이트.color
     setAddSubView()
     setAttribute()
     setConstraint()

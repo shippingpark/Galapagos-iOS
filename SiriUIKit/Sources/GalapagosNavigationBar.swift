@@ -6,8 +6,8 @@
 //  Copyright © 2023 com.busyModernPeople. All rights reserved.
 //
 
-import UIKit
 import SnapKit
+import UIKit
 
 public final class GalapagosNavigationBarView: UIView {
   
@@ -21,7 +21,7 @@ public final class GalapagosNavigationBarView: UIView {
   private lazy var titleLabel: UILabel = {
     let label = UILabel()
     label.font = SiriUIKitFontFamily.Pretendard.semiBold.font(size: 18)
-    label.textColor = SiriUIKitAsset.black제목DisplayHeadingBody.color
+    label.textColor = SiriUIKitAsset.black제목DisplayHeadingBody.color
     return label
   }()
   

@@ -1,4 +1,5 @@
 import ProjectDescription
+import Foundation
 import ProjectDescriptionHelpers
 import MyPlugin
 
@@ -115,6 +116,18 @@ class BaseProjectProfile: ProjectProfile{
         infoPlist: .extendingDefault(with: infoPlist),
         sources: ["\(projectName)/Sources/**"],
         resources: "\(projectName)/Resources/**",
+        scripts: [
+          .pre(
+            script: """
+              ROOT_DIR=\(ProcessInfo.processInfo.environment["TUIST_ROOT_DIR"] ?? "")
+              
+              ${ROOT_DIR}/swiftlint --config ${ROOT_DIR}/.swiftlint.yml
+              
+              """,
+            name: "SwiftLint",
+            basedOnDependencyAnalysis: false
+          )
+        ],
         dependencies: generateDependencies(targetName: .App),
         settings: generateAppConfigurations()
       ),
@@ -127,6 +140,18 @@ class BaseProjectProfile: ProjectProfile{
         infoPlist: .default,
         sources: ["SiriUIKit/Sources/**"],
         resources: "\(projectName)/Resources/**",
+        scripts: [
+          .pre(
+            script: """
+              ROOT_DIR=\(ProcessInfo.processInfo.environment["TUIST_ROOT_DIR"] ?? "")
+              
+              ${ROOT_DIR}/swiftlint --config ${ROOT_DIR}/.swiftlint.yml
+              
+              """,
+            name: "SwiftLint",
+            basedOnDependencyAnalysis: false
+          )
+        ],
         dependencies: generateDependencies(targetName: .DesignSystem)
       )
     ]

@@ -11,7 +11,7 @@ import UIKit
 import SiriUIKit
 
 class DiaryListViewController: BaseViewController {
-    
+  
   // MARK: - UI
   
   private lazy var navigationBar: GalapagosNavigationTabBarView = {
@@ -53,9 +53,9 @@ class DiaryListViewController: BaseViewController {
   
   override func setConstraint() {
     navigationBar.snp.makeConstraints{ navigationBar in
-        navigationBar.top.equalTo(self.view.safeAreaLayoutGuide)
-        navigationBar.leading.trailing.equalToSuperview()
-        navigationBar.height.equalTo(50)
+      navigationBar.top.equalTo(self.view.safeAreaLayoutGuide)
+      navigationBar.leading.trailing.equalToSuperview()
+      navigationBar.height.equalTo(50)
     }
     
     button.snp.makeConstraints { make in
