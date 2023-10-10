@@ -76,6 +76,6 @@ class DiaryListViewController: BaseViewController {
       buttonTapped: button.rx.tap.asSignal(),
       button2Tapped: button2.rx.tap.asSignal()
     )
-    let output = viewModel.transform(input: input)
+    _ = viewModel.transform(input: input)
   }
 }

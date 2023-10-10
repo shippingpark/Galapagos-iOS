@@ -9,6 +9,5 @@
 import Foundation
 
 struct CertifyCodeModel: Codable {
-    let message: String
+	let message: String
 }
-

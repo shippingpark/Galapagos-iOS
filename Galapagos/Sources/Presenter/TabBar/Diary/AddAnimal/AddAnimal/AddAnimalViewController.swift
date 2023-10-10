@@ -40,7 +40,7 @@ class AddAnimalViewController: BaseViewController {
   
   private lazy var circleShadowCameraView = {
     let radiusBoxView = RadiusBoxView(radius: 16, style: .shadow)
-    radiusBoxView.layer.shadowColor = GalapagosAsset.black제목DisplayHeadingBody.color.withAlphaComponent(0.25).cgColor
+    radiusBoxView.layer.shadowColor = GalapagosAsset.black제목DisplayHeadingBody.color.withAlphaComponent(0.25).cgColor
     radiusBoxView.layer.shadowOffset = CGSize(width: 0, height: 4)
     radiusBoxView.layer.shadowRadius = 4.0 // Blur
     radiusBoxView.layer.shadowOpacity = 1
@@ -62,7 +62,7 @@ class AddAnimalViewController: BaseViewController {
   private lazy var setMainButtonInfoLabel: UILabel = {
     let label = UILabel()
     label.text = "대표동물로 설정하기"
-    label.textColor = GalapagosAsset.gray1본문Body.color
+    label.textColor = GalapagosAsset.gray1본문Body.color
     label.font = GalapagosFontFamily.Pretendard.medium.font(size: 14)
     return label
   }()
@@ -176,6 +176,6 @@ class AddAnimalViewController: BaseViewController {
         .asSignal(onErrorJustReturn: ())
     )
     
-    let output = viewModel.transform(input: input)
+    _ = viewModel.transform(input: input)
   }
 }

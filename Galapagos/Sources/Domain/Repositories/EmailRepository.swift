@@ -10,6 +10,6 @@ import Foundation
 import RxSwift
 
 protocol EmailRepository {
-    func sendCodeWithEmail(body: SendCodeWithEmailBody) -> Single<Data>
-    func sendCertifyCode(body: CertifyCodeBody) -> Single<Data>
+	func sendCodeWithEmail(body: SendCodeWithEmailBody) -> Single<Data>
+	func sendCertifyCode(body: CertifyCodeBody) -> Single<Data>
 }

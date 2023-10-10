@@ -10,6 +10,5 @@ import Foundation
 import RxSwift
 
 protocol UserSignUpUsecase {
-    func userSignUp(body: UserSignUpBody) -> Single<UserSignUpModel>
+	func userSignUp(body: UserSignUpBody) -> Single<UserSignUpModel>
 }
-

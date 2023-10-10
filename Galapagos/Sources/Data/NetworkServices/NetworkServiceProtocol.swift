@@ -11,8 +11,8 @@ import Foundation
 import RxSwift
 
 protocol NetworkService {
-    
-    // MARK: - Methods
-    func request(_ endpoint: Endpoint) -> Observable<(HTTPURLResponse, Data)>
-    func request(_ endpoint: Endpoint) -> Single<Data>
+	
+	// MARK: - Methods
+	func request(_ endpoint: Endpoint) -> Observable<(HTTPURLResponse, Data)>
+	func request(_ endpoint: Endpoint) -> Single<Data>
 }

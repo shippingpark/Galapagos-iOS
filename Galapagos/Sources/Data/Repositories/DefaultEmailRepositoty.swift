@@ -10,22 +10,22 @@ import Foundation
 import RxSwift
 
 final class DefaultEmailRepository: EmailRepository {
-    
-    private let networkService: NetworkService
-    
-    init() {
-        self.networkService = DefaultNetworkService()
-    }
-    
-    func sendCodeWithEmail(body: SendCodeWithEmailBody) -> Single<Data> {
-        let endpoint = EmailEndpoint.sendCodeWithEmail(body: body)
-        return networkService.request(endpoint)
-    }
-
-    func sendCertifyCode(body: CertifyCodeBody) -> Single<Data> {
-        let endpoint = EmailEndpoint.certifyCode(body: body)
-        return networkService.request(endpoint)
-    }
-
-
+	
+	private let networkService: NetworkService
+	
+	init() {
+		self.networkService = DefaultNetworkService()
+	}
+	
+	func sendCodeWithEmail(body: SendCodeWithEmailBody) -> Single<Data> {
+		let endpoint = EmailEndpoint.sendCodeWithEmail(body: body)
+		return networkService.request(endpoint)
+	}
+	
+	func sendCertifyCode(body: CertifyCodeBody) -> Single<Data> {
+		let endpoint = EmailEndpoint.certifyCode(body: body)
+		return networkService.request(endpoint)
+	}
+	
+	
 }

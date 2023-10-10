@@ -45,7 +45,7 @@ class DiaryCoordinator: Coordinator {
   }
 
   func start() {
-    guard let animalIdx else { return } // 아직 안 사용
+//    guard let animalIdx else { return } // 아직 안 사용
     let diaryViewController = DiaryViewController(
       viewModel: DiaryViewModel(
         coordinator: self

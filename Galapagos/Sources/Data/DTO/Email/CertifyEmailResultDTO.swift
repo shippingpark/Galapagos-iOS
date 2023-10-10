@@ -10,10 +10,9 @@ import Foundation
 
 
 struct CertifyEmailResultDTO: Codable {
-    let message: String
-    
-    func toDomain() -> CertifyCodeResultModel {
-        return CertifyCodeResultModel(message: message)
-    }
+	let message: String
+	
+	func toDomain() -> CertifyCodeResultModel {
+		return CertifyCodeResultModel(message: message)
+	}
 }
-

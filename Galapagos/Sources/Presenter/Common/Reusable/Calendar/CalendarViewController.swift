@@ -55,7 +55,7 @@ final class CalendarViewController: UIViewController {
       let label = UILabel()
       label.text = dayOfTheWeek[i]
       label.font = GalapagosFontFamily.Pretendard.semiBold.font(size: 14)
-      label.textColor = GalapagosAsset.gray2주석CaptionSmall힌트PlaceholderText.color
+      label.textColor = GalapagosAsset.gray2주석CaptionSmall힌트PlaceholderText.color
       label.textAlignment = .center
       stackView.addArrangedSubview(label)
     }

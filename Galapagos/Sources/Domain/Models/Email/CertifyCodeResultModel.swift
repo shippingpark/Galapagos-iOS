@@ -9,5 +9,5 @@
 import Foundation
 
 struct CertifyCodeResultModel: Codable {
-    let message: String
+	let message: String
 }

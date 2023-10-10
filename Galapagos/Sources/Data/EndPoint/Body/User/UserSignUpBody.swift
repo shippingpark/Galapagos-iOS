@@ -9,8 +9,8 @@
 import Foundation
 
 struct UserSignUpBody: Codable {
-    let email: String
-    let password: String
-    let nickName: String
-    let socialType: String
+	let email: String
+	let password: String
+	let nickName: String
+	let socialType: String
 }

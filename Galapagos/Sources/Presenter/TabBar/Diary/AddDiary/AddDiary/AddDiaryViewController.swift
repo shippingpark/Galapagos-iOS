@@ -69,6 +69,6 @@ class AddDiaryViewController: BaseViewController {
       backButtonTapped: navigationBar.backButton.rx.tap.asSignal()
     )
     
-    let output = viewModel.transform(input: input)
+    _ = viewModel.transform(input: input)
   }
 }

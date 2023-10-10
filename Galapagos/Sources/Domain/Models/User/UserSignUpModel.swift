@@ -9,6 +9,6 @@
 import Foundation
 
 struct UserSignUpModel: Codable {
-    let nickName: String
-    let jwt: String
+	let nickName: String
+	let jwt: String
 }

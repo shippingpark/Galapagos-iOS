@@ -9,6 +9,6 @@
 import Foundation
 
 struct CertifyCodeBody: Codable {
-    let email: String
-    let code: String
+	let email: String
+	let code: String
 }

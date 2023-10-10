@@ -9,32 +9,32 @@
 import Foundation
 
 enum UserEndpoint: Endpoint {
-    case SignUp(body: UserSignUpBody)
-    
-    var baseURL: URL? {
-        return URL(string: "http://3.34.8.109:3040/users")
-    }
-    
-    var method: HTTPMethod {
-        switch self {
-            case .SignUp:
-                return .POST
-                
-        }
-    }
-    
-    var path: String {
-        switch self {
-            case .SignUp:
-                return "/send-code/signup"
-        }
-    
-    }
-    
-    var parameters: HTTPRequestParameterType? {
-        switch self {
-            case .SignUp(let body):
-                return .body(body)
-        }
-    }
+	case signUp(body: UserSignUpBody)
+	
+	var baseURL: URL? {
+		return URL(string: "http://3.34.8.109:3040/users")
+	}
+	
+	var method: HTTPMethod {
+		switch self {
+		case .signUp:
+			return .POST
+			
+		}
+	}
+	
+	var path: String {
+		switch self {
+		case .signUp:
+			return "/send-code/signup"
+		}
+		
+	}
+	
+	var parameters: HTTPRequestParameterType? {
+		switch self {
+		case .signUp(let body):
+			return .body(body)
+		}
+	}
 }

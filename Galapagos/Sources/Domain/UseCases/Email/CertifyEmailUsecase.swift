@@ -10,7 +10,6 @@ import Foundation
 import RxSwift
 
 protocol CertifyEmailUsecase {
-    func sendCodeWithEmail(body: SendCodeWithEmailBody) -> Single<CertifyCodeModel>
-    func sendCertifyCode(body: CertifyCodeBody) -> Single<CertifyCodeResultModel>
+	func sendCodeWithEmail(body: SendCodeWithEmailBody) -> Single<CertifyCodeModel>
+	func sendCertifyCode(body: CertifyCodeBody) -> Single<CertifyCodeResultModel>
 }
-

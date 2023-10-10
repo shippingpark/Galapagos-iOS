@@ -41,7 +41,7 @@ final class EmptyStarCommunityView: BaseView {
     )
     
     let blackAttributes: [NSAttributedString.Key: Any] = [
-      .foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color
+      .foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color
     ]
     attributedString.addAttributes(
       blackAttributes,
@@ -64,7 +64,7 @@ final class EmptyStarCommunityView: BaseView {
     let button = GalapagosButton(
       isRound: false,
       iconTitle: nil,
-      type: .Usage(.Inactive),
+      type: .usage(.inactive),
       title: "커뮤니티로 이동하기"
     )
     return button

@@ -10,18 +10,17 @@ import Foundation
 import RxSwift
 
 final class DefaultUserRepository: UserRepository {
-    
-    private let networkService: NetworkService
-    
-    init() {
-        self.networkService = DefaultNetworkService()
-    }
-    
-    
-    func userSignUp(body: UserSignUpBody) -> Single<Data> {
-        let endpoint = UserEndpoint.SignUp(body: body)
-        return networkService.request(endpoint)
-    }
-    
+	
+	private let networkService: NetworkService
+	
+	init() {
+		self.networkService = DefaultNetworkService()
+	}
+	
+	
+	func userSignUp(body: UserSignUpBody) -> Single<Data> {
+		let endpoint = UserEndpoint.signUp(body: body)
+		return networkService.request(endpoint)
+	}
+	
 }
-

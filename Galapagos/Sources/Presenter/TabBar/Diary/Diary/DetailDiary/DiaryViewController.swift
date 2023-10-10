@@ -83,6 +83,6 @@ class DiaryViewController: BaseViewController {
       buttonTapped: button.rx.tap.asSignal()
     )
     
-    let output = viewModel.transform(input: input)
+    _ = viewModel.transform(input: input)
   }
 }

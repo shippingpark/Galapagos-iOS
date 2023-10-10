@@ -9,5 +9,5 @@
 import Foundation
 
 struct SendCodeWithEmailBody: Codable {
-    let email: String
+	let email: String
 }

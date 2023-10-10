@@ -10,5 +10,5 @@ import Foundation
 import RxSwift
 
 protocol UserRepository {
-    func userSignUp(body: UserSignUpBody) -> Single<Data>
+	func userSignUp(body: UserSignUpBody) -> Single<Data>
 }

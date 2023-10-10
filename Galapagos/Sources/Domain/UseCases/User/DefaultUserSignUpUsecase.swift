@@ -10,22 +10,21 @@ import Foundation
 import RxSwift
 
 final class DefaultUserSignUpUsecase: UserSignUpUsecase {
-    
-    private let userRepository: UserRepository
-    
-    init(userRepository: UserRepository) {
-        self.userRepository = userRepository
-    }
-    
-    func userSignUp(body: UserSignUpBody) -> Single<UserSignUpModel> {
-        return userRepository.userSignUp(body: body)
-            .flatMap { data in
-                guard let model = Utility.decode(UserSignUpModel.self, from: data) else {
-                    return Single.error(NetworkError.decodingFailed)
-                }
-                return Single.just(model)
-            }
-    }
-    
+	
+	private let userRepository: UserRepository
+	
+	init(userRepository: UserRepository) {
+		self.userRepository = userRepository
+	}
+	
+	func userSignUp(body: UserSignUpBody) -> Single<UserSignUpModel> {
+		return userRepository.userSignUp(body: body)
+			.flatMap { data in
+				guard let model = Utility.decode(UserSignUpModel.self, from: data) else {
+					return Single.error(NetworkError.decodingFailed)
+				}
+				return Single.just(model)
+			}
+	}
+	
 }
-
