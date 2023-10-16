@@ -157,6 +157,24 @@ class EmailSignUpViewController: BaseViewController {
 			})
 			.disposed(by: disposeBag)
 		
+		output.nextButtonHidden
+			.debug()
+			.asObservable()
+			.withUnretained(self)
+			.subscribe(onNext: { owner, isHidden in
+				owner.nextButton.isHidden = isHidden
+			})
+			.disposed(by: disposeBag)
+		
+		output.backButtonHidden
+			.debug()
+			.asObservable()
+			.withUnretained(self)
+			.subscribe(onNext: { owner, isHidden in
+				owner.navigationBar.backButton.isHidden = isHidden
+			})
+			.disposed(by: disposeBag)
+		
 		output.readyForNextButton
 			.asObservable()
 			.withUnretained(self)
@@ -164,6 +182,16 @@ class EmailSignUpViewController: BaseViewController {
 				isActive
 				? owner.nextButton.makeCustomState(type: .fill)
 				: owner.nextButton.makeCustomState(type: .usage(.disabled))
+			})
+			.disposed(by: disposeBag)
+		
+		output.moveToComplete
+			.observe(on: MainScheduler.instance)
+			.withUnretained(self)
+			.subscribe(onNext: { owner, canMove in
+				if canMove {
+					owner.galapagosPager.nextPage()
+				}
 			})
 			.disposed(by: disposeBag)
 	}

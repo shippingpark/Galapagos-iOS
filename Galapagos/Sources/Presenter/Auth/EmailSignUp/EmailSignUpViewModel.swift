@@ -25,6 +25,9 @@ class EmailSignUpViewModel: ViewModelType{
 	
 	struct Output {
 		let readyForNextButton: Observable<Bool>
+		let nextButtonHidden: Observable<Bool>
+		let backButtonHidden: Observable<Bool>
+		let moveToComplete: Observable<Bool>
 	}
 	
 	// MARK: - Properties
@@ -33,9 +36,12 @@ class EmailSignUpViewModel: ViewModelType{
 	var disposeBag: DisposeBag = DisposeBag()
 	weak var coordinator: AuthCoordinator?
 	
-	let didTapBackButton = PublishSubject<Void>()
 	let readyForNextButton = BehaviorRelay<Bool>(value: false)
 	let letsGoSignUp = BehaviorRelay<Bool>(value: false)
+	
+	private let nextButtonHidden = BehaviorSubject<Bool>(value: false)
+	private let backButtonHidden = BehaviorSubject<Bool>(value: false)
+	private let moveToNext = BehaviorSubject<Bool>(value: false)
 	
 	var email = BehaviorRelay<String>(value: "")
 	var password = BehaviorRelay<String>(value: "")
@@ -67,20 +73,26 @@ class EmailSignUpViewModel: ViewModelType{
 			.subscribe(onNext: { owner, currentPage in
 				print("🍎현재 페이지: \(currentPage)🍎")
 				if currentPage == 0 {
-					owner.coordinator?.userActionState.accept(.signIn)
+					owner.coordinator?.popViewController()
 				} else {
 					owner.readyForNextButton.accept(true)
 				}
 			})
 			.disposed(by: disposeBag)
 		
+		input.nowPage
+			.withUnretained(self)
+			.subscribe(onNext: { owner, page in
+				owner.nextButtonHidden.onNext(page >= 3)
+				owner.backButtonHidden.onNext(page >= 4)
+			})
+			.disposed(by: disposeBag)
+		
+		
+		
 		let signupBody = Observable
 			.combineLatest(email, password, nickname, socialType)
 			.map{ UserSignUpBody(email: $0, password: $1, nickName: $2, socialType: $3) }
-		
-		
-		// TODO: - 회원가입 시, 에러처리 아직 안함. 그리고, pageScroll 되는 부분도 아직 작성X
-		// TODO: - 회원가입 성공 시, JWT 토큰을 UserDefaults에 저장해야함. -> Manager 따로 만들어주기
 		
 		letsGoSignUp
 			.withUnretained(self)
@@ -91,17 +103,24 @@ class EmailSignUpViewModel: ViewModelType{
 			.flatMapLatest { [unowned self] body in
 				return self.userSignUpUsecase.userSignUp(body: body)
 					.catch { error in
+						print("🍎 발생한 에라: \(error) 🍎")
 						return .error(error)
 					}
 			}
-			.subscribe(onNext: { model in
+			.withUnretained(self)
+			.subscribe(onNext: { owner, model in
 				UserDefaults.standard.setValue(model.jwt, forKey: "JWT")
 				UserDefaults.standard.setValue(model.nickName, forKey: "NICKNAME")
+				print("🍎 발급받은 JWT: \(model.jwt) 🍎")
+				owner.moveToNext.onNext(true)
 			})
 			.disposed(by: disposeBag)
 		
 		return Output(
-			readyForNextButton: readyForNextButton.asObservable()
+			readyForNextButton: readyForNextButton.asObservable(),
+			nextButtonHidden: nextButtonHidden.asObservable(),
+			backButtonHidden: backButtonHidden.asObservable(),
+			moveToComplete: moveToNext.asObservable()
 		)
 	}
 }
