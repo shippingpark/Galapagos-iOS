@@ -32,7 +32,7 @@ class EmptyMainAnimalView: BaseView {
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.lineSpacing = label.font.xHeight * 0.5  // 행간 150%
     paragraphStyle.alignment = .center
-
+    
     let attributedString = NSMutableAttributedString(string: text)
     attributedString.addAttribute(
       .paragraphStyle,
@@ -41,7 +41,7 @@ class EmptyMainAnimalView: BaseView {
     )
     
     let blackAttributes: [NSAttributedString.Key: Any] = [
-      .foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color
+      .foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color
     ]
     let greenAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: GalapagosAsset.green.color]
     let greenRange = (text as NSString).range(of: "동물을 추가하고 대표 동물을 설정")
@@ -58,18 +58,22 @@ class EmptyMainAnimalView: BaseView {
   
   var addAnimalButton: UIButton = {
     let button = UIButton()
-    let horizental: CGFloat = 20
-    var config = UIButton.Configuration.tinted()
+    var config = UIButton.Configuration.filled()
+    config.imagePlacement = .leading
     config.imagePadding = 8
     button.configuration = config
-    button.setTitle("동물 추가하기", for: .normal)
+    button.tintColor = GalapagosAsset.green.color
     button.setImage(
-      GalapagosAsset._16x16plusDefault.image, 
+      GalapagosAsset._16x16plusDefault.image,
       for: .normal
     )
-    button.configuration?.imagePlacement = .leading
-      return button
+    return button
   }()
+  
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    self.addAnimalButton.cornerRadius = 26
+  }
   
   override func setAddSubView() {
     self.addSubview(shadowView)
@@ -89,15 +93,49 @@ class EmptyMainAnimalView: BaseView {
     animalStackView.snp.makeConstraints { make in
       make.center.equalToSuperview()
     }
-
+    
     addAnimalInfoLabel.snp.makeConstraints { make in
       make.width.lessThanOrEqualToSuperview()
     }
     
     addAnimalButton.snp.makeConstraints { make in
-      make.centerX.equalToSuperview()
       make.height.equalTo(52)
-      
+      make.width.equalTo(145)
     }
+  }
+  
+  override func setAttribute() {
+    let buttonFont = GalapagosFontFamily.Pretendard.semiBold.font(size: 16)
+    let title = "동물 추가하기"
+    
+    addAnimalButton.titleLabel?.font = buttonFont
+    addAnimalButton.setTitleColor(.white, for: .normal)
+    addAnimalButton.setTitleColor(.white, for: .highlighted)
+
+    // UIButton의 각 상태에 대해 폰트를 다시 설정
+    addAnimalButton.setAttributedTitle(
+      attributedString(
+        for: title,
+        with: buttonFont
+      ),
+      for: .normal
+    )
+    addAnimalButton.setAttributedTitle(
+      attributedString(
+        for: title,
+        with: buttonFont
+      ),
+      for: .highlighted
+    )
+  }
+  
+  private func attributedString(
+    for string: String,
+    with font: UIFont
+  ) -> NSAttributedString {
+    return NSAttributedString(
+      string: string,
+      attributes: [.font: font]
+    )
   }
 }

@@ -41,7 +41,7 @@ final class EmptyStarCommunityView: BaseView {
     )
     
     let blackAttributes: [NSAttributedString.Key: Any] = [
-      .foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color
+      .foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color
     ]
     attributedString.addAttributes(
       blackAttributes,

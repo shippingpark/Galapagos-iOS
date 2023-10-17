@@ -35,5 +35,4 @@ class SplashViewModel: ViewModelType{
     // 당연히, 로직 자체는 UseCase에 존재
     self.coordinator?.userActionState.accept(.tabBar)  // 우선 고정시켜둠
   }
-  
 }
