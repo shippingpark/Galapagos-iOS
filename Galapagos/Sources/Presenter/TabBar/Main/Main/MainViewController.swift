@@ -50,10 +50,27 @@ final class MainViewController: BaseViewController {
     return label
   }()
   
+  private lazy var pathOfCommunityTab: GalapagosDynamicTabView = {
+    let tab = GalapagosDynamicTabView(
+      type: .inContents,
+      titles: self.pathOfCategory
+    )
+    
+    tab
+      .rx
+      .changedPage
+      .drive { pageIndex in
+        print("\(pageIndex)")
+      }
+      .disposed(by: disposeBag)
+    
+    return tab
+  }()
+  
   // MARK: - Properties
   
   private let viewModel: MainViewModel
-  
+  private let pathOfCategory: [String] = ["자유게시판", "QnA", "공지사항"]
   // MARK: - Initializers
   
   init(viewModel: MainViewModel) {
@@ -75,7 +92,10 @@ final class MainViewController: BaseViewController {
       animalContainerView,
       communityContainerView
     ])
-    communityContainerView.addSubview(communityLabel)
+    communityContainerView.addSubviews([
+      communityLabel,
+      pathOfCommunityTab
+    ])
   }
   
   override func setConstraint() {
@@ -105,16 +125,21 @@ final class MainViewController: BaseViewController {
       make.top.equalToSuperview().offset(navigationBarToContentsOffset)
       make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
     }
-    
-    communityLabel.snp.makeConstraints { make in
-      make.top.horizontalEdges.equalToSuperview()
-    }
-    
+        
     communityContainerView.snp.makeConstraints { make in
       make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
       make.top.equalTo(animalContainerView.snp.bottom).offset(contentsToContentsOffset)
       make.bottom.equalTo(contentView.snp.bottom)
       
+    }
+    
+    communityLabel.snp.makeConstraints { make in
+      make.top.horizontalEdges.equalToSuperview()
+    }
+    
+    pathOfCommunityTab.snp.makeConstraints { make in
+      make.top.equalTo(communityLabel.snp.bottom).offset(12)
+      make.horizontalEdges.equalToSuperview()
     }
   }
   
@@ -167,7 +192,7 @@ final class MainViewController: BaseViewController {
   
   private func emptyStarConmmnityViewConstraint() {
     emptyStarCommunityView.snp.makeConstraints { make in
-      make.top.equalTo(communityLabel.snp.bottom).offset(navigationBarToContentsOffset)
+      make.top.equalTo(pathOfCommunityTab.snp.bottom).offset(navigationBarToContentsOffset)
       make.centerX.equalToSuperview()
       make.width.equalTo(communityContainerView.snp.width)
       make.height.equalTo(emptyStarCommunityView.snp.width).multipliedBy(0.53)
