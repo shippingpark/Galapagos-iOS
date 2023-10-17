@@ -20,6 +20,23 @@ class DiaryListViewController: BaseViewController {
     return navigationBar
   }()
   
+  private lazy var typeOfAnimalTab: GalapagosDynamicTabView = {
+    let tab = GalapagosDynamicTabView(
+      type: .underHeader,
+      titles: self.typeOfAnimal
+    )
+    
+    tab
+      .rx
+      .changedPage
+      .drive { pageIndex in
+        print("\(pageIndex)")
+      }
+      .disposed(by: disposeBag)
+    
+    return tab
+  }()
+  
   private var button = UIButton().then {
     $0.backgroundColor = .darkGray
     $0.setTitle("상세 다이어리", for: .normal)
@@ -33,6 +50,7 @@ class DiaryListViewController: BaseViewController {
   // MARK: - Properties
   
   private let viewModel: DiaryListViewModel
+  private var typeOfAnimal: [String] = ["전체", "도마뱀"]
   
   // MARK: - Initializers
   
@@ -46,6 +64,7 @@ class DiaryListViewController: BaseViewController {
   override func setAddSubView() {
     self.view.addSubviews([
       navigationBar,
+      typeOfAnimalTab,
       button,
       button2
     ])
@@ -56,6 +75,11 @@ class DiaryListViewController: BaseViewController {
       navigationBar.top.equalTo(self.view.safeAreaLayoutGuide)
       navigationBar.leading.trailing.equalToSuperview()
       navigationBar.height.equalTo(50)
+    }
+    
+    typeOfAnimalTab.snp.makeConstraints { tab in
+      tab.top.equalTo(navigationBar.snp.bottom)
+      tab.horizontalEdges.equalToSuperview()
     }
     
     button.snp.makeConstraints { make in

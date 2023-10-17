@@ -10,7 +10,7 @@ import Foundation
 import RxCocoa
 import RxSwift
 
-class AddAnimalViewModel: ViewModelType {
+final class AddAnimalViewModel: ViewModelType {
   struct Input {
     let backButtonTapped: Signal<Void>
     let profileTapped: Signal<Void>

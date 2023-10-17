@@ -13,7 +13,7 @@ import SiriUIKit
 import SnapKit
 import UIKit
 
-class AddAnimalViewController: BaseViewController {
+final class AddAnimalViewController: BaseViewController {
   
   // MARK: - UI
   
@@ -23,53 +23,149 @@ class AddAnimalViewController: BaseViewController {
     return navigationBar
   }()
   
-  private lazy var profileContainer = UIView()
-  private lazy var nameContainer = UIView()
-  private lazy var genderContainer = UIView()
-  private lazy var speciesContainer = UIView()
-  private lazy var adoptionDateContainer = UIView()
-  private lazy var birthDateContainer = UIView()
+  private lazy var nameContainerView = AddAnimalContainerView(
+    title: "이름*",
+    checkButton: .use(title: "대표동물 설정"),
+    contentView: self.nameTextField
+  )
+  private lazy var genderContainerView = AddAnimalContainerView(
+    title: "성별*",
+    checkButton: .unused,
+    contentView: self.genderButtonStackView
+  )
+  private lazy var speciesContainerView = AddAnimalContainerView(
+    title: "종 선택*",
+    checkButton: .unused,
+    contentView: self.speciesStackView
+  )
+  private lazy var adoptionDateContainerView = AddAnimalContainerView(
+    title: "입양일*",
+    checkButton: .unused,
+    contentView: self.adoptionTextField
+  )
+  private lazy var birthDateContainerView = AddAnimalContainerView(
+    title: "탄생일*",
+    checkButton: .use(title: "탄생일을 모르겠어요"),
+    contentView: self.birthDateTextField
+  )
   
-  private lazy var profileImageView = {
+  private lazy var scrollView: UIScrollView = {
+    let scrollView = UIScrollView()
+    scrollView.showsVerticalScrollIndicator = false
+    return scrollView
+  }()
+  
+  private lazy var contentStackView: UIStackView = {
+    let stackView = UIStackView()
+    stackView.axis = .vertical
+    stackView.alignment = .center
+    stackView.spacing = 32
+    return stackView
+  }()
+  private lazy var genderButtonStackView: UIStackView = {
+    let stackView = UIStackView()
+    stackView.axis = .horizontal
+    stackView.alignment = .center
+    stackView.distribution = .fillEqually
+    stackView.spacing = 6
+    return stackView
+  }()
+  private lazy var speciesStackView: UIStackView = {
+    let stackView = UIStackView()
+    stackView.axis = .vertical
+    stackView.alignment = .center
+    stackView.distribution = .fill
+    stackView.spacing = 0 // 칩 추가 시 12로 변경
+    return stackView
+  }()
+  
+  private lazy var contentView: UIView = {
+    let contentView = UIView()
+    return contentView
+  }()
+  private lazy var profileContainerView = UIView()
+  private lazy var circleShadowCameraView: UIView = {
+    let radiusBoxView = RadiusBoxView(radius: 16, style: .shadow)
+    radiusBoxView.layer.shadowColor = GalapagosAsset.black제목DisplayHeadingBody.color.withAlphaComponent(0.25).cgColor
+    radiusBoxView.layer.shadowOffset = CGSize(width: 0, height: 4)
+    radiusBoxView.layer.shadowRadius = 4.0 // Blur
+    radiusBoxView.layer.shadowOpacity = 1
+    return radiusBoxView
+  }()
+  private lazy var speciesChipView = UIView()
+  
+  private lazy var profileImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.backgroundColor = GalapagosAsset.gray3DisableButtonBg.color
     imageView.layer.cornerRadius = 12
     imageView.contentMode = .scaleAspectFill
     return imageView
   }()
+  private let cameraImageView: UIImageView = UIImageView(image: GalapagosAsset._16x16CameraDefault.image)
   
-  private lazy var circleShadowCameraView = {
-    let radiusBoxView = RadiusBoxView(radius: 16, style: .shadow)
-    radiusBoxView.layer.shadowColor = GalapagosAsset.black제목DisplayHeadingBody.color.withAlphaComponent(0.25).cgColor
-    radiusBoxView.layer.shadowOffset = CGSize(width: 0, height: 4)
-    radiusBoxView.layer.shadowRadius = 4.0 // Blur
-    radiusBoxView.layer.shadowOpacity = 1
-    return radiusBoxView
+  private lazy var nameTextField: GalapagosTextField = {
+    let textField = GalapagosTextField(
+      placeHolder: "이름을 입력해주세요",
+      maxCount: 8
+    )
+    return textField
   }()
+  private lazy var adoptionTextField = AddAnimalCalendarTextFieldView(
+    placeHolder: "입양일을 선택해주세요"
+  )
+  private lazy var birthDateTextField = AddAnimalCalendarTextFieldView(
+    placeHolder: "탄생일을 선택해주세요"
+  )
   
-  private let cameraImageView = UIImageView(image: GalapagosAsset._16x16CameraDefault.image)
-  
-  private let nameLabel: UILabel = AddAnimalViewTextLabel(title: "이름*")
-  
-  private lazy var setMainAnimalButton: UIButton = {
-    let button = UIButton()
-    button.setImage(GalapagosAsset._24x24checkRoundDefault.image, for: .normal)
-    button.setImage(GalapagosAsset._24x24checkRoundActive.image, for: .selected)
-    button.contentMode = .scaleAspectFill
+  private lazy var undifferentiatedGenderButton: GalapagosButton = {
+    let button = GalapagosButton(
+      isRound: false,
+      iconTitle: nil,
+      type: .usage(.disabled),
+      title: "미구분"
+    )
     return button
   }()
-  
-  private lazy var setMainButtonInfoLabel: UILabel = {
-    let label = UILabel()
-    label.text = "대표동물로 설정하기"
-    label.textColor = GalapagosAsset.gray1본문Body.color
-    label.font = GalapagosFontFamily.Pretendard.medium.font(size: 14)
-    return label
+  private lazy var maleGenderButton: GalapagosButton = {
+    let button = GalapagosButton(
+      isRound: false,
+      iconTitle: nil,
+      type: .usage(.disabled),
+      title: "수컷"
+    )
+    return button
+  }()
+  private lazy var femaleGenderButton: GalapagosButton = {
+    let button = GalapagosButton(
+      isRound: false,
+      iconTitle: nil,
+      type: .usage(.disabled),
+      title: "암컷"
+    )
+    return button
+  }()
+  private lazy var speciesSelectButton: GalapagosButton = {
+    let button = GalapagosButton(
+      isRound: false,
+      iconTitle: nil,
+      type: .usage(.whiteDisabled),
+      title: "선택하기"
+    )
+    return button
+  }()
+  private lazy var completeAddAnimalButton: GalapagosButton = {
+    let button = GalapagosButton(
+      isRound: false,
+      iconTitle: nil,
+      type: .usage(.disabled),
+      title: "완료"
+    )
+    return button
   }()
   
   
   // MARK: - Properties
-  
+  private var gender: GenderType?
   private let viewModel: AddAnimalViewModel
   
   // MARK: - Initializers
@@ -86,45 +182,103 @@ class AddAnimalViewController: BaseViewController {
   // MARK: - Methods
   
   override func setAddSubView() {
-    self.view.addSubviews([
+    view.addSubviews([
       navigationBar,
-      profileContainer,
-      nameContainer,
-      genderContainer,
-      speciesContainer,
-      adoptionDateContainer,
-      birthDateContainer,
+      scrollView
     ])
     
-    profileContainer.addSubview(profileImageView)
+    scrollView.addSubviews([
+      contentView
+    ])
+    
+    contentView.addSubviews([
+      profileContainerView,
+      contentStackView,
+      completeAddAnimalButton
+    ])
+    
+    contentStackView.addArrangedSubviews([
+      nameContainerView,
+      genderContainerView,
+      speciesContainerView,
+      adoptionDateContainerView,
+      birthDateContainerView
+    ])
+    
+    profileContainerView.addSubview(profileImageView)
     profileImageView.addSubview(circleShadowCameraView)
     circleShadowCameraView.addSubview(cameraImageView)
+
+    genderContainerView.addSubviews([
+      genderButtonStackView
+    ])
     
-    nameContainer.addSubviews([
-      nameLabel,
-      setMainAnimalButton,
-      setMainButtonInfoLabel
+    genderButtonStackView.addArrangedSubviews([
+      undifferentiatedGenderButton,
+      maleGenderButton,
+      femaleGenderButton
+    ])
+    
+    speciesStackView.addArrangedSubviews([
+      speciesSelectButton
     ])
   }
   
   override func setConstraint() {
+    setBlockView()
+    setContainerConstraint()
+    setProfileContainerConstraint()
+    setNameContainerConstraint()
+    setGenderContainerConstraint()
+    setSpeciesContainerConstraint()
+    setAdoptionDateContainerConstraint()
+    setBirthDateContainerConstraint()
+  }
+  
+  private func setBlockView() {
     navigationBar.snp.makeConstraints{ navigationBar in
       navigationBar.top.equalTo(self.view.safeAreaLayoutGuide)
       navigationBar.leading.trailing.equalToSuperview()
       navigationBar.height.equalTo(50)
     }
     
-    profileContainer.snp.makeConstraints { make in
-      make.top.equalTo(navigationBar.snp.bottom).offset(38)
+    scrollView.snp.makeConstraints { make in
+      make.top.equalTo(navigationBar.snp.bottom)
+      make.leading.trailing.bottom.equalToSuperview()
+    }
+    
+    contentView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+      make.width.equalToSuperview()
+    }
+  }
+  
+  private func setContainerConstraint() {
+    profileContainerView.snp.makeConstraints { make in
+      make.top.equalToSuperview().offset(38)
+      make.centerX.equalToSuperview()
       make.leading.equalTo(profileImageView)
       make.trailing.equalTo(profileImageView.snp.trailing).offset(6)
       make.bottom.equalTo(circleShadowCameraView)
     }
-    profileContainer.backgroundColor = .blue
     
+    contentStackView.snp.makeConstraints { make in
+      make.top.equalTo(profileContainerView.snp.bottom).offset(56)
+      make.horizontalEdges.equalTo(view.snp.horizontalEdges)
+    }
+
+    completeAddAnimalButton.snp.makeConstraints { make in
+      make.top.equalTo(contentStackView.snp.bottom).offset(40)
+      make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
+      make.height.equalTo(56)
+      make.bottom.equalToSuperview()
+    }
+  }
+  
+  private func setProfileContainerConstraint() {
     profileImageView.snp.makeConstraints { make in
       make.top.equalToSuperview()
-      make.centerX.equalTo(self.view.snp.centerX)
+      make.leading.equalToSuperview()
       make.size.equalTo(110)
     }
     
@@ -137,45 +291,129 @@ class AddAnimalViewController: BaseViewController {
     cameraImageView.snp.makeConstraints { make in
       make.center.equalTo(circleShadowCameraView.snp.center)
     }
-    
-    nameContainer.snp.makeConstraints { make in
-      make.top.equalTo(profileContainer.snp.bottom).offset(64)
-      make.centerX.equalToSuperview()
+  }
+  
+  private func setNameContainerConstraint() {
+    nameContainerView.snp.makeConstraints { make in
       make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
     }
     
-    nameLabel.snp.makeConstraints { make in
-      make.leading.equalToSuperview()
-      make.centerY.equalTo(setMainAnimalButton.snp.centerY)
-    }
-    
-    setMainAnimalButton.snp.makeConstraints { make in
-      make.top.equalToSuperview()
-      make.trailing.equalTo(setMainButtonInfoLabel.snp.leading).offset(-6)
-    }
-    
-    setMainButtonInfoLabel.snp.makeConstraints { make in
-      make.centerY.equalTo(setMainAnimalButton.snp.centerY)
-      make.trailing.equalToSuperview()
+    nameTextField.snp.makeConstraints { make in
+      make.height.equalTo(56)
     }
   }
   
-  override func setAttribute() {
+  private func setGenderContainerConstraint() {
+    genderContainerView.snp.makeConstraints { make in
+      make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
+    }
     
+    genderButtonStackView.snp.makeConstraints { make in
+      make.horizontalEdges.equalToSuperview()
+      make.height.equalTo(56)
+    }
+    
+    undifferentiatedGenderButton.snp.makeConstraints { make in
+      make.height.equalTo(56)
+    }
+    
+    maleGenderButton.snp.makeConstraints { make in
+      make.height.equalTo(56)
+    }
+    
+    femaleGenderButton.snp.makeConstraints { make in
+      make.height.equalTo(56)
+    }
   }
   
+  private func setSpeciesContainerConstraint() {
+    speciesContainerView.snp.makeConstraints { make in
+      make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
+    }
+    
+    speciesStackView.snp.makeConstraints { make in
+      make.horizontalEdges.equalToSuperview()
+      make.height.greaterThanOrEqualTo(56)
+    }
+    
+    speciesSelectButton.snp.makeConstraints { make in
+      make.horizontalEdges.equalToSuperview()
+      make.height.equalTo(56)
+    }
+  }
   
-  override func bind() { // 대표 동물로 설정하기, 이름, 성별, 종, 입양일, 탄생일,
+  private func setAdoptionDateContainerConstraint() {
+    adoptionDateContainerView.snp.makeConstraints { make in
+      make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
+    }
+    adoptionTextField.snp.makeConstraints { make in
+      make.height.equalTo(56)
+    }
+  }
+  
+  private func setBirthDateContainerConstraint() {
+    birthDateContainerView.snp.makeConstraints { make in
+      make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
+    }
+    
+    birthDateTextField.snp.makeConstraints { make in
+      make.height.equalTo(56)
+    }
+  }
+  
+  override func bind() {
     let input = AddAnimalViewModel.Input(
       backButtonTapped: navigationBar.backButton.rx.tap.asSignal(),
-      profileTapped: profileContainer.rx.tapGesture()
+      profileTapped: profileContainerView.rx.tapGesture()
         .when(.recognized)
         .map { [weak self] _ in
-          self?.present(CalendarViewController(events: ["2023-08-09"]), animated: false) // 테스트용, 추후 달력 버튼 위치로 변경
+          self?.present(
+            CalendarViewController(
+              events: ["2023-08-09"]),
+            animated: false
+          ) // 테스트용, 추후 달력 버튼 위치로 변경
         }
         .asSignal(onErrorJustReturn: ())
     )
     
     _ = viewModel.transform(input: input)
+    
+    // MARK: - 동작 확인 (삭제 예정)
+    
+    nameTextField.rx.text.orEmpty
+      .asDriver()
+      .debounce(.milliseconds(300))
+      .drive(
+        onNext: { text in
+          print("\(text)")
+        }
+      )
+      .disposed(by: disposeBag)
+    
+    nameContainerView.rx.isSelected
+      .asDriver(onErrorJustReturn: false)
+      .drive{ check in
+        print("\(check)")
+      }
+      .disposed(by: disposeBag)
+    
+    adoptionTextField.rxDate
+      .accept("넣어지나 확인")
+    
+    adoptionTextField.rx.tap
+      .asDriver(onErrorDriveWith: .empty())
+      .drive(onNext: { 
+//        guard let self = self else { return }
+        print("눌림")
+      })
+      .disposed(by: disposeBag)
+  }
+}
+
+extension AddAnimalViewController {
+  enum GenderType {
+    case undifferentiated
+    case male
+    case female
   }
 }
