@@ -18,20 +18,20 @@ import UIKit
 class SignInViewController: BaseViewController {
 	
 	// MARK: - UI
-	private lazy var titleLabel: UILabel = {
-		let label = UILabel()
-		label.text = "갈파 텍스트 로고"
-		label.textColor = GalapagosAsset.green.color
-		label.font = GalapagosFontFamily.Pretendard.bold.font(size: 28)
-		return label
-	}()
 	
 	private lazy var logoImageView: UIImageView = {
 		let imageView = UIImageView()
 		imageView.contentMode = .scaleAspectFit
-		imageView.backgroundColor = GalapagosAsset.gray3DisableButtonBg.color
+		imageView.image = GalapagosAsset.galapagosLogo.image
 		imageView.clipsToBounds = true
 		imageView.cornerRadius = 12
+		return imageView
+	}()
+	
+	private lazy var logoTitleImageView: UIImageView = {
+		let imageView = UIImageView()
+		imageView.contentMode = .scaleAspectFit
+		imageView.image = GalapagosAsset.galapagosLogoTitle.image
 		return imageView
 	}()
 	
@@ -86,45 +86,40 @@ class SignInViewController: BaseViewController {
 		return  button
 	}()
 	
-	private lazy var emailSignUpButton: GalapagosButton = {
-		let button = GalapagosButton(
-			isRound: false,
-			iconTitle: nil,
-			type: .outline(.nornal),
-			title: "이메일 회원가입"
-		)
-		//    let attributedString = NSAttributedString(string: "이메일 회원가입",
-		//                                              attributes: [
-		//                                                .underlineStyle : NSUnderlineStyle.single.rawValue,
-		//                                                .baselineOffset : NSNumber(value: 2),
-		//                                                .underlineColor : GalapagosAsset.gray1본문Body.color
-		//                                              ])
-		//    button.setAttributedTitle(attributedString, for: .normal)
-		//    button.setTitleColor(GalapagosAsset.gray1본문Body.color, for: .normal)
-		//    button.titleLabel?.font = GalapagosFontFamily.Pretendard.medium.font(size: 14)
-		//    button.borderWidth = 0
-		return  button
+	private lazy var emailSignUpLabel: UILabel = {
+		let label = UILabel()
+		let text = "이메일 회원가입"
+		let attributedString = NSMutableAttributedString(string: text)
+		
+		let underLineAttributes: [NSAttributedString.Key: Any] = [
+			.underlineStyle: NSUnderlineStyle.single.rawValue,
+			.baselineOffset : NSNumber(value: 3)
+		]
+		attributedString.addAttributes(underLineAttributes, range: NSRange(location: 0, length: text.count))
+		label.attributedText = attributedString
+		label.font = GalapagosFontFamily.Pretendard.medium.font(size: 16)
+		return label
 	}()
 	
-	private lazy var emailSignInButton: GalapagosButton = {
-		let button = GalapagosButton(
-			isRound: false,
-			iconTitle: nil,
-			type: .outline(.nornal),
-			title: "이메일 로그인"
-		)
-		//    let attributedString =
-		//    NSAttributedString(string: "이메일 로그인",
-		//                       attributes: [
-		//                        .underlineStyle : NSUnderlineStyle.single.rawValue,
-		//                        .baselineOffset : NSNumber(value: 2),
-		//                        .underlineColor : GalapagosAsset.gray1본문Body.color
-		//                       ])
-		//    button.setAttributedTitle(attributedString, for: .normal)
-		//    button.setTitleColor(GalapagosAsset.gray1본문Body.color, for: .normal)
-		//    button.titleLabel?.font = GalapagosFontFamily.Pretendard.medium.font(size: 14)
-		//    button.borderWidth = 0
-		return  button
+	private lazy var emailSignInLabel: UILabel = {
+		let label = UILabel()
+		let text = "이메일 로그인"
+		let attributedString = NSMutableAttributedString(string: text)
+		
+		let underLineAttributes: [NSAttributedString.Key: Any] = [
+			.underlineStyle: NSUnderlineStyle.single.rawValue,
+			.baselineOffset : NSNumber(value: 3)
+		]
+		attributedString.addAttributes(underLineAttributes, range: NSRange(location: 0, length: text.count))
+		label.attributedText = attributedString
+		label.font = GalapagosFontFamily.Pretendard.medium.font(size: 16)
+		return label
+	}()
+	
+	private lazy var separatorView: UIView = {
+		let separator = UIView()
+		separator.backgroundColor = GalapagosAsset.gray5DisableText2.color
+		return separator
 	}()
 	
 	private lazy var socialLoginStackView: UIStackView = {
@@ -139,9 +134,9 @@ class SignInViewController: BaseViewController {
 	private lazy var emailLoginStackView: UIStackView = {
 		let stackView = UIStackView()
 		stackView.axis = .horizontal
-		stackView.alignment = .top
-		stackView.distribution = .fillProportionally
-		stackView.spacing = 20
+		stackView.alignment = .center
+		stackView.distribution = .equalSpacing
+		stackView.spacing = 10
 		return stackView
 	}()
 	
@@ -163,20 +158,22 @@ class SignInViewController: BaseViewController {
 	
 	// MARK: - Methods
 	override func setConstraint() {
-		titleLabel.snp.makeConstraints{ titleLable in
-			titleLable.centerX.equalToSuperview()
-			titleLable.centerY.equalToSuperview().multipliedBy(0.4)
-		}
-		
 		logoImageView.snp.makeConstraints { logoImageView in
 			logoImageView.centerX.equalToSuperview()
-			logoImageView.top.equalTo(titleLabel.snp.bottom).multipliedBy(1.2)
-			logoImageView.height.width.equalTo(185)
+			logoImageView.top.equalToSuperview().offset(180)
+			logoImageView.height.width.equalTo(110)
+		}
+		
+		logoTitleImageView.snp.makeConstraints { logoTitleImageView in
+			logoTitleImageView.centerX.equalToSuperview()
+			logoTitleImageView.top.equalTo(logoImageView.snp.bottom).offset(24)
+			logoTitleImageView.height.equalTo(30)
+			logoTitleImageView.width.equalTo(150)
 		}
 		
 		galapagosInfoLable.snp.makeConstraints{ infoLabel in
 			infoLabel.centerX.equalToSuperview()
-			infoLabel.top.equalTo(logoImageView.snp.bottom).multipliedBy(1.1)
+			infoLabel.top.equalTo(logoTitleImageView.snp.bottom).offset(50)
 		}
 		
 		kakaoSignInButton.snp.makeConstraints { kakaoButton in
@@ -200,14 +197,9 @@ class SignInViewController: BaseViewController {
 			socialStack.top.equalTo(galapagosInfoLable.snp.bottom).multipliedBy(1.25)
 		}
 		
-		emailSignUpButton.snp.makeConstraints { emailSignUp in
-			emailSignUp.height.equalTo(56)
-			emailSignUp.width.equalTo(124)
-		}
-		
-		emailSignInButton.snp.makeConstraints { emailSignIn in
-			emailSignIn.height.equalTo(56)
-			emailSignIn.width.equalTo(124)
+		separatorView.snp.makeConstraints{ separator in
+			separator.width.equalTo(0.6)
+			separator.height.equalTo(16)
 		}
 		
 		emailLoginStackView.snp.makeConstraints{ emailStack in
@@ -216,10 +208,11 @@ class SignInViewController: BaseViewController {
 				.offset(20)
 		}
 	}
+	
 	override func setAddSubView() {
 		self.view.addSubviews([
-			titleLabel,
 			logoImageView,
+			logoTitleImageView,
 			galapagosInfoLable,
 			socialLoginStackView,
 			emailLoginStackView
@@ -230,15 +223,14 @@ class SignInViewController: BaseViewController {
 			appleSignInButton,
 			googleSignInButton ].forEach { self.socialLoginStackView.addArrangedSubview($0) }
 		
-		[	emailSignUpButton,
-			emailSignInButton ].forEach { self.emailLoginStackView.addArrangedSubview($0) }
+		[	emailSignUpLabel,
+			separatorView,
+			emailSignInLabel ].forEach { self.emailLoginStackView.addArrangedSubview($0) }
 	}
 	
 	override func bind() {
-		
-		
-		let emailSignUpBtnTapped = emailSignUpButton.rx.tapGesture().when(.recognized).map{_ in }.asObservable()
-		let emailSignInBtnTapped = emailSignInButton.rx.tapGesture().when(.recognized).map{_ in }.asObservable()
+		let emailSignUpBtnTapped = emailSignUpLabel.rx.tapGesture().when(.recognized).map{_ in }.asObservable()
+		let emailSignInBtnTapped = emailSignInLabel.rx.tapGesture().when(.recognized).map{_ in }.asObservable()
 		let googleSignInBtnTapped = googleSignInButton.rx.tap
 			.asObservable()
 		
