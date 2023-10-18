@@ -86,7 +86,7 @@ final class AddAnimalViewController: BaseViewController {
   private lazy var profileContainerView = UIView()
   private lazy var circleShadowCameraView: UIView = {
     let radiusBoxView = RadiusBoxView(radius: 16, style: .shadow)
-    radiusBoxView.layer.shadowColor = GalapagosAsset.black제목DisplayHeadingBody.color.withAlphaComponent(0.25).cgColor
+    radiusBoxView.layer.shadowColor = GalapagosAsset.blackDisplayHeadingBody.color.withAlphaComponent(0.25).cgColor
     radiusBoxView.layer.shadowOffset = CGSize(width: 0, height: 4)
     radiusBoxView.layer.shadowRadius = 4.0 // Blur
     radiusBoxView.layer.shadowOpacity = 1

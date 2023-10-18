@@ -18,7 +18,7 @@ final class AddAnimalContainerView<T: UIView>: UIView {
   
   private let label: UILabel = {
     let label = UILabel()
-    label.textColor = GalapagosAsset.gray2주석CaptionSmall힌트PlaceholderText.color
+    label.textColor = GalapagosAsset.gray2CaptionSmallPlaceholderText.color
     label.font = GalapagosFontFamily.Pretendard.medium.font(size: 16)
     return label
   }()
@@ -34,7 +34,7 @@ final class AddAnimalContainerView<T: UIView>: UIView {
   private let buttonInfo = {
     let label = UILabel()
     label.text = "대표동물로 설정"
-    label.textColor = GalapagosAsset.gray1본문Body.color
+    label.textColor = GalapagosAsset.gray1Body.color
     label.font = GalapagosFontFamily.Pretendard.medium.font(size: 14)
     return label
   }()

@@ -45,7 +45,7 @@ final class MainViewController: BaseViewController {
   private lazy var communityLabel: UILabel = {
     let label = UILabel()
     label.text = "커뮤니티 최신글"
-    label.textColor = GalapagosAsset.black제목DisplayHeadingBody.color
+    label.textColor = GalapagosAsset.blackDisplayHeadingBody.color
     label.font = GalapagosFontFamily.Pretendard.bold.font(size: 24)
     return label
   }()

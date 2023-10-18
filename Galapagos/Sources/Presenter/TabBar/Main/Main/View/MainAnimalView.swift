@@ -29,7 +29,7 @@ class MainAnimalView: BaseView {
       NSAttributedString.Key: Any
     ] = [
       .foregroundColor:
-        GalapagosAsset.black제목DisplayHeadingBody.color
+        GalapagosAsset.blackDisplayHeadingBody.color
     ]
     attributedString.addAttributes(
       blackAttributes,
@@ -64,7 +64,7 @@ class MainAnimalView: BaseView {
       string: text
     )
     let blackAttributes: [NSAttributedString.Key: Any] = [
-      .foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color
+      .foregroundColor: GalapagosAsset.blackDisplayHeadingBody.color
     ]
     attributedString.addAttributes(
       blackAttributes,
@@ -204,7 +204,7 @@ final class RadiusNumberView: BaseView {
     )
     let blackAttributes: [
       NSAttributedString.Key: Any] = [
-        .foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color
+        .foregroundColor: GalapagosAsset.blackDisplayHeadingBody.color
       ]
     attributedString.addAttributes(blackAttributes, range: NSRange(location: 0, length: text.count))
     label.attributedText = attributedString

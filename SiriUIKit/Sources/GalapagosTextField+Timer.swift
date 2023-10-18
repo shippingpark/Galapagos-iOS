@@ -30,7 +30,7 @@ public final class GalapagosTextField_Timer: UIView {
 		textField.layer.borderWidth = 1
 		textField.keyboardType = .default
 		textField.font = SiriUIKitFontFamily.Pretendard.medium.font(size: 18)
-		textField.textColor = SiriUIKitAsset.black제목DisplayHeadingBody.color
+		textField.textColor = SiriUIKitAsset.blackDisplayHeadingBody.color
 		return textField
 	}()
 	
@@ -251,7 +251,7 @@ extension GalapagosTextField_Timer{
 		var timerColor: UIColor {
 			switch self {
 			case .def:
-				return SiriUIKitAsset.white기본화이트.color
+				return SiriUIKitAsset.whiteDefaultWhite.color
 			case .focus:
 				return SiriUIKitAsset.green.color
 			case .filed:
@@ -269,22 +269,22 @@ extension GalapagosTextField_Timer{
 			case .def:
 				return TextFieldWithTimerUISet(
 					borderColor: SiriUIKitAsset.gray1Outline.color,
-					textFieldBackgroundColor: SiriUIKitAsset.white기본화이트.color,
-					textFieldTextColor: SiriUIKitAsset.gray1본문Body.color,
+					textFieldBackgroundColor: SiriUIKitAsset.whiteDefaultWhite.color,
+					textFieldTextColor: SiriUIKitAsset.gray1Body.color,
 					isUserInteractive: true
 				)
 			case .focus:
 				return TextFieldWithTimerUISet(
 					borderColor: SiriUIKitAsset.green.color,
-					textFieldBackgroundColor: SiriUIKitAsset.white기본화이트.color,
-					textFieldTextColor: SiriUIKitAsset.gray1본문Body.color,
+					textFieldBackgroundColor: SiriUIKitAsset.whiteDefaultWhite.color,
+					textFieldTextColor: SiriUIKitAsset.gray1Body.color,
 					isUserInteractive: true
 				)
 			case .filed:
 				return TextFieldWithTimerUISet(
 					borderColor: SiriUIKitAsset.gray1Outline.color,
-					textFieldBackgroundColor: SiriUIKitAsset.white기본화이트.color,
-					textFieldTextColor: SiriUIKitAsset.gray1본문Body.color,
+					textFieldBackgroundColor: SiriUIKitAsset.whiteDefaultWhite.color,
+					textFieldTextColor: SiriUIKitAsset.gray1Body.color,
 					isUserInteractive: true
 				)
 			case .disabled:
@@ -297,8 +297,8 @@ extension GalapagosTextField_Timer{
 			case .error:
 				return TextFieldWithTimerUISet(
 					borderColor: SiriUIKitAsset.redErrorText.color,
-					textFieldBackgroundColor: SiriUIKitAsset.white기본화이트.color,
-					textFieldTextColor: SiriUIKitAsset.gray1본문Body.color,
+					textFieldBackgroundColor: SiriUIKitAsset.whiteDefaultWhite.color,
+					textFieldTextColor: SiriUIKitAsset.gray1Body.color,
 					isUserInteractive: true
 				)
 				

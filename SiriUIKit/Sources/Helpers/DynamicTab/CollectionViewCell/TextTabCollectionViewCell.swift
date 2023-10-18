@@ -15,7 +15,7 @@ final class TextTabCollectionViewCell: UICollectionViewCell {
   private let titleLabel: UILabel = {
     let label = UILabel()
     label.font = SiriUIKitFontFamily.Pretendard.semiBold.font(size: 14)
-    label.textColor = SiriUIKitAsset.black제목DisplayHeadingBody.color
+    label.textColor = SiriUIKitAsset.blackDisplayHeadingBody.color
     label.textAlignment = .center
     label.backgroundColor = .white
     return label
@@ -27,7 +27,7 @@ final class TextTabCollectionViewCell: UICollectionViewCell {
   override var isSelected: Bool {
     didSet {
       titleLabel.textColor = isSelected ?
-      SiriUIKitAsset.black제목DisplayHeadingBody.color :
+      SiriUIKitAsset.blackDisplayHeadingBody.color :
       SiriUIKitAsset.gray1Outline.color
     }
   }

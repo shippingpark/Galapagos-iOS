@@ -140,7 +140,7 @@ extension GalapagosErrorMessage {
 			switch self {
 			case .info:
 				return (
-					errorMessageColor: SiriUIKitAsset.gray2주석CaptionSmall힌트PlaceholderText.color,
+					errorMessageColor: SiriUIKitAsset.gray2CaptionSmallPlaceholderText.color,
 					accessoryImage: SiriUIKitAsset._20x20infoDefault.image
 				)
 			case .error:

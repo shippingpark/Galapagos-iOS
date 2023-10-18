@@ -32,7 +32,7 @@ final class TermsAndConditionsView: UIView {
 		let label = UILabel()
 		label.text = "약관동의"
 		label.font = GalapagosFontFamily.Pretendard.bold.font(size: 28)
-		label.textColor = GalapagosAsset.black제목DisplayHeadingBody.color
+		label.textColor = GalapagosAsset.blackDisplayHeadingBody.color
 		return label
 	}()
 	
@@ -40,7 +40,7 @@ final class TermsAndConditionsView: UIView {
 		let label = UILabel()
 		label.text = "서비스 이용 약관에 동의해주세요"
 		label.font = GalapagosFontFamily.Pretendard.regular.font(size: 16)
-		label.textColor = GalapagosAsset.gray2주석CaptionSmall힌트PlaceholderText.color
+		label.textColor = GalapagosAsset.gray2CaptionSmallPlaceholderText.color
 		return label
 	}()
 	
@@ -54,7 +54,7 @@ final class TermsAndConditionsView: UIView {
 	private lazy var allAgreeShadowView: UIView = {
 		let view = UIView()
 		view.backgroundColor = .white
-		view.layer.shadowColor = GalapagosAsset.black제목DisplayHeadingBody.color.cgColor
+		view.layer.shadowColor = GalapagosAsset.blackDisplayHeadingBody.color.cgColor
 		view.layer.shadowOpacity = 0.05
 		view.layer.shadowOffset = CGSize(width: 0, height: 1)
 		view.layer.shadowRadius = 3
@@ -84,7 +84,7 @@ final class TermsAndConditionsView: UIView {
 		let label = UILabel()
 		label.text = "전체 동의하기"
 		label.font = GalapagosFontFamily.Pretendard.semiBold.font(size: 18)
-		label.textColor = GalapagosAsset.black제목DisplayHeadingBody.color
+		label.textColor = GalapagosAsset.blackDisplayHeadingBody.color
 		return label
 	}()
 	
@@ -102,7 +102,7 @@ final class TermsAndConditionsView: UIView {
 		let attributedString = NSMutableAttributedString(string: text)
 		
 		let blackAttributes: [NSAttributedString.Key: Any] = [
-			.foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color
+			.foregroundColor: GalapagosAsset.blackDisplayHeadingBody.color
 		]
 		let greenAttributes: [NSAttributedString.Key: Any] = [
 			.foregroundColor: GalapagosAsset.green.color
@@ -133,7 +133,7 @@ final class TermsAndConditionsView: UIView {
 		let text = "개인정보 취급방침(필수)"
 		let attributedString = NSMutableAttributedString(string: text)
 		let blackAttributes: [NSAttributedString.Key: Any] = [
-			.foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color
+			.foregroundColor: GalapagosAsset.blackDisplayHeadingBody.color
 		]
 		let greenAttributes: [NSAttributedString.Key: Any] = [
 			.foregroundColor: GalapagosAsset.green.color
@@ -164,7 +164,7 @@ final class TermsAndConditionsView: UIView {
 		let text = "이벤트 및 마케팅 정보 이메일 수신 동의(선택)"
 		let attributedString = NSMutableAttributedString(string: text)
 		let blackAttributes: [NSAttributedString.Key: Any] = [
-			.foregroundColor: GalapagosAsset.black제목DisplayHeadingBody.color
+			.foregroundColor: GalapagosAsset.blackDisplayHeadingBody.color
 		]
 		let greenAttributes: [NSAttributedString.Key: Any] = [
 			.foregroundColor: GalapagosAsset.gray3DisableText1.color

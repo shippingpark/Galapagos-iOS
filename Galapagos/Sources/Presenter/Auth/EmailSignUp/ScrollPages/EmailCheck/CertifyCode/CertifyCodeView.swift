@@ -47,7 +47,7 @@ final class CertifyCodeView: BaseView {
 		button.setUnderlineTitle(
 			"이메일 재전송",
 			font: SiriUIKitFontFamily.Pretendard.medium.font(size: 14),
-			color: GalapagosAsset.black제목DisplayHeadingBody.color
+			color: GalapagosAsset.blackDisplayHeadingBody.color
 		)
 		return button
 	}()

@@ -23,7 +23,7 @@ final class NicknameCheckView: UIView {
 		label.text = "닉네임을\n입력해주세요"
 		label.numberOfLines = 2
 		label.font = GalapagosFontFamily.Pretendard.bold.font(size: 28)
-		label.textColor = GalapagosAsset.black제목DisplayHeadingBody.color
+		label.textColor = GalapagosAsset.blackDisplayHeadingBody.color
 		return label
 	}()
 	

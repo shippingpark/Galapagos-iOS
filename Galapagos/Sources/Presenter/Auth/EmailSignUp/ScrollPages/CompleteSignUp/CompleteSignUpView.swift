@@ -24,7 +24,7 @@ final class CompleteSignUpView: UIView {
 		label.text = "반가워요!\n닉네임 님"
 		label.numberOfLines = 2
 		label.font = GalapagosFontFamily.Pretendard.bold.font(size: 28)
-		label.textColor = GalapagosAsset.black제목DisplayHeadingBody.color
+		label.textColor = GalapagosAsset.blackDisplayHeadingBody.color
 		return label
 	}()
 	
@@ -39,7 +39,7 @@ final class CompleteSignUpView: UIView {
 	private lazy var infoLabel: UILabel = {
 		let label = UILabel()
 		label.font = GalapagosFontFamily.Pretendard.medium.font(size: 18)
-		label.textColor = GalapagosAsset.black제목DisplayHeadingBody.color
+		label.textColor = GalapagosAsset.blackDisplayHeadingBody.color
 		return label
 	}()
 	

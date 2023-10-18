@@ -30,7 +30,7 @@ final class AddAnimalCalendarTextFieldView: UIView {
   
   fileprivate var label: UILabel = {
     let label = UILabel()
-    label.textColor = GalapagosAsset.gray2주석CaptionSmall힌트PlaceholderText.color
+    label.textColor = GalapagosAsset.gray2CaptionSmallPlaceholderText.color
     label.font = GalapagosFontFamily.Pretendard.medium.font(size: 18)
     return label
   }()
@@ -94,10 +94,10 @@ final class AddAnimalCalendarTextFieldView: UIView {
         
         if date.isEmpty {
           self.label.text = placeHolder
-          self.label.textColor = GalapagosAsset.gray2주석CaptionSmall힌트PlaceholderText.color
+          self.label.textColor = GalapagosAsset.gray2CaptionSmallPlaceholderText.color
         } else {
           self.label.text = date
-          self.label.textColor = GalapagosAsset.gray1본문Body.color
+          self.label.textColor = GalapagosAsset.gray1Body.color
         }
       })
       .disposed(by: disposeBag)

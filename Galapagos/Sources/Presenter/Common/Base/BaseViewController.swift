@@ -20,7 +20,7 @@ class BaseViewController: UIViewController {
   // MARK: - Methods
   override func viewDidLoad() {
     super.viewDidLoad()
-		self.view.backgroundColor = GalapagosAsset.white기본화이트.color
+		self.view.backgroundColor = GalapagosAsset.whiteDefaultWhite.color
     
     setAddSubView()
     setAttribute()

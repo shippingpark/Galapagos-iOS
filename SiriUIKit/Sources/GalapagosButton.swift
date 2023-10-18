@@ -180,7 +180,7 @@ extension GalapagosButton{
 			case .fill:
 				return GalapagosButton_56UISet(
 					boarderColor: SiriUIKitAsset.green.color,
-					mainColor: SiriUIKitAsset.white기본화이트.color,
+					mainColor: SiriUIKitAsset.whiteDefaultWhite.color,
 					backgroundColor: SiriUIKitAsset.green.color
 				)
 			case .outline(let style):
@@ -188,14 +188,14 @@ extension GalapagosButton{
 				case .nornal:
 					return GalapagosButton_56UISet(
 						boarderColor: SiriUIKitAsset.gray5DisableText2.color,
-						mainColor: SiriUIKitAsset.gray1본문Body.color,
-						backgroundColor: SiriUIKitAsset.white기본화이트.color
+						mainColor: SiriUIKitAsset.gray1Body.color,
+						backgroundColor: SiriUIKitAsset.whiteDefaultWhite.color
 					)
 				case .bold:
 					return GalapagosButton_56UISet(
-						boarderColor: SiriUIKitAsset.gray1본문Body.color,
-						mainColor: SiriUIKitAsset.gray1본문Body.color,
-						backgroundColor: SiriUIKitAsset.gray1본문Body.color
+						boarderColor: SiriUIKitAsset.gray1Body.color,
+						mainColor: SiriUIKitAsset.gray1Body.color,
+						backgroundColor: SiriUIKitAsset.gray1Body.color
 					)
 				}
 			case .usage(let style):
@@ -203,7 +203,7 @@ extension GalapagosButton{
 				case .inactive:
 					return GalapagosButton_56UISet(
 						boarderColor: SiriUIKitAsset.green.color,
-						mainColor: SiriUIKitAsset.white기본화이트.color,
+						mainColor: SiriUIKitAsset.whiteDefaultWhite.color,
 						backgroundColor: SiriUIKitAsset.green.color
 					)
 				case .disabled:
@@ -216,7 +216,7 @@ extension GalapagosButton{
 					return GalapagosButton_56UISet(
 						boarderColor: SiriUIKitAsset.green.color,
 						mainColor: SiriUIKitAsset.gray3DisableText1.color,
-						backgroundColor: SiriUIKitAsset.white기본화이트.color
+						backgroundColor: SiriUIKitAsset.whiteDefaultWhite.color
 					)
 				case .softInactive:
 					return GalapagosButton_56UISet(
