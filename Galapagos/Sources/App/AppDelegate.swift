@@ -19,19 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    self.window = UIWindow(frame: UIScreen.main.bounds)
-    
-    let navigationController = UINavigationController()
-    
-    appCoordinator = AppCoordinator(
-      navigationController: navigationController
-    )
-    
-    self.window?.rootViewController = navigationController
-    self.window?.makeKeyAndVisible()
-    
-    appCoordinator?.start()
-    
+		
     return true
   }
   

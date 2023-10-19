@@ -48,6 +48,17 @@ class BaseProjectProfile: ProjectProfile{
 		"CFBundleDevelopmentRegion": "ko_KR",
 		"UILaunchStoryboardName": "LaunchScreen",
 		"UIUserInterfaceStyle": "Light",
+		"UIApplicationSceneManifest": [
+				"UIApplicationSupportsMultipleScenes": false,
+				"UISceneConfigurations": [
+						"UIWindowSceneSessionRoleApplication": [
+								[
+										"UISceneConfigurationName": "Default Configuration",
+										"UISceneDelegateClassName": "$(PRODUCT_MODULE_NAME).SceneDelegate"
+								],
+						]
+				]
+		],
 		"CFBundleIconName": "AppIcon",
 		"UIAppFonts": [
 			"Item 0": "Pretendard-Medium.otf",
