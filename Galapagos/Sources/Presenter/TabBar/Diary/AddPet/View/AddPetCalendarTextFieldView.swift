@@ -1,5 +1,5 @@
 //
-//  AddAnimalCalendarTextFieldView.swift
+//  AddPetCalendarTextFieldView.swift
 //  Galapagos
 //
 //  Created by 박혜운 on 2023/10/17.
@@ -10,7 +10,7 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-final class AddAnimalCalendarTextFieldView: UIView {
+final class AddPetCalendarTextFieldView: UIView {
   
   // MARK: - UI
   
@@ -104,7 +104,7 @@ final class AddAnimalCalendarTextFieldView: UIView {
   }
 }
 
-extension Reactive where Base: AddAnimalCalendarTextFieldView {
+extension Reactive where Base: AddPetCalendarTextFieldView {
   var tap: ControlEvent<Void> {
     let source: Observable<Void> = self.base.rx.tapGesture()
       .when(.recognized)

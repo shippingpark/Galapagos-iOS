@@ -13,7 +13,7 @@ import UIKit
 class DiaryListCoordinator: Coordinator {
   
   enum DiaryListCoordinatorFlow {
-    case addAnimal, diary
+    case addPet, diary
   }
   
   var disposeBag: DisposeBag = DisposeBag()
@@ -35,11 +35,11 @@ class DiaryListCoordinator: Coordinator {
         print("💗💗💗 DiaryListCoordinator: \(state) 💗💗💗")
         guard let self = self else { return }
         switch state {
-        case .addAnimal:
-          self.pushToAddAnimal()
+        case .addPet:
+          self.pushToAddPet()
           
         case .diary:
-          self.pushToDiary(animalIdx: "임시")
+          self.pushToDiary(PetIdx: "임시")
         }
       }).disposed(by: disposeBag)
   }
@@ -58,29 +58,29 @@ class DiaryListCoordinator: Coordinator {
   }
 }
 
-extension DiaryListCoordinator: AddAnimalCoordinating {
-  func pushToAddAnimal() {
+extension DiaryListCoordinator: AddPetCoordinating {
+  func pushToAddPet() {
     if let tabBarViewController = self.navigationController
       .tabBarController as? CustomTabBarController {
       tabBarViewController.hideCustomTabBar()
     }
-    let addAnimalCoordinator = AddAnimalCoordinator(
+    let addPetCoordinator = AddPetCoordinator(
       navigationController: self.navigationController
     )
-    addAnimalCoordinator.delegate = self
-    addAnimalCoordinator.start()
-    self.childCoordinators.append(addAnimalCoordinator)
+    addPetCoordinator.delegate = self
+    addPetCoordinator.start()
+    self.childCoordinators.append(addPetCoordinator)
   }
 }
 
 extension DiaryListCoordinator: DiaryCoordinating {
-  func pushToDiary(animalIdx: String) {
+  func pushToDiary(PetIdx: String) {
     if let tabBarViewController = self.navigationController
       .tabBarController as? CustomTabBarController {
       tabBarViewController.hideCustomTabBar()
     }
     let diaryCoordinator = DiaryCoordinator(
-      animalIdx: animalIdx, navigationController: self.navigationController
+      PetIdx: PetIdx, navigationController: self.navigationController
     )
     diaryCoordinator.delegate = self
     diaryCoordinator.start()

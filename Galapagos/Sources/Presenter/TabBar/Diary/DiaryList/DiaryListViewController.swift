@@ -20,10 +20,10 @@ class DiaryListViewController: BaseViewController {
     return navigationBar
   }()
   
-  private lazy var typeOfAnimalTab: GalapagosDynamicTabView = {
+  private lazy var typeOfPetTab: GalapagosDynamicTabView = {
     let tab = GalapagosDynamicTabView(
       type: .underHeader,
-      titles: self.typeOfAnimal
+      titles: self.typeOfPet
     )
     
     tab
@@ -50,7 +50,7 @@ class DiaryListViewController: BaseViewController {
   // MARK: - Properties
   
   private let viewModel: DiaryListViewModel
-  private var typeOfAnimal: [String] = ["전체", "도마뱀"]
+  private var typeOfPet: [String] = ["전체", "도마뱀"]
   
   // MARK: - Initializers
   
@@ -64,7 +64,7 @@ class DiaryListViewController: BaseViewController {
   override func setAddSubView() {
     self.view.addSubviews([
       navigationBar,
-      typeOfAnimalTab,
+      typeOfPetTab,
       button,
       button2
     ])
@@ -77,7 +77,7 @@ class DiaryListViewController: BaseViewController {
       navigationBar.height.equalTo(50)
     }
     
-    typeOfAnimalTab.snp.makeConstraints { tab in
+    typeOfPetTab.snp.makeConstraints { tab in
       tab.top.equalTo(navigationBar.snp.bottom)
       tab.horizontalEdges.equalToSuperview()
     }

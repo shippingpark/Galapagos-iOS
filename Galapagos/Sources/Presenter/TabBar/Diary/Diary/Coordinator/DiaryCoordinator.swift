@@ -16,7 +16,7 @@ class DiaryCoordinator: Coordinator {
     case addDiary // 초기화면 삭제
   }
   
-  private var animalIdx: String?
+  private var PetIdx: String?
   
   var userActionState: PublishRelay<DiaryCoordinatorFlow> = PublishRelay()
   var delegate: CoordinatorDelegate?
@@ -25,8 +25,8 @@ class DiaryCoordinator: Coordinator {
   var childCoordinators: [Coordinator] = []
   var disposeBag: DisposeBag = DisposeBag()
 
-  init(animalIdx: String, navigationController: UINavigationController) {
-    self.animalIdx = animalIdx
+  init(PetIdx: String, navigationController: UINavigationController) {
+    self.PetIdx = PetIdx
     self.navigationController = navigationController
     self.setState()
   }
@@ -39,13 +39,13 @@ class DiaryCoordinator: Coordinator {
         guard let self = self else { return }
         switch state {
         case .addDiary:
-          self.pushToAddDiary(animalIdx: "임시")
+          self.pushToAddDiary(PetIdx: "임시")
         }
       }).disposed(by: disposeBag)
   }
 
   func start() {
-//    guard let animalIdx else { return } // 아직 안 사용
+//    guard let PetIdx else { return } // 아직 안 사용
     let diaryViewController = DiaryViewController(
       viewModel: DiaryViewModel(
         coordinator: self
@@ -56,7 +56,7 @@ class DiaryCoordinator: Coordinator {
 }
 
 extension DiaryCoordinator: AddDiaryCoordinating {
-  func pushToAddDiary(animalIdx: String) {
+  func pushToAddDiary(PetIdx: String) {
     let addDiaryCoordinator = AddDiaryCoordinator(
       navigationController: self.navigationController
     )

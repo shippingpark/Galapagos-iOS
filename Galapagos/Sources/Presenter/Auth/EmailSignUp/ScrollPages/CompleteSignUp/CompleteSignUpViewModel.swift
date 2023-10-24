@@ -15,7 +15,7 @@ import UIKit
 
 final class CompleteSignUpViewModel: ViewModelType {
 	struct Input {
-		let registerAnimalBtnTapped: Observable<Void>
+		let registerPetBtnTapped: Observable<Void>
 		let lookAroundBtnTapped: Observable<Void>
 	}
 	
@@ -29,7 +29,7 @@ final class CompleteSignUpViewModel: ViewModelType {
 	func transform(input: Input) -> Output {
 		
 		return Output(
-			registerTap: input.registerAnimalBtnTapped,
+			registerTap: input.registerPetBtnTapped,
 			lookAroundTap: input.lookAroundBtnTapped
 		)
 	}

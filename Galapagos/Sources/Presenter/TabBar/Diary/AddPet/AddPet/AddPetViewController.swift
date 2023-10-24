@@ -1,5 +1,5 @@
 //
-//  AddAnimalViewController.swift
+//  AddPetViewController.swift
 //  Galapagos
 //
 //  Created by 박혜운 on 2023/06/20.
@@ -13,7 +13,7 @@ import SiriUIKit
 import SnapKit
 import UIKit
 
-final class AddAnimalViewController: BaseViewController {
+final class AddPetViewController: BaseViewController {
   
   // MARK: - UI
   
@@ -23,27 +23,27 @@ final class AddAnimalViewController: BaseViewController {
     return navigationBar
   }()
   
-  private lazy var nameContainerView = AddAnimalContainerView(
+  private lazy var nameContainerView = AddPetContainerView(
     title: "이름*",
     checkButton: .use(title: "대표동물 설정"),
     contentView: self.nameTextField
   )
-  private lazy var genderContainerView = AddAnimalContainerView(
+  private lazy var genderContainerView = AddPetContainerView(
     title: "성별*",
     checkButton: .unused,
     contentView: self.genderButtonStackView
   )
-  private lazy var speciesContainerView = AddAnimalContainerView(
+  private lazy var speciesContainerView = AddPetContainerView(
     title: "종 선택*",
     checkButton: .unused,
     contentView: self.speciesStackView
   )
-  private lazy var adoptionDateContainerView = AddAnimalContainerView(
+  private lazy var adoptionDateContainerView = AddPetContainerView(
     title: "입양일*",
     checkButton: .unused,
     contentView: self.adoptionTextField
   )
-  private lazy var birthDateContainerView = AddAnimalContainerView(
+  private lazy var birthDateContainerView = AddPetContainerView(
     title: "탄생일*",
     checkButton: .use(title: "탄생일을 모르겠어요"),
     contentView: self.birthDateTextField
@@ -110,10 +110,10 @@ final class AddAnimalViewController: BaseViewController {
     )
     return textField
   }()
-  private lazy var adoptionTextField = AddAnimalCalendarTextFieldView(
+  private lazy var adoptionTextField = AddPetCalendarTextFieldView(
     placeHolder: "입양일을 선택해주세요"
   )
-  private lazy var birthDateTextField = AddAnimalCalendarTextFieldView(
+  private lazy var birthDateTextField = AddPetCalendarTextFieldView(
     placeHolder: "탄생일을 선택해주세요"
   )
   
@@ -153,7 +153,7 @@ final class AddAnimalViewController: BaseViewController {
     )
     return button
   }()
-  private lazy var completeAddAnimalButton: GalapagosButton = {
+  private lazy var completeAddPetButton: GalapagosButton = {
     let button = GalapagosButton(
       isRound: false,
       iconTitle: nil,
@@ -166,12 +166,12 @@ final class AddAnimalViewController: BaseViewController {
   
   // MARK: - Properties
   private var gender: GenderType?
-  private let viewModel: AddAnimalViewModel
+  private let viewModel: AddPetViewModel
   
   // MARK: - Initializers
   
   init(
-    viewModel: AddAnimalViewModel
+    viewModel: AddPetViewModel
   ) {
     self.viewModel = viewModel
     super.init()
@@ -194,7 +194,7 @@ final class AddAnimalViewController: BaseViewController {
     contentView.addSubviews([
       profileContainerView,
       contentStackView,
-      completeAddAnimalButton
+      completeAddPetButton
     ])
     
     contentStackView.addArrangedSubviews([
@@ -267,7 +267,7 @@ final class AddAnimalViewController: BaseViewController {
       make.horizontalEdges.equalTo(view.snp.horizontalEdges)
     }
 
-    completeAddAnimalButton.snp.makeConstraints { make in
+    completeAddPetButton.snp.makeConstraints { make in
       make.top.equalTo(contentStackView.snp.bottom).offset(40)
       make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
       make.height.equalTo(56)
@@ -362,7 +362,7 @@ final class AddAnimalViewController: BaseViewController {
   }
   
   override func bind() {
-    let input = AddAnimalViewModel.Input(
+    let input = AddPetViewModel.Input(
       backButtonTapped: navigationBar.backButton.rx.tap.asSignal(),
       profileTapped: profileContainerView.rx.tapGesture()
         .when(.recognized)
@@ -410,7 +410,7 @@ final class AddAnimalViewController: BaseViewController {
   }
 }
 
-extension AddAnimalViewController {
+extension AddPetViewController {
   enum GenderType {
     case undifferentiated
     case male

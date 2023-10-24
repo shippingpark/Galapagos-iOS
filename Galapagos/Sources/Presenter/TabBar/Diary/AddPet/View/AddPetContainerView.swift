@@ -1,5 +1,5 @@
 //
-//  AddAnimalContainderView.swift
+//  AddPetContainderView.swift
 //  Galapagos
 //
 //  Created by 박혜운 on 2023/10/17.
@@ -12,7 +12,7 @@ import SiriUIKit
 import UIKit
 
 
-final class AddAnimalContainerView<T: UIView>: UIView {
+final class AddPetContainerView<T: UIView>: UIView {
   
   // MARK: - UI
   
@@ -123,7 +123,7 @@ final class AddAnimalContainerView<T: UIView>: UIView {
 }
 
 
-extension AddAnimalContainerView {
+extension AddPetContainerView {
   public enum CheckButton {
     case use(title: String)
     case unused
@@ -131,14 +131,14 @@ extension AddAnimalContainerView {
 }
 
 extension Reactive where Base: 
-AddAnimalContainerView<AddAnimalCalendarTextFieldView> {
+AddPetContainerView<AddPetCalendarTextFieldView> {
   var isSelected: Observable<Bool> {
     return base.buttonSelectedSubject.asObservable()
   }
 }
 
 extension Reactive where Base:
-AddAnimalContainerView<GalapagosTextField> {
+AddPetContainerView<GalapagosTextField> {
   var isSelected: Observable<Bool> {
     return base.buttonSelectedSubject.asObservable()
   }

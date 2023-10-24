@@ -16,8 +16,8 @@ final class MainCoordinator: Coordinator {
   // MARK: - Coordinator DEPTH 2 -
   
   enum MainCoordinatorFlow {
-    case addAnimal
-    case mainAnimalDiary
+    case addPet
+    case mainPetDiary
     case moveCommunity
     case detailPost // 초기화면 삭제
   }
@@ -48,11 +48,11 @@ final class MainCoordinator: Coordinator {
         print("💗💗💗 MainCoordinator: \(state) 💗💗💗")
         guard let self = self else { return }
         switch state {
-        case .addAnimal:
-          self.pushToAddAnimal()
+        case .addPet:
+          self.pushToAddPet()
           
-        case .mainAnimalDiary:
-          self.pushToDiary(animalIdx: "임시") // Idx 가져 올 방법 고민 (enum 유력)
+        case .mainPetDiary:
+          self.pushToDiary(PetIdx: "임시") // Idx 가져 올 방법 고민 (enum 유력)
           
         case .moveCommunity:
           self.moveToCommunityTab()
@@ -74,28 +74,28 @@ final class MainCoordinator: Coordinator {
   }
 }
 
-extension MainCoordinator: AddAnimalCoordinating {
-  func pushToAddAnimal() {
+extension MainCoordinator: AddPetCoordinating {
+  func pushToAddPet() {
     if let tabBarViewController = self.navigationController.tabBarController as? CustomTabBarController {
       tabBarViewController.hideCustomTabBar()
     }
-    let addAnimalCoordinator = AddAnimalCoordinator(
+    let addPetCoordinator = AddPetCoordinator(
       navigationController: self.navigationController
     )
-    addAnimalCoordinator.delegate = self
-    addAnimalCoordinator.start()
-    self.childCoordinators.append(addAnimalCoordinator)
+    addPetCoordinator.delegate = self
+    addPetCoordinator.start()
+    self.childCoordinators.append(addPetCoordinator)
   }
 }
 
 extension MainCoordinator: DiaryCoordinating {
-  func pushToDiary(animalIdx: String) {
+  func pushToDiary(PetIdx: String) {
     if let tabBarViewController = self.navigationController
       .tabBarController as? CustomTabBarController {
       tabBarViewController.hideCustomTabBar()
     }
     let diaryCoordinator = DiaryCoordinator(
-      animalIdx: "임시",
+      PetIdx: "임시",
       navigationController: self.navigationController
     )
     diaryCoordinator.delegate = self
