@@ -39,7 +39,7 @@ class DiaryListCoordinator: Coordinator {
           self.pushToAddPet()
           
         case .diary:
-          self.pushToDiary(PetIdx: "임시")
+          self.pushToDiary(petIdx: "임시")
         }
       }).disposed(by: disposeBag)
   }
@@ -74,13 +74,13 @@ extension DiaryListCoordinator: AddPetCoordinating {
 }
 
 extension DiaryListCoordinator: DiaryCoordinating {
-  func pushToDiary(PetIdx: String) {
+  func pushToDiary(petIdx: String) {
     if let tabBarViewController = self.navigationController
       .tabBarController as? CustomTabBarController {
       tabBarViewController.hideCustomTabBar()
     }
     let diaryCoordinator = DiaryCoordinator(
-      PetIdx: PetIdx, navigationController: self.navigationController
+      petIdx: petIdx, navigationController: self.navigationController
     )
     diaryCoordinator.delegate = self
     diaryCoordinator.start()

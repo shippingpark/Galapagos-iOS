@@ -52,7 +52,7 @@ final class MainCoordinator: Coordinator {
           self.pushToAddPet()
           
         case .mainPetDiary:
-          self.pushToDiary(PetIdx: "임시") // Idx 가져 올 방법 고민 (enum 유력)
+          self.pushToDiary(petIdx: "임시") // Idx 가져 올 방법 고민 (enum 유력)
           
         case .moveCommunity:
           self.moveToCommunityTab()
@@ -89,13 +89,13 @@ extension MainCoordinator: AddPetCoordinating {
 }
 
 extension MainCoordinator: DiaryCoordinating {
-  func pushToDiary(PetIdx: String) {
+  func pushToDiary(petIdx: String) {
     if let tabBarViewController = self.navigationController
       .tabBarController as? CustomTabBarController {
       tabBarViewController.hideCustomTabBar()
     }
     let diaryCoordinator = DiaryCoordinator(
-      PetIdx: "임시",
+      petIdx: "임시",
       navigationController: self.navigationController
     )
     diaryCoordinator.delegate = self

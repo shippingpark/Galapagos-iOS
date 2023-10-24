@@ -34,7 +34,7 @@ final class MainViewController: BaseViewController {
     return contentView
   }()
   
-  private var PetContainerView = UIView()
+  private var petContainerView = UIView()
   private var communityContainerView = UIView()
   private var emptyMainPetView = EmptyMainPetView()
   private var emptyStarCommunityView = EmptyStarCommunityView()
@@ -89,7 +89,7 @@ final class MainViewController: BaseViewController {
     
     scrollView.addSubview(contentView)
     contentView.addSubviews([
-      PetContainerView,
+      petContainerView,
       communityContainerView
     ])
     communityContainerView.addSubviews([
@@ -121,14 +121,14 @@ final class MainViewController: BaseViewController {
       .priority(.low) // 탭바 아이템 위치를 못 잡아서 기기마다 스크롤 최하단 위치 다른 문제 발생
     }
     
-    PetContainerView.snp.makeConstraints { make in
+    petContainerView.snp.makeConstraints { make in
       make.top.equalToSuperview().offset(navigationBarToContentsOffset)
       make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
     }
         
     communityContainerView.snp.makeConstraints { make in
       make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
-      make.top.equalTo(PetContainerView.snp.bottom).offset(contentsToContentsOffset)
+      make.top.equalTo(petContainerView.snp.bottom).offset(contentsToContentsOffset)
       make.bottom.equalTo(contentView.snp.bottom)
       
     }
@@ -147,13 +147,13 @@ final class MainViewController: BaseViewController {
     if hasMainPet {
       mainPetView = MainPetView(name: "도랭이", days: String(111)) // 임시 입력 값
       guard let mainPetView = mainPetView else { return }
-      PetContainerView.addSubview(mainPetView)
+      petContainerView.addSubview(mainPetView)
       self.mainPetViewConstraint()
       mainPetView.mainPetDiaryButton.rx.tap
         .bind(to: moveMainPetDiaryTappedEvent)
         .disposed(by: disposeBag)
     } else {
-      PetContainerView.addSubview(emptyMainPetView)
+      petContainerView.addSubview(emptyMainPetView)
       
       self.emptyPetViewConstraint()
     }
@@ -175,16 +175,16 @@ final class MainViewController: BaseViewController {
   
   private func emptyPetViewConstraint() {
     emptyMainPetView.snp.makeConstraints { make in
-      make.top.equalTo(PetContainerView.snp.top)
+      make.top.equalTo(petContainerView.snp.top)
       make.center.equalToSuperview()
-      make.height.width.equalTo(PetContainerView.snp.width)
+      make.height.width.equalTo(petContainerView.snp.width)
     }
   }
   
   private func mainPetViewConstraint() {
     guard let mainPetView = mainPetView else { return }
     mainPetView.snp.makeConstraints { make in
-      make.top.equalTo(PetContainerView.snp.top)
+      make.top.equalTo(petContainerView.snp.top)
       make.horizontalEdges.equalToSuperview()
       make.bottom.equalToSuperview()
     }
@@ -209,9 +209,9 @@ final class MainViewController: BaseViewController {
     
     let output = viewModel.transform(input: input)
     output.hasMainPet
-      .drive(onNext: { Pet in
+      .drive(onNext: { pet in
         print("Pet")
-        self.showViewBasedOnHasMain(Pet) // 실제 코드
+        self.showViewBasedOnHasMain(pet) // 실제 코드
       })
       .disposed(by: disposeBag)
     

@@ -16,7 +16,7 @@ class EmptyMainPetView: BaseView {
   
   private var shadowView = RadiusBoxView(radius: 12, style: .shadow)
   
-  private lazy var PetStackView: UIStackView = {
+  private lazy var petStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
     stackView.alignment = .center
@@ -78,9 +78,9 @@ class EmptyMainPetView: BaseView {
   override func setAddSubView() {
     self.addSubview(shadowView)
     
-    shadowView.addSubview(PetStackView)
+    shadowView.addSubview(petStackView)
     [addPetInfoLabel, addPetButton].forEach { subview in
-      PetStackView.addArrangedSubview(subview)
+      petStackView.addArrangedSubview(subview)
     }
   }
   
@@ -90,7 +90,7 @@ class EmptyMainPetView: BaseView {
       make.edges.equalToSuperview()
     }
     
-    PetStackView.snp.makeConstraints { make in
+    petStackView.snp.makeConstraints { make in
       make.center.equalToSuperview()
     }
     
