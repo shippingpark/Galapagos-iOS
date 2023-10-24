@@ -27,7 +27,7 @@ final class RoundTabCollectionViewCell: UICollectionViewCell {
   override var isSelected: Bool {
     didSet {
       backgroundColor = isSelected ? SiriUIKitAsset.green.color :
-      SiriUIKitAsset.lightGreen.color // 라이트 그린 색상 표 추가
+      SiriUIKitAsset.lightGreen.color
       self.titleLabel.textColor = isSelected ? .white : SiriUIKitAsset.green.color
     }
   }
