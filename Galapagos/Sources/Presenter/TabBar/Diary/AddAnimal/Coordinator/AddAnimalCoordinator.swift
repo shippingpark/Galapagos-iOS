@@ -10,11 +10,11 @@ import RxRelay
 import RxSwift
 import UIKit
 
-class AddAnimalCoordinator: Coordinator {
+class AddAnimalCoordinator: CoordinatorType {
   var navigationController: UINavigationController
 
   var delegate: CoordinatorDelegate?
-  var childCoordinators: [Coordinator] = []
+  var childCoordinators: [CoordinatorType] = []
   var disposeBag: DisposeBag = DisposeBag()
 
   init(navigationController: UINavigationController) {

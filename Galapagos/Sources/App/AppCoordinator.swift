@@ -10,7 +10,7 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-class AppCoordinator: Coordinator {    
+class AppCoordinator: CoordinatorType {    
 
   // MARK: - Navigation DEPTH 0 -
   enum AppCoordinatorChild{
@@ -20,14 +20,14 @@ class AppCoordinator: Coordinator {
   
   // MARK: - Need To Initializing
   var disposeBag: DisposeBag
-  var userActionState: PublishRelay<AppCoordinatorChild> = PublishRelay()
-  /// init에서만 호출하고, stream을 유지하기위해 BehaviorSubject 사용
   var navigationController: UINavigationController
   
   // MARK: - Don't Need To Initializing
-  var childCoordinators: [Coordinator] = []
+  var childCoordinators: [CoordinatorType] = []
   var delegate: CoordinatorDelegate?
-  
+	var destination = PublishRelay<AppCoordinatorChild>()
+	weak var baseViewController: UIViewController?
+	
   init(
     navigationController: UINavigationController
   ) {
@@ -37,22 +37,25 @@ class AppCoordinator: Coordinator {
   }
   
   func setState(){
-    self.userActionState
-      .subscribe(onNext: { [weak self] state in
-        guard let self = self else {return}
+    self.destination
+			.withUnretained(self)
+      .subscribe(onNext: { owner, state in
         switch state{
         case .auth:
+					GalapagosIndecatorManager.shared.show()
           let authCoordinator = AuthCoordinator(
-            navigationController: self.navigationController
+            navigationController: owner.navigationController
           )
-          authCoordinator.delegate = self
+          authCoordinator.delegate = owner
           authCoordinator.start()
-          self.childCoordinators.append(authCoordinator)
+          owner.childCoordinators.append(authCoordinator)
         case .tabBar:
+					GalapagosIndecatorManager.shared.show()
           let tabBarCoordinator = TabBarCoordinator(
-            navigationController: self.navigationController
+            navigationController: owner.navigationController
           )
           tabBarCoordinator.start()
+					owner.childCoordinators.append(tabBarCoordinator)
         }
       }).disposed(by: disposeBag)
   }
@@ -60,17 +63,18 @@ class AppCoordinator: Coordinator {
   func start() {
     let splashViewController = SplashViewController(
       viewModel: SplashViewModel(
-        /// 여기에 나중에는 useCase도 추가 되어야겠지
         coordinator: self
       )
     )
-    self.pushViewController(viewController: splashViewController)
+		self.baseViewController = splashViewController
+		self.pushViewController(viewController: splashViewController, animated: false)
   }
 }
 
 extension AppCoordinator: CoordinatorDelegate{
   func didFinish(childCoordinator: Coordinator) {
-    self.navigationController.popViewController(animated: true)
+		self.popToRootViewController(animated: true)
+		self.childCoordinators.removeAll()
 		if childCoordinator is AuthCoordinator {
 			self.userActionState.accept(.tabBar)
 		} else {

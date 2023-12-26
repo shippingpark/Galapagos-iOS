@@ -13,7 +13,6 @@ struct UserSignUpDTO: Codable {
 	let nickName: String
 	let jwt: String
 	
-	
 	func toModel() -> UserSignUpModel {
 		return UserSignUpModel(
 			nickName: nickName,

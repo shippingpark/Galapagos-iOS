@@ -24,7 +24,7 @@ final class TabBarCoordinator: Coordinator {
   
   lazy var tabBarController = CustomTabBarController(coordinator: self)
   var userActionState: PublishRelay<TabBarCoordinatorFlow> = PublishRelay()
-  var childCoordinators: [Coordinator] = []
+  var childCoordinators: [CoordinatorType] = []
   var disposeBag: DisposeBag = DisposeBag()
   var delegate: CoordinatorDelegate?
   

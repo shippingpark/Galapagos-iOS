@@ -11,7 +11,7 @@ import RxSwift
 import UIKit
 
 
-final class MainCoordinator: Coordinator {
+final class MainCoordinator: CoordinatorType {
   
   // MARK: - Coordinator DEPTH 2 -
   
@@ -28,7 +28,7 @@ final class MainCoordinator: Coordinator {
   // MARK: - Don't Need To Initializing
   
   var userActionState: PublishRelay<MainCoordinatorFlow> = PublishRelay()
-  var childCoordinators: [Coordinator] = []
+  var childCoordinators: [CoordinatorType] = []
   var disposeBag: DisposeBag = DisposeBag()
   var delegate: CoordinatorDelegate?
   

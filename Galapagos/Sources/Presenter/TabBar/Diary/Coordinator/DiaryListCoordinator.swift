@@ -10,7 +10,7 @@ import RxRelay
 import RxSwift
 import UIKit
 
-class DiaryListCoordinator: Coordinator {
+class DiaryListCoordinator: CoordinatorType {
   
   enum DiaryListCoordinatorFlow {
     case addAnimal, diary
@@ -20,7 +20,7 @@ class DiaryListCoordinator: Coordinator {
   
   var navigationController: UINavigationController
   var userActionState: PublishRelay<DiaryListCoordinatorFlow> = PublishRelay()
-  var childCoordinators: [Coordinator] = []
+  var childCoordinators: [CoordinatorType] = []
   var delegate: CoordinatorDelegate?
   
   init(navigationController: UINavigationController) {

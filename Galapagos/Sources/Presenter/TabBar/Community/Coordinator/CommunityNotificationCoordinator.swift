@@ -11,11 +11,11 @@ import RxSwift
 
 import UIKit
 
-class CommunityNotificationCoordinator: Coordinator {
+class CommunityNotificationCoordinator: CoordinatorType {
 	var navigationController: UINavigationController
 
 	var delegate: CoordinatorDelegate?
-	var childCoordinators: [Coordinator] = []
+	var childCoordinators: [CoordinatorType] = []
 	var disposeBag: DisposeBag = DisposeBag()
 
 	init(navigationController: UINavigationController) {

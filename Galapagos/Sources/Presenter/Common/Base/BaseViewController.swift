@@ -26,6 +26,7 @@ class BaseViewController: UIViewController {
     setAttribute()
     setConstraint()
     bind()
+		GalapagosIndecatorManager.shared.hide()
   }
   
   func setAddSubView() {}

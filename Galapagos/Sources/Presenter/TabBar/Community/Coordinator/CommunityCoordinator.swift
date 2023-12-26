@@ -16,7 +16,7 @@ protocol CommunityCoordinatorProtocol {
 	func pushToNotification()
 }
 
-class CommunityCoordinator: Coordinator {
+class CommunityCoordinator: CoordinatorType {
   
   // MARK: - Coordinator DEPTH 2 -
 	
@@ -33,7 +33,7 @@ class CommunityCoordinator: Coordinator {
   // MARK: - Don't Need To Initializing
     
 	var userActionState: PublishRelay<CommunityCoordinatorFlow> = PublishRelay()
-  var childCoordinators: [Coordinator] = []
+  var childCoordinators: [CoordinatorType] = []
   var disposeBag: DisposeBag = DisposeBag()
   var delegate: CoordinatorDelegate?
   

@@ -29,7 +29,11 @@ class Utility {
 			let decodedObject = try JSONDecoder().decode(ServerError.self, from: data)
 			return decodedObject
 		} catch {
-			return ServerError(status: 404, errorCode: 999, errorMessages: "Failed to decode ServerError from data: \(error)")
+			return ServerError(
+				isSuccess: false,
+				code: "USER9999",
+				message: "Failed to decode ServerError from data: \(error)"
+			)
 		}
 	}
 	

@@ -10,7 +10,7 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-class AuthCoordinator: Coordinator {
+class AuthCoordinator: CoordinatorType {
   // MARK: - Navigation DEPTH 1 -
   enum AuthCoordinatorChild{
     case signIn
@@ -24,7 +24,7 @@ class AuthCoordinator: Coordinator {
   var navigationController: UINavigationController
   
   // MARK: - Don't Need To Initializing
-  var childCoordinators: [Coordinator] = []
+  var childCoordinators: [CoordinatorType] = []
   var delegate: CoordinatorDelegate?
   var userActionState: PublishRelay<AuthCoordinatorChild> = PublishRelay()
   /// init에서만 호출하고, stream을 유지하기위해 BehaviorSubject 사용

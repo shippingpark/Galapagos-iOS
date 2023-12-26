@@ -10,12 +10,12 @@ import RxRelay
 import RxSwift
 import UIKit
 
-class MyPageCoordinator: Coordinator {
+class MyPageCoordinator: CoordinatorType {
   var disposeBag: DisposeBag
   
   var navigationController: UINavigationController
   
-  var childCoordinators: [Coordinator] = []
+  var childCoordinators: [CoordinatorType] = []
   var delegate: CoordinatorDelegate?
   
   init(navigationController: UINavigationController) {

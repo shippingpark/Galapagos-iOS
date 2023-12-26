@@ -10,7 +10,7 @@ import RxRelay
 import RxSwift
 import UIKit
 
-class DiaryCoordinator: Coordinator {
+class DiaryCoordinator: CoordinatorType {
 
   enum DiaryCoordinatorFlow {
     case addDiary // 초기화면 삭제
@@ -22,7 +22,7 @@ class DiaryCoordinator: Coordinator {
   var delegate: CoordinatorDelegate?
 
   var navigationController: UINavigationController
-  var childCoordinators: [Coordinator] = []
+  var childCoordinators: [CoordinatorType] = []
   var disposeBag: DisposeBag = DisposeBag()
 
   init(animalIdx: String, navigationController: UINavigationController) {
