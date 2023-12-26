@@ -1,5 +1,5 @@
 //
-//  AddAnimalViewModel.swift
+//  AddPetViewModel.swift
 //  Galapagos
 //
 //  Created by 박혜운 on 2023/06/20.
@@ -10,7 +10,7 @@ import Foundation
 import RxCocoa
 import RxSwift
 
-final class AddAnimalViewModel: ViewModelType {
+final class AddPetViewModel: ViewModelType {
   struct Input {
     let backButtonTapped: Signal<Void>
     let profileTapped: Signal<Void>
@@ -19,9 +19,9 @@ final class AddAnimalViewModel: ViewModelType {
   struct Output {}
   
   var disposeBag: DisposeBag = DisposeBag()
-  weak var coordinator: AddAnimalCoordinator?
+  weak var coordinator: AddPetCoordinator?
   
-  init(coordinator: AddAnimalCoordinator) {
+  init(coordinator: AddPetCoordinator) {
     self.coordinator = coordinator
   }
   

@@ -29,6 +29,8 @@ final class CalendarViewController: UIViewController {
     let label = UILabel()
     label.text = "2000년 01월"
     label.font = GalapagosFontFamily.Pretendard.bold.font(size: 20)
+    label.textAlignment = .center
+    
     return label
   }()
   
@@ -63,7 +65,10 @@ final class CalendarViewController: UIViewController {
   }()
   
   private lazy var collectionView = {
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    let collectionView = UICollectionView(
+      frame: .zero,
+      collectionViewLayout: UICollectionViewFlowLayout()
+    )
     collectionView.delegate = self
     collectionView.register(
       CalendarCollectionViewCell.self,
@@ -153,6 +158,7 @@ final class CalendarViewController: UIViewController {
       make.leading.equalTo(self.view.snp.leading)
       make.trailing.equalTo(self.view.snp.trailing)
       make.width.equalTo(self.view.snp.width)
+      make.bottom.equalToSuperview()
     }
     
     self.headerContainView.snp.makeConstraints { make in
@@ -165,6 +171,7 @@ final class CalendarViewController: UIViewController {
     self.titleLabel.snp.makeConstraints { make in
       make.centerY.equalTo(self.headerContainView.snp.centerY)
       make.centerX.equalTo(self.headerContainView.snp.centerX)
+      make.width.equalTo(120)
     }
     
     self.previousButton.snp.makeConstraints { make in
@@ -181,8 +188,7 @@ final class CalendarViewController: UIViewController {
       make.top.equalTo(self.headerContainView.snp.bottom).offset(20)
       make.leading.equalTo(self.contentView.snp.leading)
       make.trailing.equalTo(self.contentView.snp.trailing)
-      //      make.height.equalTo(42)
-      make.height.equalTo(self.contentView.snp.width).multipliedBy(1.0 / 7.0)
+      make.height.equalTo(42)
     }
     
     self.collectionView.snp.makeConstraints { make in
@@ -190,12 +196,13 @@ final class CalendarViewController: UIViewController {
       make.leading.equalTo(self.weekStackView.snp.leading)
       make.trailing.equalTo(self.weekStackView.snp.trailing)
       make.bottom.equalTo(self.contentView.snp.bottom)
-      make.height.equalTo(self.contentView.snp.width).multipliedBy(6.0 / 7.0)
+      make.height.equalTo(282)
     }
   }
   
   private func adjustFlowLayoutSpacing() {
-    if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+    if let flowLayout = collectionView.collectionViewLayout 
+        as? UICollectionViewFlowLayout {
       flowLayout.minimumInteritemSpacing = 0
     }
   }
@@ -217,6 +224,7 @@ final class CalendarViewController: UIViewController {
   private func setCollectionDataSource() {
     collectionView.dataSource = dataSource
   }
+  
   private func applySnapshot(to date: Date) {
     var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
     snapshot.appendSections([Section.main]) // 섹션 추가
@@ -235,7 +243,9 @@ final class CalendarViewController: UIViewController {
   
   private func isToday(yearMonth: String, day: String) -> Bool {
     guard let nowDay = Int(Date.now.day()) else { return false }
-    guard yearMonth == Date.now.yearMonthTitle() && day == String(nowDay) else { return false }
+    guard yearMonth == Date.now.yearMonthTitle() 
+            && day == String(nowDay) else { return false }
+    
     return true
   }
 }
@@ -248,6 +258,7 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
     layout collectionViewLayout: UICollectionViewLayout,
     sizeForItemAt indexPath: IndexPath
   ) -> CGSize {
+    
     let availableWidth = self.view.frame.width
     let numberOfItemsPerRow: CGFloat = 7
     let spacing: CGFloat = 6 // 셀 사이의 간격
@@ -412,7 +423,6 @@ extension CalendarViewController {
     }
   }
 }
-
 
 extension Date { // 전부 순수함수
   fileprivate func startDayOfTheWeek() -> Int {

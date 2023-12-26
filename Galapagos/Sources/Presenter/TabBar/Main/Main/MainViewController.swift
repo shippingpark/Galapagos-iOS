@@ -34,13 +34,13 @@ final class MainViewController: BaseViewController {
     return contentView
   }()
   
-  private var animalContainerView = UIView()
+  private var petContainerView = UIView()
   private var communityContainerView = UIView()
-  private var emptyMainAnimalView = EmptyMainAnimalView()
+  private var emptyMainPetView = EmptyMainPetView()
   private var emptyStarCommunityView = EmptyStarCommunityView()
-  private var mainAnimalView: MainAnimalView?
+  private var mainPetView: MainPetView?
   
-  private var moveMainAnimalDiaryTappedEvent = PublishRelay<Void>()
+  private var moveMainPetDiaryTappedEvent = PublishRelay<Void>()
   
   private lazy var communityLabel: UILabel = {
     let label = UILabel()
@@ -89,7 +89,7 @@ final class MainViewController: BaseViewController {
     
     scrollView.addSubview(contentView)
     contentView.addSubviews([
-      animalContainerView,
+      petContainerView,
       communityContainerView
     ])
     communityContainerView.addSubviews([
@@ -121,14 +121,14 @@ final class MainViewController: BaseViewController {
       .priority(.low) // 탭바 아이템 위치를 못 잡아서 기기마다 스크롤 최하단 위치 다른 문제 발생
     }
     
-    animalContainerView.snp.makeConstraints { make in
+    petContainerView.snp.makeConstraints { make in
       make.top.equalToSuperview().offset(navigationBarToContentsOffset)
       make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
     }
         
     communityContainerView.snp.makeConstraints { make in
       make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
-      make.top.equalTo(animalContainerView.snp.bottom).offset(contentsToContentsOffset)
+      make.top.equalTo(petContainerView.snp.bottom).offset(contentsToContentsOffset)
       make.bottom.equalTo(contentView.snp.bottom)
       
     }
@@ -143,19 +143,19 @@ final class MainViewController: BaseViewController {
     }
   }
   
-  private func showViewBasedOnHasMain(_ hasMainAnimal: Bool) {
-    if hasMainAnimal {
-      mainAnimalView = MainAnimalView(name: "도랭이", days: String(111)) // 임시 입력 값
-      guard let mainAnimalView = mainAnimalView else { return }
-      animalContainerView.addSubview(mainAnimalView)
-      self.mainAnimalViewConstraint()
-      mainAnimalView.mainAnimalDiaryButton.rx.tap
-        .bind(to: moveMainAnimalDiaryTappedEvent)
+  private func showViewBasedOnHasMain(_ hasMainPet: Bool) {
+    if hasMainPet {
+      mainPetView = MainPetView(name: "도랭이", days: String(111)) // 임시 입력 값
+      guard let mainPetView = mainPetView else { return }
+      petContainerView.addSubview(mainPetView)
+      self.mainPetViewConstraint()
+      mainPetView.mainPetDiaryButton.rx.tap
+        .bind(to: moveMainPetDiaryTappedEvent)
         .disposed(by: disposeBag)
     } else {
-      animalContainerView.addSubview(emptyMainAnimalView)
+      petContainerView.addSubview(emptyMainPetView)
       
-      self.emptyAnimalViewConstraint()
+      self.emptyPetViewConstraint()
     }
   }
   
@@ -173,18 +173,18 @@ final class MainViewController: BaseViewController {
     
   }
   
-  private func emptyAnimalViewConstraint() {
-    emptyMainAnimalView.snp.makeConstraints { make in
-      make.top.equalTo(animalContainerView.snp.top)
+  private func emptyPetViewConstraint() {
+    emptyMainPetView.snp.makeConstraints { make in
+      make.top.equalTo(petContainerView.snp.top)
       make.center.equalToSuperview()
-      make.height.width.equalTo(animalContainerView.snp.width)
+      make.height.width.equalTo(petContainerView.snp.width)
     }
   }
   
-  private func mainAnimalViewConstraint() {
-    guard let mainAnimalView = mainAnimalView else { return }
-    mainAnimalView.snp.makeConstraints { make in
-      make.top.equalTo(animalContainerView.snp.top)
+  private func mainPetViewConstraint() {
+    guard let mainPetView = mainPetView else { return }
+    mainPetView.snp.makeConstraints { make in
+      make.top.equalTo(petContainerView.snp.top)
       make.horizontalEdges.equalToSuperview()
       make.bottom.equalToSuperview()
     }
@@ -201,17 +201,17 @@ final class MainViewController: BaseViewController {
   
   override func bind() {
     let input = MainViewModel.Input(
-      addAnimalButtonTapped: emptyMainAnimalView.addAnimalButton.rx.tap.asSignal(),
+      addPetButtonTapped: emptyMainPetView.addPetButton.rx.tap.asSignal(),
       moveCommunityTapped: emptyStarCommunityView.moveCommunityTabButton.rx.tap.asSignal(),
-      moveMainAnimalDiaryTapped: moveMainAnimalDiaryTappedEvent.asSignal()
+      moveMainPetDiaryTapped: moveMainPetDiaryTappedEvent.asSignal()
         // button2TappedEvent.asSignal()
     )
     
     let output = viewModel.transform(input: input)
-    output.hasMainAnimal
-      .drive(onNext: { animal in
-        print("animal")
-        self.showViewBasedOnHasMain(animal) // 실제 코드
+    output.hasMainPet
+      .drive(onNext: { pet in
+        print("Pet")
+        self.showViewBasedOnHasMain(pet) // 실제 코드
       })
       .disposed(by: disposeBag)
     

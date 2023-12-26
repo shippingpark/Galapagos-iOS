@@ -1,5 +1,5 @@
 //
-//  AddAnimalCalendarTextFieldView.swift
+//  AddPetCalendarTextFieldView.swift
 //  Galapagos
 //
 //  Created by 박혜운 on 2023/10/17.
@@ -10,7 +10,7 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-final class AddAnimalCalendarTextFieldView: UIView {
+final class AddPetCalendarTextFieldView: UIView {
   
   // MARK: - UI
   
@@ -22,10 +22,9 @@ final class AddAnimalCalendarTextFieldView: UIView {
     return view
   }()
   
-  private let calendarButton: UIButton = {
-    let button = UIButton()
-    button.setImage(GalapagosAsset._24x24calendarDefault.image, for: .normal)
-    return button
+  private let calendarImageView: UIImageView = {
+    let image = UIImageView(image: GalapagosAsset._24x24calendarDefault.image)
+    return image
   }()
   
   fileprivate var label: UILabel = {
@@ -64,7 +63,7 @@ final class AddAnimalCalendarTextFieldView: UIView {
     ])
     
     self.roundedView.addSubviews([
-      calendarButton,
+      calendarImageView,
       label
     ])
   }
@@ -79,7 +78,7 @@ final class AddAnimalCalendarTextFieldView: UIView {
       make.leading.equalToSuperview().offset(20)
     }
     
-    calendarButton.snp.makeConstraints { make in
+    calendarImageView.snp.makeConstraints { make in
       make.centerY.equalToSuperview()
       make.trailing.equalToSuperview().inset(20)
     }
@@ -104,7 +103,7 @@ final class AddAnimalCalendarTextFieldView: UIView {
   }
 }
 
-extension Reactive where Base: AddAnimalCalendarTextFieldView {
+extension Reactive where Base: AddPetCalendarTextFieldView {
   var tap: ControlEvent<Void> {
     let source: Observable<Void> = self.base.rx.tapGesture()
       .when(.recognized)

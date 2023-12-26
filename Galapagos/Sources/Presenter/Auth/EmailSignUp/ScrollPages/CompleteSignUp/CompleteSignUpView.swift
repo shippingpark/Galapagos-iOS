@@ -43,7 +43,7 @@ final class CompleteSignUpView: UIView {
 		return label
 	}()
 	
-	private lazy var registerAnimalButton: GalapagosButton = {
+	private lazy var registerPetButton: GalapagosButton = {
 		let button = GalapagosButton(
 			isRound: false,
 			iconTitle: nil,
@@ -94,7 +94,7 @@ final class CompleteSignUpView: UIView {
 			titleLabel,
 			completeImageView,
 			infoLabel,
-			registerAnimalButton,
+			registerPetButton,
 			lookAroundAppButton
 		])
 	}
@@ -116,14 +116,14 @@ final class CompleteSignUpView: UIView {
 			$0.centerX.equalTo(self)
 		}
 		
-		registerAnimalButton.snp.makeConstraints {
+		registerPetButton.snp.makeConstraints {
 			$0.top.equalTo(infoLabel.snp.bottom).offset(132)
 			$0.leading.trailing.equalTo(self).inset(24)
 			$0.height.equalTo(56)
 		}
 		
 		lookAroundAppButton.snp.makeConstraints {
-			$0.top.equalTo(registerAnimalButton.snp.bottom).offset(12)
+			$0.top.equalTo(registerPetButton.snp.bottom).offset(12)
 			$0.leading.trailing.equalTo(self).inset(24)
 			$0.height.equalTo(56)
 		}
@@ -132,7 +132,7 @@ final class CompleteSignUpView: UIView {
 	
 	private func bind() {
 		let input = CompleteSignUpViewModel.Input(
-			registerAnimalBtnTapped: registerAnimalButton.rx.tap.asObservable(),
+			registerPetBtnTapped: registerPetButton.rx.tap.asObservable(),
 			lookAroundBtnTapped: lookAroundAppButton.rx.tap.asObservable()
 		)
 		
