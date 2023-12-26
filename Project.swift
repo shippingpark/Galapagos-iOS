@@ -23,7 +23,7 @@ import MyPlugin
 
 
 enum TargetType {
-	case DesignSystem
+	case SiriUIKit
 	case App
 }
 
@@ -38,7 +38,6 @@ protocol ProjectProfile {
 class BaseProjectProfile: ProjectProfile{
 	
 	let projectName: String = "Galapagos"
-	
 	
 	let infoPlist: [String: Plist.Value] = [
 		"Base_Url" : "$(BASE_URL)",
@@ -81,39 +80,23 @@ class BaseProjectProfile: ProjectProfile{
 	func generateDependencies(targetName target: TargetType) -> [TargetDependency] {
 		switch target{
 		case .App:
-			return [
-				.external(name: "RxSwift"),
-				.external(name: "RxCocoa"),
-				.external(name: "RxRelay"),
-				.external(name: "RxGesture"),
-				.external(name: "SnapKit"),
-				.external(name: "Then"),
-				.external(name: "KeychainSwift"),
-				.external(name: "GoogleSignIn"),
+			return commonDependencies() + [
 				.target(name: "SiriUIKit")
 			]
-		case .DesignSystem:
-			return [
-				.external(name: "RxSwift"),
-				.external(name: "RxCocoa"),
-				.external(name: "RxRelay"),
-				.external(name: "RxGesture"),
-				.external(name: "SnapKit"),
-				.external(name: "Then"),
-				.external(name: "KeychainSwift"),
-			]
+		case .SiriUIKit:
+			return commonDependencies()
 		}
 	}
 	
 	func generateAppConfigurations() -> Settings {
 		return Settings.settings(
-			base: [
-				"OTHER_LDFLAGS": "-ObjC",
-				"HEADER_SEARCH_PATHS": [
-                    "$(inherited) $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleSignIn/Sources/Public $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/AppAuth-iOS/Source/AppAuth $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/AppAuth-iOS/Source/AppAuthCore $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/gtm-session-fetcher/Sources/Core/Public $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleSignIn/Sources/../../ $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GTMAppAuth/GTMAppAuth/Sources/Public/GTMAppAuth"]
-			],
+//			base: [
+//				"OTHER_LDFLAGS": "-ObjC",
+//				"HEADER_SEARCH_PATHS": [
+//                    "$(inherited) $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleSignIn/Sources/Public $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/AppAuth-iOS/Source/AppAuth $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/AppAuth-iOS/Source/AppAuthCore $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/gtm-session-fetcher/Sources/Core/Public $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleSignIn/Sources/../../ $(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GTMAppAuth/GTMAppAuth/Sources/Public/GTMAppAuth"]
+//			],
 			configurations: [
-				.debug(name: "DEV", xcconfig: .relativeToCurrentFile("Galapagos/Resources/Configure/DEV.xcconfig")),
+				.debug(name: "Dev", xcconfig: .relativeToCurrentFile("Galapagos/Resources/Configure/DEV.xcconfig")),
 				.release(name: "Release", xcconfig: .relativeToCurrentFile("Galapagos/Resources/Configure/Release.xcconfig")),
 			])
 	}
@@ -141,7 +124,9 @@ class BaseProjectProfile: ProjectProfile{
 						basedOnDependencyAnalysis: false
 					)
 				],
-				dependencies: generateDependencies(targetName: .App),
+				dependencies: [
+					.target(name: "SiriUIKit")
+				],
 				settings: generateAppConfigurations()
 			),
 			Target(
@@ -165,7 +150,7 @@ class BaseProjectProfile: ProjectProfile{
 						basedOnDependencyAnalysis: false
 					)
 				],
-				dependencies: generateDependencies(targetName: .DesignSystem)
+				dependencies: generateDependencies(targetName: .SiriUIKit)
 			)
 		]
 	}
@@ -174,14 +159,52 @@ class BaseProjectProfile: ProjectProfile{
 
 let profile = BaseProjectProfile()
 
+
 let project: Project = .init(
 	name: profile.projectName,
 	organizationName: "com.busyModernPeople",
+	packages: [
+		.remote(
+			url: "https://github.com/ReactiveX/RxSwift",
+			requirement: .upToNextMajor(from: "6.5.0")),
+		.remote(
+			url: "https://github.com/RxSwiftCommunity/RxGesture",
+			requirement: .upToNextMajor(from: "4.0.0")),
+		.remote(
+			url: "https://github.com/SnapKit/SnapKit",
+			requirement: .upToNextMajor(from: "5.0.0")),
+		.remote(
+			url: "https://github.com/google/GoogleSignIn-iOS",
+			requirement: .upToNextMajor(from: "7.0.0")),
+		.remote(
+			url: "https://github.com/DaveWoodCom/XCGLogger.git",
+			requirement: .upToNextMajor(from: "7.0.0"))
+
+	],
 	settings: .settings(configurations: [
-		.debug(name: "DEV"),
+		.debug(name: "Dev"),
 		.release(name: "Release")
 	]),
 	targets: profile.generateTarget()
 )
 
-
+extension BaseProjectProfile {
+	fileprivate func commonDependencies() -> [TargetDependency] {
+		return [
+			.package(product: "RxSwift",
+							 type: .runtime),
+			.package(product: "RxCocoa",
+							 type: .runtime),
+			.package(product: "RxRelay",
+							 type: .runtime),
+			.package(product: "RxGesture",
+							 type: .runtime),
+			.package(product: "SnapKit",
+							 type: .runtime),
+			.package(product: "GoogleSignIn",
+							 type: .runtime),
+			.package(product: "XCGLogger",
+							 type: .runtime)
+		]
+	}
+}
