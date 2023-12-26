@@ -101,7 +101,9 @@ final class AddPetViewController: BaseViewController {
     imageView.contentMode = .scaleAspectFill
     return imageView
   }()
-  private let cameraImageView: UIImageView = UIImageView(image: GalapagosAsset._16x16CameraDefault.image)
+  private let cameraImageView: UIImageView = UIImageView(
+    image: GalapagosAsset._16x16CameraDefault.image
+  )
   
   private lazy var nameTextField: GalapagosTextField = {
     let textField = GalapagosTextField(
@@ -208,7 +210,7 @@ final class AddPetViewController: BaseViewController {
     profileContainerView.addSubview(profileImageView)
     profileImageView.addSubview(circleShadowCameraView)
     circleShadowCameraView.addSubview(cameraImageView)
-
+    
     genderContainerView.addSubviews([
       genderButtonStackView
     ])
@@ -266,7 +268,7 @@ final class AddPetViewController: BaseViewController {
       make.top.equalTo(profileContainerView.snp.bottom).offset(56)
       make.horizontalEdges.equalTo(view.snp.horizontalEdges)
     }
-
+    
     completeAddPetButton.snp.makeConstraints { make in
       make.top.equalTo(contentStackView.snp.bottom).offset(40)
       make.horizontalEdges.equalToSuperview().inset(galpagosHorizontalOffset)
@@ -366,12 +368,14 @@ final class AddPetViewController: BaseViewController {
       backButtonTapped: navigationBar.backButton.rx.tap.asSignal(),
       profileTapped: profileContainerView.rx.tapGesture()
         .when(.recognized)
-        .map { [weak self] _ in
-          self?.present(
-            CalendarViewController(
-              events: ["2023-08-09"]),
-            animated: false
-          ) // 테스트용, 추후 달력 버튼 위치로 변경
+        .map { _ in
+          let calendarVC = CalendarViewController(events: ["2023-08-09"])
+
+          BottomSheetManager.shared.showBottomSheet(
+            title: "입양일",
+            content: calendarVC,
+            bottomButtonTitle: "완료"
+          )
         }
         .asSignal(onErrorJustReturn: ())
     )
@@ -402,18 +406,10 @@ final class AddPetViewController: BaseViewController {
     
     adoptionTextField.rx.tap
       .asDriver(onErrorDriveWith: .empty())
-      .drive(onNext: { 
-//        guard let self = self else { return }
+      .drive(onNext: {
+        //        guard let self = self else { return }
         print("눌림")
       })
       .disposed(by: disposeBag)
-  }
-}
-
-extension AddPetViewController {
-  enum GenderType {
-    case undifferentiated
-    case male
-    case female
   }
 }
