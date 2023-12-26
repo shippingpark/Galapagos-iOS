@@ -22,10 +22,9 @@ final class AddPetCalendarTextFieldView: UIView {
     return view
   }()
   
-  private let calendarButton: UIButton = {
-    let button = UIButton()
-    button.setImage(GalapagosAsset._24x24calendarDefault.image, for: .normal)
-    return button
+  private let calendarImageView: UIImageView = {
+    let image = UIImageView(image: GalapagosAsset._24x24calendarDefault.image)
+    return image
   }()
   
   fileprivate var label: UILabel = {
@@ -64,7 +63,7 @@ final class AddPetCalendarTextFieldView: UIView {
     ])
     
     self.roundedView.addSubviews([
-      calendarButton,
+      calendarImageView,
       label
     ])
   }
@@ -79,7 +78,7 @@ final class AddPetCalendarTextFieldView: UIView {
       make.leading.equalToSuperview().offset(20)
     }
     
-    calendarButton.snp.makeConstraints { make in
+    calendarImageView.snp.makeConstraints { make in
       make.centerY.equalToSuperview()
       make.trailing.equalToSuperview().inset(20)
     }
