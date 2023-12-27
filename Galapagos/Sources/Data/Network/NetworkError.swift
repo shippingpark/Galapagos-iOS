@@ -31,11 +31,6 @@ public enum NetworkError: LocalizedError {
 			return "Failed to decode the object."
 		case .customError(_, let message):
 			return "\(message ?? "Unknown Error")"
-			
-			// 코드까지 확인 하고 싶으면, 아래 녀석 사용하자
-			//          case .customError(let code, let message):
-			//              return "Error \(code ?? 999): \(message ?? "Unknown Error")"
-			
 		}
 	}
 	

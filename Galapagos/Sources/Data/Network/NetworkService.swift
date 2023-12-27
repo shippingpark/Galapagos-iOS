@@ -7,22 +7,24 @@
 //
 
 import Foundation
-
 import RxSwift
 
+protocol NetworkService {
+	// MARK: - Methods
+	func request(_ endpoint: Endpoint) -> Observable<(HTTPURLResponse, Data)>
+	func request(_ endpoint: Endpoint) -> Single<Data>
+}
+
+
 final class DefaultNetworkService: NetworkService {
-	
 	// MARK: - Properties
 	private let session: URLSession = .shared
 	
-	
 	// MARK: - Methods
-	
 	func request(_ endpoint: Endpoint) -> Observable<(HTTPURLResponse, Data)> {
 		guard let urlRequest = endpoint.toURLRequest() else {
 			return .error(NetworkError.invalidURL)
 		}
-		
 		return session.rx
 			.response(request: urlRequest)
 			.map { ($0.response, $0.data) }
@@ -35,15 +37,17 @@ final class DefaultNetworkService: NetworkService {
 			}, onDispose: {
 				GalapagosIndecatorManager.shared.hide()
 			})
-			.flatMap { response, data -> Observable<Data> in
+			.flatMap { response, data -> Single<Data> in
 				if response.statusCode == 200 {
 					return .just(data)
 				} else {
 					let errorData = Utility.decodeError(from: data)
-					return .error(NetworkError.customError(code: errorData.errorCode, message: errorData.errorMessages))
+					return .error(NetworkError.customError(
+						code: errorData.code,
+						message: errorData.message
+					))
 				}
 			}
-			.asSingle()
 	}
 	
 }
