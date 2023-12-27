@@ -62,16 +62,15 @@ class DiaryCoordinator: CoordinatorType {
   }
 }
 
-extension DiaryCoordinator: AddDiaryCoordinating {
-  func pushToAddDiary(petIdx: String) {
-    let addDiaryCoordinator = AddDiaryCoordinator(
-      navigationController: self.navigationController
-    )
-    addDiaryCoordinator.delegate = self
-    addDiaryCoordinator.start()
-    self.childCoordinators.append(addDiaryCoordinator)
-    
-  }
+extension DiaryCoordinator {
+	fileprivate func pushToAddDiary(petIdx: String) {
+		let addDiaryCoordinator = AddDiaryCoordinator(
+			navigationController: self.navigationController
+		)
+		addDiaryCoordinator.delegate = self
+		addDiaryCoordinator.start()
+		self.childCoordinators.append(addDiaryCoordinator)
+	}
 }
 
 extension DiaryCoordinator: CoordinatorDelegate {

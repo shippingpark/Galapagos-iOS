@@ -71,33 +71,29 @@ final class MainCoordinator: CoordinatorType {
   }
 }
 
-extension MainCoordinator: AddPetCoordinating {
-  func pushToAddPet() {
-    let addPetCoordinator = AddPetCoordinator(
-      navigationController: self.navigationController
-    )
-    addPetCoordinator.delegate = self
-    addPetCoordinator.start()
-    self.childCoordinators.append(addPetCoordinator)
-  }
-}
-
-extension MainCoordinator: DiaryCoordinating {
-  func pushToDiary(petIdx: String) {
-    let diaryCoordinator = DiaryCoordinator(
-      petIdx: "임시",
-      navigationController: self.navigationController
-    )
-    diaryCoordinator.delegate = self
-    diaryCoordinator.start()
-    self.childCoordinators.append(diaryCoordinator)
-  }
-}
-
-extension MainCoordinator { // 이 기능만 유일하게 Coordinator가 finsh가 아닌 사유로 부모 Coordinator 접근
-  func moveToCommunityTab() {
-    self.parentsCoordinator.destination.accept(.community)
-  }
+extension MainCoordinator {
+	fileprivate func pushToAddPet() {
+		let addPetCoordinator = AddPetCoordinator(
+			navigationController: self.navigationController
+		)
+		addPetCoordinator.delegate = self
+		addPetCoordinator.start()
+		self.childCoordinators.append(addPetCoordinator)
+	}
+	
+	fileprivate func pushToDiary(petIdx: String) {
+		let diaryCoordinator = DiaryCoordinator(
+			petIdx: "임시",
+			navigationController: self.navigationController
+		)
+		diaryCoordinator.delegate = self
+		diaryCoordinator.start()
+		self.childCoordinators.append(diaryCoordinator)
+	}
+	
+	fileprivate func moveToCommunityTab() {
+		self.parentsCoordinator.destination.accept(.community)
+	}
 }
 
 // extension MainCoordinator: DetailPostCoordinating {

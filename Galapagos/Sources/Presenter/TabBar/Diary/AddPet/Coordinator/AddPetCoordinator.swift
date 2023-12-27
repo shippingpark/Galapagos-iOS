@@ -28,15 +28,12 @@ class AddPetCoordinator: CoordinatorType {
   func setState() {}
 
   func start() {
-    pushToAddPet()
-  }
-  
-  func pushToAddPet() {
-    let addPetViewController = AddPetViewController(
-      viewModel: AddPetViewModel(
-        coordinator: self
-      )
-    )
+		let addPetViewController = AddPetViewController(
+			viewModel: AddPetViewModel(
+				coordinator: self
+			)
+		)
 		self.pushViewController(viewController: addPetViewController, animated: true)
   }
+ 
 }
