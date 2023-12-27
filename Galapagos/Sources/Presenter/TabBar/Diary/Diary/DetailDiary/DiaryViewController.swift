@@ -23,10 +23,12 @@ class DiaryViewController: BaseViewController {
     return label
   }()
   
-  private var button = UIButton().then {
-    $0.backgroundColor = .darkGray
-    $0.setTitle("add", for: .normal)
-  }
+	private lazy var button: UIButton = {
+		let button = UIButton()
+		button.backgroundColor = .darkGray
+		button.setTitle("add", for: .normal)
+		return button
+  }()
   
   private lazy var navigationBar: GalapagosNavigationBarView = {
     let navigationBar = GalapagosNavigationBarView()

@@ -10,13 +10,15 @@ import RxRelay
 import RxSwift
 import UIKit
 
-class AddDiaryCoordinator: Coordinator {
-  var navigationController: UINavigationController
-
-  var delegate: CoordinatorDelegate?
-  var childCoordinators: [Coordinator] = []
-  var disposeBag: DisposeBag = DisposeBag()
-
+class AddDiaryCoordinator: CoordinatorType {
+	
+	var delegate: CoordinatorDelegate?
+  var childCoordinators: [CoordinatorType] = []
+	var baseViewController: UIViewController?
+  
+	var navigationController: UINavigationController
+	var disposeBag: DisposeBag = DisposeBag()
+	
   init(navigationController: UINavigationController) {
     self.navigationController = navigationController
   }
@@ -24,15 +26,12 @@ class AddDiaryCoordinator: Coordinator {
   func setState() {}
 
   func start() {
-    pushToAddPet()
+		let addDiaryViewController = AddDiaryViewController(
+			viewModel: AddDiaryViewModel(
+				coordinator: self
+			)
+		)
+		self.pushViewController(viewController: addDiaryViewController, animated: true)
   }
   
-  func pushToAddPet() {
-    let addDiaryViewController = AddDiaryViewController(
-      viewModel: AddDiaryViewModel(
-        coordinator: self
-      )
-    )
-    self.pushViewController(viewController: addDiaryViewController)
-  }
 }

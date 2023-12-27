@@ -1,5 +1,5 @@
 //
-//  EmptyMainPetView.swift
+//  EmptyMainAnimalView.swift
 //  Galapagos
 //
 //  Created by 박혜운 on 2023/06/27.
@@ -12,11 +12,11 @@ import RxSwift
 import SiriUIKit
 import SnapKit
 
-class EmptyMainPetView: BaseView {
+class EmptyMainAnimalView: BaseView {
   
   private var shadowView = RadiusBoxView(radius: 12, style: .shadow)
   
-  private lazy var petStackView: UIStackView = {
+  private lazy var animalStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
     stackView.alignment = .center
@@ -24,7 +24,7 @@ class EmptyMainPetView: BaseView {
     return stackView
   }()
   
-  private lazy var addPetInfoLabel: UILabel = {
+  private lazy var addAnimalInfoLabel: UILabel = {
     let label = UILabel()
     label.numberOfLines = 0
     let text = "아직 등록된 대표 동물이 없어요.\n동물을 추가하고 대표 동물을 설정해보세요!"
@@ -56,7 +56,7 @@ class EmptyMainPetView: BaseView {
     return label
   }()
   
-  var addPetButton: UIButton = {
+  var addAnimalButton: UIButton = {
     let button = UIButton()
     var config = UIButton.Configuration.filled()
     config.imagePlacement = .leading
@@ -72,15 +72,15 @@ class EmptyMainPetView: BaseView {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    self.addPetButton.cornerRadius = 26
+		self.addAnimalButton.layer.cornerRadius = 26
   }
   
   override func setAddSubView() {
     self.addSubview(shadowView)
     
-    shadowView.addSubview(petStackView)
-    [addPetInfoLabel, addPetButton].forEach { subview in
-      petStackView.addArrangedSubview(subview)
+    shadowView.addSubview(animalStackView)
+    [addAnimalInfoLabel, addAnimalButton].forEach { subview in
+      animalStackView.addArrangedSubview(subview)
     }
   }
   
@@ -90,15 +90,15 @@ class EmptyMainPetView: BaseView {
       make.edges.equalToSuperview()
     }
     
-    petStackView.snp.makeConstraints { make in
+    animalStackView.snp.makeConstraints { make in
       make.center.equalToSuperview()
     }
     
-    addPetInfoLabel.snp.makeConstraints { make in
+    addAnimalInfoLabel.snp.makeConstraints { make in
       make.width.lessThanOrEqualToSuperview()
     }
     
-    addPetButton.snp.makeConstraints { make in
+    addAnimalButton.snp.makeConstraints { make in
       make.height.equalTo(52)
       make.width.equalTo(145)
     }
@@ -108,19 +108,19 @@ class EmptyMainPetView: BaseView {
     let buttonFont = GalapagosFontFamily.Pretendard.semiBold.font(size: 16)
     let title = "동물 추가하기"
     
-    addPetButton.titleLabel?.font = buttonFont
-    addPetButton.setTitleColor(.white, for: .normal)
-    addPetButton.setTitleColor(.white, for: .highlighted)
+    addAnimalButton.titleLabel?.font = buttonFont
+    addAnimalButton.setTitleColor(.white, for: .normal)
+    addAnimalButton.setTitleColor(.white, for: .highlighted)
 
     // UIButton의 각 상태에 대해 폰트를 다시 설정
-    addPetButton.setAttributedTitle(
+    addAnimalButton.setAttributedTitle(
       attributedString(
         for: title,
         with: buttonFont
       ),
       for: .normal
     )
-    addPetButton.setAttributedTitle(
+    addAnimalButton.setAttributedTitle(
       attributedString(
         for: title,
         with: buttonFont

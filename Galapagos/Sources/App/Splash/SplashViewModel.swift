@@ -31,12 +31,10 @@ class SplashViewModel: ViewModelType{
   }
   
   func checkAutoSignIn(){
-    // 자동로그인 판별하고, state값 변경해줌
-    // 당연히, 로직 자체는 UseCase에 존재
-		if let _ = UserDefaults.standard.string(forKey: "JWT") {
-			self.coordinator?.userActionState.accept(.tabBar)
+		if let _: String = UserDefaultManager.shared.load(for: .jwt) {
+			self.coordinator?.destination.accept(.tabBar)
 		} else {
-			self.coordinator?.userActionState.accept(.auth)
+			self.coordinator?.destination.accept(.auth)
 		}
 		
   }

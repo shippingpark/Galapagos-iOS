@@ -37,15 +37,20 @@ class DiaryListViewController: BaseViewController {
     return tab
   }()
   
-  private var button = UIButton().then {
-    $0.backgroundColor = .darkGray
-    $0.setTitle("상세 다이어리", for: .normal)
-  }
+	private lazy var button: UIButton = {
+		let button = UIButton()
+		button.backgroundColor = .darkGray
+		button.setTitle("상세 다이어리", for: .normal)
+		return button
+  }()
   
-  private var button2 = UIButton().then {
-    $0.backgroundColor = .blue
-    $0.setTitle("펫 추가", for: .normal)
-  }
+	// button2....?
+	private lazy var button2: UIButton = {
+		let button = UIButton()
+		button.backgroundColor = .blue
+		button.setTitle("펫 추가", for: .normal)
+		return button
+  }()
   
   // MARK: - Properties
   

@@ -10,65 +10,58 @@ import RxRelay
 import RxSwift
 import UIKit
 
-class DiaryCoordinator: Coordinator {
+class DiaryCoordinator: CoordinatorType {
 
   enum DiaryCoordinatorFlow {
     case addDiary // 초기화면 삭제
   }
   
-  private var petIdx: String?
+  private var animalIdx: String?
   
-  var userActionState: PublishRelay<DiaryCoordinatorFlow> = PublishRelay()
-  var delegate: CoordinatorDelegate?
-
-  var navigationController: UINavigationController
-  var childCoordinators: [Coordinator] = []
+  var childCoordinators: [CoordinatorType] = []
+	var delegate: CoordinatorDelegate?
+	var baseViewController: UIViewController?
+	
+	var navigationController: UINavigationController
   var disposeBag: DisposeBag = DisposeBag()
+	
+	var destination = PublishRelay<DiaryCoordinatorFlow>()
 
-  init(petIdx: String, navigationController: UINavigationController) {
-    self.petIdx = petIdx
+  init(animalIdx: String, navigationController: UINavigationController) {
+    self.animalIdx = animalIdx
     self.navigationController = navigationController
     self.setState()
   }
 
   func setState() {
-    self.userActionState
-      .debug()
-      .subscribe(onNext: { [weak self] state in
-        print("🌱🌱🌱 DiaryCoordinator: \(state) 🌱🌱🌱")
-        guard let self = self else { return }
+    self.destination
+			.withUnretained(self)
+      .subscribe(onNext: { owner, state in
         switch state {
         case .addDiary:
-          self.pushToAddDiary(petIdx: "임시")
+					let addDiaryCoordinator = AddDiaryCoordinator(
+						navigationController: self.navigationController
+					)
+					addDiaryCoordinator.delegate = self
+					addDiaryCoordinator.start()
+					self.childCoordinators.append(addDiaryCoordinator)
         }
       }).disposed(by: disposeBag)
   }
 
   func start() {
-//    guard let PetIdx else { return } // 아직 안 사용
+//    guard let animalIdx else { return } // 아직 안 사용
     let diaryViewController = DiaryViewController(
       viewModel: DiaryViewModel(
         coordinator: self
       )
     )
-    self.pushViewController(viewController: diaryViewController)
-  }
-}
-
-extension DiaryCoordinator: AddDiaryCoordinating {
-  func pushToAddDiary(petIdx: String) {
-    let addDiaryCoordinator = AddDiaryCoordinator(
-      navigationController: self.navigationController
-    )
-    addDiaryCoordinator.delegate = self
-    addDiaryCoordinator.start()
-    self.childCoordinators.append(addDiaryCoordinator)
-    
+    self.pushViewController(viewController: diaryViewController, animated: true)
   }
 }
 
 extension DiaryCoordinator: CoordinatorDelegate {
-  func didFinish(childCoordinator: Coordinator) {
-    self.popViewController()
+  func didFinish(childCoordinator: CoordinatorType) {
+    self.popViewController(animated: true)
   }
 }

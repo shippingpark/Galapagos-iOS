@@ -11,11 +11,13 @@ import RxSwift
 
 import UIKit
 
-class CommunityNotificationCoordinator: Coordinator {
-	var navigationController: UINavigationController
-
+class CommunityNotificationCoordinator: CoordinatorType {
+	
 	var delegate: CoordinatorDelegate?
-	var childCoordinators: [Coordinator] = []
+	var childCoordinators: [CoordinatorType] = []
+	var baseViewController: UIViewController?
+	
+	var navigationController: UINavigationController
 	var disposeBag: DisposeBag = DisposeBag()
 
 	init(navigationController: UINavigationController) {
@@ -35,6 +37,6 @@ class CommunityNotificationCoordinator: Coordinator {
 				// usecase 추가
 			)
 		)
-		self.pushViewController(viewController: communityNotificationViewController)
+		self.pushViewController(viewController: communityNotificationViewController, animated: true)
 	}
 }

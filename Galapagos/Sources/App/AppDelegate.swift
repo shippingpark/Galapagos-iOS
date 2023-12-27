@@ -9,6 +9,9 @@
 import Foundation
 import GoogleSignIn
 import UIKit
+import XCGLogger
+
+let logger = XCGLogger.default
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate{
@@ -19,6 +22,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+		
+		// MARK: - logger 초기 세팅 (너무 low한 레벨은 가져오지 말자)
+		logger.setup(
+			level: .verbose,
+			showFileNames: true,
+			showLineNumbers: true,
+			writeToFile: nil,
+			fileLevel: .verbose
+		)
 		
     return true
   }
