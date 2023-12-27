@@ -1,5 +1,5 @@
 //
-//  AddAnimalCoordinator.swift
+//  AddPetCoordinator.swift
 //  Galapagos
 //
 //  Created by 박혜운 on 2023/06/20.
@@ -10,7 +10,7 @@ import RxRelay
 import RxSwift
 import UIKit
 
-class AddAnimalCoordinator: CoordinatorType {
+class AddPetCoordinator: CoordinatorType {
 	
 	var childCoordinators: [CoordinatorType] = []
 	var delegate: CoordinatorDelegate?
@@ -18,24 +18,25 @@ class AddAnimalCoordinator: CoordinatorType {
 	
 	var navigationController: UINavigationController
 	var disposeBag: DisposeBag = DisposeBag()
-	
 
-  init(navigationController: UINavigationController) {
+  init(
+		navigationController: UINavigationController
+	) {
     self.navigationController = navigationController
   }
   
   func setState() {}
 
   func start() {
-    pushToAddAnimal()
+    pushToAddPet()
   }
   
-  func pushToAddAnimal() {
-    let addAnimalViewController = AddAnimalViewController(
-      viewModel: AddAnimalViewModel(
+  func pushToAddPet() {
+    let addPetViewController = AddPetViewController(
+      viewModel: AddPetViewModel(
         coordinator: self
       )
     )
-    self.pushViewController(viewController: addAnimalViewController, animated: true)
+		self.pushViewController(viewController: addPetViewController, animated: true)
   }
 }

@@ -16,8 +16,8 @@ final class MainCoordinator: CoordinatorType {
   // MARK: - Coordinator DEPTH 2 -
   
   enum MainCoordinatorFlow {
-    case addAnimal
-    case mainAnimalDiary
+    case addPet
+    case mainPetDiary
     case moveCommunity
     case detailPost // 초기화면 삭제
   }
@@ -48,12 +48,12 @@ final class MainCoordinator: CoordinatorType {
 				guard let tabBarViewController = owner.navigationController.tabBarController as? TabBarViewController else { return }
 				tabBarViewController.hideCustomTabBar()
         switch state {
-        case .addAnimal:
-					owner.pushToAddAnimal()
-        case .mainAnimalDiary:
-					owner.pushToMainAnimalDiary(animalIdx: "임시")
+        case .addPet:
+          self.pushToAddPet()
+        case .mainPetDiary:
+          self.pushToDiary(petIdx: "임시") // Idx 가져 올 방법 고민 (enum 유력)
         case .moveCommunity:
-					owner.pushToMoveCommunity()
+					owner.moveToCommunityTab()
         case .detailPost:
           break
         }
@@ -71,36 +71,45 @@ final class MainCoordinator: CoordinatorType {
   }
 }
 
-// MARK: Private Methods
-extension MainCoordinator {
-	fileprivate func pushToAddAnimal() {
-		let addAnimalCoordinator = AddAnimalCoordinator(
-			navigationController: self.navigationController
-		)
-		addAnimalCoordinator.delegate = self
-		addAnimalCoordinator.start()
-		self.childCoordinators.append(addAnimalCoordinator)
-	}
-	
-	fileprivate func pushToMainAnimalDiary(animalIdx: String) {
-		let diaryCoordinator = DiaryCoordinator(
-			animalIdx: animalIdx,
-			navigationController: self.navigationController
-		)
-		diaryCoordinator.delegate = self
-		diaryCoordinator.start()
-		self.childCoordinators.append(diaryCoordinator)
-	}
-	
-	fileprivate func pushToMoveCommunity() {
-		self.parentsCoordinator.destination.accept(.community)
-	}
+extension MainCoordinator: AddPetCoordinating {
+  func pushToAddPet() {
+    let addPetCoordinator = AddPetCoordinator(
+      navigationController: self.navigationController
+    )
+    addPetCoordinator.delegate = self
+    addPetCoordinator.start()
+    self.childCoordinators.append(addPetCoordinator)
+  }
 }
 
+extension MainCoordinator: DiaryCoordinating {
+  func pushToDiary(petIdx: String) {
+    let diaryCoordinator = DiaryCoordinator(
+      petIdx: "임시",
+      navigationController: self.navigationController
+    )
+    diaryCoordinator.delegate = self
+    diaryCoordinator.start()
+    self.childCoordinators.append(diaryCoordinator)
+  }
+}
+
+extension MainCoordinator { // 이 기능만 유일하게 Coordinator가 finsh가 아닌 사유로 부모 Coordinator 접근
+  func moveToCommunityTab() {
+    self.parentsCoordinator.destination.accept(.community)
+  }
+}
+
+// extension MainCoordinator: DetailPostCoordinating {
+//  func pushToDetailPost(postIdx: String) {
+//    //
+//  }
+// }
+
 extension MainCoordinator: CoordinatorDelegate {
-  func didFinish(childCoordinator: CoordinatorType) { // 복귀 시 탭바 재생성
-		guard let tabBarViewController = self.navigationController.tabBarController as? TabBarViewController else { return }     
+	func didFinish(childCoordinator: CoordinatorType) { // 복귀 시 탭바 재생성
+		guard let tabBarViewController = self.navigationController.tabBarController as? TabBarViewController else { return }
 		tabBarViewController.showCustomTabBar()
 		self.popToRootViewController(animated: true)
-  }
+	}
 }

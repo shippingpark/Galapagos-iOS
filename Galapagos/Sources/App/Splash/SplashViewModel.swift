@@ -34,7 +34,8 @@ class SplashViewModel: ViewModelType{
 		if let _: String = UserDefaultManager.shared.load(for: .jwt) {
 			self.coordinator?.destination.accept(.tabBar)
 		} else {
-			self.coordinator?.destination.accept(.auth)
+//			self.coordinator?.destination.accept(.auth)
+			self.coordinator?.destination.accept(.tabBar)
 		}
 		
   }

@@ -13,7 +13,7 @@ import UIKit
 class DiaryListCoordinator: CoordinatorType {
   
   enum DiaryListCoordinatorFlow {
-    case addAnimal, diary
+    case addPet, diary
   }
 	
 	var childCoordinators: [CoordinatorType] = []
@@ -24,28 +24,29 @@ class DiaryListCoordinator: CoordinatorType {
 	var parentsCoordinator: TabBarCoordinator
 	var disposeBag: DisposeBag = DisposeBag()
 	
-	var destination = PublishRelay<DiaryListCoordinatorFlow>()
+  var destination = PublishRelay<DiaryListCoordinatorFlow>()
   
   init(
 		navigationController: UINavigationController,
 		parentsCoordinator: TabBarCoordinator
 	) {
-		self.parentsCoordinator = parentsCoordinator
     self.navigationController = navigationController
+		self.parentsCoordinator = parentsCoordinator
     self.setState()
   }
   
   func setState() {
-		self.destination
+    self.destination
 			.withUnretained(self)
       .subscribe(onNext: { owner, state in
-				guard let tabBarViewController = self.navigationController.tabBarController as? TabBarViewController else { return }
+        print("💗💗💗 DiaryListCoordinator: \(state) 💗💗💗")
+				guard let tabBarViewController = owner.navigationController.tabBarController as? TabBarViewController else { return }
 				tabBarViewController.hideCustomTabBar()
         switch state {
-        case .addAnimal:
-          owner.pushToAddAnimal()
+        case .addPet:
+          self.pushToAddPet()
         case .diary:
-          owner.pushToDiary(animalIdx: "임시")
+          self.pushToDiary(petIdx: "임시")
         }
       }).disposed(by: disposeBag)
   }
@@ -56,38 +57,37 @@ class DiaryListCoordinator: CoordinatorType {
         coordinator: self
       )
     )
-    self.pushViewController(viewController: diaryListViewController, animated: false)
-		self.baseViewController = diaryListViewController
+    self.pushViewController(viewController: diaryListViewController, animated: true)
   }
 }
 
+extension DiaryListCoordinator: AddPetCoordinating {
+  func pushToAddPet() {
+    let addPetCoordinator = AddPetCoordinator(
+      navigationController: self.navigationController
+    )
+    addPetCoordinator.delegate = self
+    addPetCoordinator.start()
+    self.childCoordinators.append(addPetCoordinator)
+  }
+}
 
-// MARK: Private Methods
-extension DiaryListCoordinator {
-	fileprivate func pushToAddAnimal() {
-		let addAnimalCoordinator = AddAnimalCoordinator(
+extension DiaryListCoordinator: DiaryCoordinating {
+  func pushToDiary(petIdx: String) {
+    let diaryCoordinator = DiaryCoordinator(
+      petIdx: petIdx,
 			navigationController: self.navigationController
-		)
-		addAnimalCoordinator.delegate = self
-		addAnimalCoordinator.start()
-		self.childCoordinators.append(addAnimalCoordinator)
-	}
-	
-	fileprivate func pushToDiary(animalIdx: String) {
-		let diaryCoordinator = DiaryCoordinator(
-			animalIdx: animalIdx,
-			navigationController: self.navigationController
-		)
-		diaryCoordinator.delegate = self
-		diaryCoordinator.start()
-		self.childCoordinators.append(diaryCoordinator)
-	}
+    )
+    diaryCoordinator.delegate = self
+    diaryCoordinator.start()
+    self.childCoordinators.append(diaryCoordinator)
+  }
 }
 
 extension DiaryListCoordinator: CoordinatorDelegate {
-  func didFinish(childCoordinator: CoordinatorType) {
+	func didFinish(childCoordinator: CoordinatorType) { // 복귀 시 탭바 재생성
 		guard let tabBarViewController = self.navigationController.tabBarController as? TabBarViewController else { return }
 		tabBarViewController.showCustomTabBar()
 		self.popToRootViewController(animated: true)
-  }
+	}
 }

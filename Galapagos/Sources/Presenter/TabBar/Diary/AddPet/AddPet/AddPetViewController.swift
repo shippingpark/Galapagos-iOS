@@ -167,7 +167,6 @@ final class AddPetViewController: BaseViewController {
   
   
   // MARK: - Properties
-  private var gender: GenderType?
   private let viewModel: AddPetViewModel
   
   // MARK: - Initializers
