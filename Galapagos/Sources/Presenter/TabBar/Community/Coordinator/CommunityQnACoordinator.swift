@@ -11,11 +11,13 @@ import RxSwift
 
 import UIKit
 
-class CommunityQnACoordinator: Coordinator {
-	var navigationController: UINavigationController
+class CommunityQnACoordinator: CoordinatorType {
 	
 	var delegate: CoordinatorDelegate?
-	var childCoordinators: [Coordinator] = []
+	var childCoordinators: [CoordinatorType] = []
+	var baseViewController: UIViewController?
+	
+	var navigationController: UINavigationController
 	var disposeBag: DisposeBag = DisposeBag()
 	
 	init(navigationController: UINavigationController) {
@@ -35,6 +37,6 @@ class CommunityQnACoordinator: Coordinator {
 				// usecase 추가
 			)
 		)
-		self.pushViewController(viewController: communityQnAViewController)
+		self.pushViewController(viewController: communityQnAViewController, animated: true)
 	}
 }

@@ -38,7 +38,7 @@ final class MainViewModel: ViewModelType {
     
     input.moveCommunityTapped
       .emit(onNext: { [weak self] _ in
-        self?.coordinator?.userActionState.accept(.moveCommunity)
+        self?.coordinator?.destination.accept(.moveCommunity)
       })
       .disposed(by: disposeBag)
     
