@@ -10,36 +10,43 @@ import RxRelay
 import RxSwift
 import UIKit
 
-class DiaryCoordinator: Coordinator {
+class DiaryCoordinator: CoordinatorType {
 
   enum DiaryCoordinatorFlow {
     case addDiary // 초기화면 삭제
   }
   
   private var petIdx: String?
-  
-  var userActionState: PublishRelay<DiaryCoordinatorFlow> = PublishRelay()
-  var delegate: CoordinatorDelegate?
+	
+	var childCoordinators: [CoordinatorType] = []
+	var delegate: CoordinatorDelegate?
+	var baseViewController: UIViewController?
+	
+	var navigationController: UINavigationController
+	var disposeBag: DisposeBag = DisposeBag()
+	
+	var destination = PublishRelay<DiaryCoordinatorFlow>()
+	
 
-  var navigationController: UINavigationController
-  var childCoordinators: [Coordinator] = []
-  var disposeBag: DisposeBag = DisposeBag()
-
-  init(petIdx: String, navigationController: UINavigationController) {
+  init(
+		petIdx: String,
+		navigationController: UINavigationController
+	) {
     self.petIdx = petIdx
     self.navigationController = navigationController
     self.setState()
   }
 
   func setState() {
-    self.userActionState
-      .debug()
-      .subscribe(onNext: { [weak self] state in
+    self.destination
+			.withUnretained(self)
+      .subscribe(onNext: { owner, state in
         print("🌱🌱🌱 DiaryCoordinator: \(state) 🌱🌱🌱")
-        guard let self = self else { return }
+				guard let tabBarViewController = owner.navigationController.tabBarController as? TabBarViewController else { return }
+				tabBarViewController.hideCustomTabBar()
         switch state {
         case .addDiary:
-          self.pushToAddDiary(petIdx: "임시")
+          owner.pushToAddDiary(petIdx: "임시")
         }
       }).disposed(by: disposeBag)
   }
@@ -51,7 +58,7 @@ class DiaryCoordinator: Coordinator {
         coordinator: self
       )
     )
-    self.pushViewController(viewController: diaryViewController)
+    self.pushViewController(viewController: diaryViewController, animated: true)
   }
 }
 
@@ -68,7 +75,7 @@ extension DiaryCoordinator: AddDiaryCoordinating {
 }
 
 extension DiaryCoordinator: CoordinatorDelegate {
-  func didFinish(childCoordinator: Coordinator) {
-    self.popViewController()
+  func didFinish(childCoordinator: CoordinatorType) {
+    self.popViewController(animated: true)
   }
 }

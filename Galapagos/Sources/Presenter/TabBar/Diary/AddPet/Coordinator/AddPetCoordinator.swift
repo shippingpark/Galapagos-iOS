@@ -10,14 +10,18 @@ import RxRelay
 import RxSwift
 import UIKit
 
-class AddPetCoordinator: Coordinator {
-  var navigationController: UINavigationController
+class AddPetCoordinator: CoordinatorType {
+	
+	var childCoordinators: [CoordinatorType] = []
+	var delegate: CoordinatorDelegate?
+	var baseViewController: UIViewController?
+	
+	var navigationController: UINavigationController
+	var disposeBag: DisposeBag = DisposeBag()
 
-  var delegate: CoordinatorDelegate?
-  var childCoordinators: [Coordinator] = []
-  var disposeBag: DisposeBag = DisposeBag()
-
-  init(navigationController: UINavigationController) {
+  init(
+		navigationController: UINavigationController
+	) {
     self.navigationController = navigationController
   }
   
@@ -33,6 +37,6 @@ class AddPetCoordinator: Coordinator {
         coordinator: self
       )
     )
-    self.pushViewController(viewController: addPetViewController)
+		self.pushViewController(viewController: addPetViewController, animated: true)
   }
 }

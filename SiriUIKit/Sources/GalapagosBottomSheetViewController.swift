@@ -37,7 +37,7 @@ public class GalapagosBottomSheetViewController: UIViewController {
     return label
   }()
   
-  var exitButton: UIButton = {
+  public var exitButton: UIButton = {
     let button = UIButton()
     button.backgroundColor = .clear
     button.setImage(SiriUIKitAsset._24x24cancleDefault.image, for: .normal)

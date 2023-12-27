@@ -34,7 +34,7 @@ class DiaryListViewModel: ViewModelType {
     
     input.button2Tapped
       .emit(onNext: { [weak self] _ in
-        self?.coordinator?.userActionState.accept(.addPet)
+        self?.coordinator?.destination.accept(.addPet)
       })
       .disposed(by: disposeBag)
     return Output()

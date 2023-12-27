@@ -50,12 +50,10 @@ final class MainCoordinator: CoordinatorType {
         switch state {
         case .addPet:
           self.pushToAddPet()
-          
         case .mainPetDiary:
           self.pushToDiary(petIdx: "임시") // Idx 가져 올 방법 고민 (enum 유력)
-          
         case .moveCommunity:
-					owner.pushToMoveCommunity()
+					owner.moveToCommunityTab()
         case .detailPost:
           break
         }
@@ -75,9 +73,6 @@ final class MainCoordinator: CoordinatorType {
 
 extension MainCoordinator: AddPetCoordinating {
   func pushToAddPet() {
-    if let tabBarViewController = self.navigationController.tabBarController as? CustomTabBarController {
-      tabBarViewController.hideCustomTabBar()
-    }
     let addPetCoordinator = AddPetCoordinator(
       navigationController: self.navigationController
     )
@@ -89,10 +84,6 @@ extension MainCoordinator: AddPetCoordinating {
 
 extension MainCoordinator: DiaryCoordinating {
   func pushToDiary(petIdx: String) {
-    if let tabBarViewController = self.navigationController
-      .tabBarController as? CustomTabBarController {
-      tabBarViewController.hideCustomTabBar()
-    }
     let diaryCoordinator = DiaryCoordinator(
       petIdx: "임시",
       navigationController: self.navigationController
@@ -105,7 +96,7 @@ extension MainCoordinator: DiaryCoordinating {
 
 extension MainCoordinator { // 이 기능만 유일하게 Coordinator가 finsh가 아닌 사유로 부모 Coordinator 접근
   func moveToCommunityTab() {
-    self.parentsCoordinator.userActionState.accept(.community)
+    self.parentsCoordinator.destination.accept(.community)
   }
 }
 
@@ -116,9 +107,9 @@ extension MainCoordinator { // 이 기능만 유일하게 Coordinator가 finsh�
 // }
 
 extension MainCoordinator: CoordinatorDelegate {
-  func didFinish(childCoordinator: CoordinatorType) { // 복귀 시 탭바 재생성
-		guard let tabBarViewController = self.navigationController.tabBarController as? TabBarViewController else { return }     
+	func didFinish(childCoordinator: CoordinatorType) { // 복귀 시 탭바 재생성
+		guard let tabBarViewController = self.navigationController.tabBarController as? TabBarViewController else { return }
 		tabBarViewController.showCustomTabBar()
 		self.popToRootViewController(animated: true)
-  }
+	}
 }

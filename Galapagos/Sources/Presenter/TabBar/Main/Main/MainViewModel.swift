@@ -32,7 +32,7 @@ final class MainViewModel: ViewModelType {
   func transform(input: Input) -> Output {
     input.addPetButtonTapped
       .emit(onNext: { [weak self] _ in
-        self?.coordinator?.userActionState.accept(.addPet)
+        self?.coordinator?.destination.accept(.addPet)
       })
       .disposed(by: disposeBag)
     
@@ -44,7 +44,7 @@ final class MainViewModel: ViewModelType {
     
     input.moveMainPetDiaryTapped
       .emit(onNext: { [weak self] _ in
-        self?.coordinator?.userActionState.accept(.mainPetDiary)
+        self?.coordinator?.destination.accept(.mainPetDiary)
       })
       .disposed(by: disposeBag)
     
