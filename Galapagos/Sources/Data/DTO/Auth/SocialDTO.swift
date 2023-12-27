@@ -16,7 +16,7 @@ struct SocialDTO: Codable {
 	func toDomain() -> SocialModel {
 		return SocialModel(
 			email: email,
-			nickName: nickName,
+			nickname: nickname,
 			jwt: jwt
 		)
 	}

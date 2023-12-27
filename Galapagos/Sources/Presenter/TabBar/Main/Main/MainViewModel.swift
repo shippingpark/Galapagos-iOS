@@ -32,19 +32,19 @@ final class MainViewModel: ViewModelType {
   func transform(input: Input) -> Output {
     input.addAnimalButtonTapped
       .emit(onNext: { [weak self] _ in
-        self?.coordinator?.userActionState.accept(.addAnimal)
+        self?.coordinator?.destination.accept(.addAnimal)
       })
       .disposed(by: disposeBag)
     
     input.moveCommunityTapped
       .emit(onNext: { [weak self] _ in
-        self?.coordinator?.userActionState.accept(.moveCommunity)
+        self?.coordinator?.destination.accept(.moveCommunity)
       })
       .disposed(by: disposeBag)
     
     input.moveMainAnimalDiaryTapped
       .emit(onNext: { [weak self] _ in
-        self?.coordinator?.userActionState.accept(.mainAnimalDiary)
+        self?.coordinator?.destination.accept(.mainAnimalDiary)
       })
       .disposed(by: disposeBag)
     

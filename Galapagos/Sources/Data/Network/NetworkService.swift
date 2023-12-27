@@ -37,17 +37,20 @@ final class DefaultNetworkService: NetworkService {
 			}, onDispose: {
 				GalapagosIndecatorManager.shared.hide()
 			})
-			.flatMap { response, data -> Single<Data> in
+			.flatMap { response, data -> Observable<Data> in
 				if response.statusCode == 200 {
 					return .just(data)
 				} else {
 					let errorData = Utility.decodeError(from: data)
-					return .error(NetworkError.customError(
-						code: errorData.code,
-						message: errorData.message
-					))
+					return .error(
+						NetworkError.customError(
+							code: errorData.errorCode,
+							message: errorData.errorMessages
+						)
+					)
 				}
 			}
+			.asSingle()
 	}
 	
 }

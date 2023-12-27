@@ -23,7 +23,7 @@ class AuthViewController: BaseViewController {
 		imageView.contentMode = .scaleAspectFit
 		imageView.image = GalapagosAsset.galapagosLogo.image
 		imageView.clipsToBounds = true
-		imageView.cornerRadius = 12
+		imageView.layer.cornerRadius = 12
 		return imageView
 	}()
 	
@@ -58,7 +58,7 @@ class AuthViewController: BaseViewController {
 		let button = UIButton()
 		button.layer.cornerRadius = button.frame.height/2
 		button.setImage(GalapagosAsset.snsKakao.image, for: .normal)
-		button.borderWidth = 0
+		button.layer.borderWidth = 0
 		return  button
 	}()
 	
@@ -66,7 +66,7 @@ class AuthViewController: BaseViewController {
 		let button = UIButton()
 		button.layer.cornerRadius = button.frame.height/2
 		button.setImage(GalapagosAsset.snsNaver.image, for: .normal)
-		button.borderWidth = 0
+		button.layer.borderWidth = 0
 		return  button
 	}()
 	
@@ -74,14 +74,14 @@ class AuthViewController: BaseViewController {
 		let button = UIButton()
 		button.layer.cornerRadius = button.frame.height/2
 		button.setImage(GalapagosAsset.snsApple.image, for: .normal)
-		button.borderWidth = 0
+		button.layer.borderWidth = 0
 		return  button
 	}()
 	
 	private lazy var googleSignInButton: UIButton = {
 		let button = UIButton()
 		button.setImage(GalapagosAsset.snsGoogle.image, for: .normal)
-		button.borderWidth = 0
+		button.layer.borderWidth = 0
 		return  button
 	}()
 	
@@ -233,7 +233,7 @@ class AuthViewController: BaseViewController {
 		let googleSignInBtnTapped = googleSignInButton.rx.tap
 			.asObservable()
 		
-		let input = SignInViewModel.Input(
+		let input = AuthViewModel.Input(
 			emailSignUpBtnTapped: emailSignUpBtnTapped,
 			emailSignInBtnTapped: emailSignInBtnTapped,
 			googleSignInBtnTapped: googleSignInBtnTapped

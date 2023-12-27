@@ -11,11 +11,14 @@ import RxSwift
 import UIKit
 
 class AddAnimalCoordinator: CoordinatorType {
-  var navigationController: UINavigationController
-
-  var delegate: CoordinatorDelegate?
-  var childCoordinators: [CoordinatorType] = []
-  var disposeBag: DisposeBag = DisposeBag()
+	
+	var childCoordinators: [CoordinatorType] = []
+	var delegate: CoordinatorDelegate?
+	var baseViewController: UIViewController?
+	
+	var navigationController: UINavigationController
+	var disposeBag: DisposeBag = DisposeBag()
+	
 
   init(navigationController: UINavigationController) {
     self.navigationController = navigationController
@@ -33,6 +36,6 @@ class AddAnimalCoordinator: CoordinatorType {
         coordinator: self
       )
     )
-    self.pushViewController(viewController: addAnimalViewController)
+    self.pushViewController(viewController: addAnimalViewController, animated: true)
   }
 }

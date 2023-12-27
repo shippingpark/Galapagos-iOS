@@ -10,12 +10,6 @@ import RxRelay
 import RxSwift
 import UIKit
 
-protocol CommunityCoordinatorProtocol {
-	func pushToFree()
-	func pushToQnA()
-	func pushToNotification()
-}
-
 class CommunityCoordinator: CoordinatorType {
   
   // MARK: - Coordinator DEPTH 2 -
@@ -26,26 +20,30 @@ class CommunityCoordinator: CoordinatorType {
 		case notification
 	}
 	
-  // MARK: - Need To Initializing
-    
-  var navigationController: UINavigationController
-  
-  // MARK: - Don't Need To Initializing
-    
-	var userActionState: PublishRelay<CommunityCoordinatorFlow> = PublishRelay()
-  var childCoordinators: [CoordinatorType] = []
-  var disposeBag: DisposeBag = DisposeBag()
-  var delegate: CoordinatorDelegate?
-  
-  init(navigationController: UINavigationController) {
+	var childCoordinators: [CoordinatorType] = []
+	var delegate: CoordinatorDelegate?
+	var baseViewController: UIViewController?
+	
+	var navigationController: UINavigationController
+	var parentsCoordinator: TabBarCoordinator
+	var disposeBag: DisposeBag = DisposeBag()
+	
+	var destination = PublishRelay<CommunityCoordinatorFlow>()
+	
+  init(
+		navigationController: UINavigationController,
+		parentsCoordinator: TabBarCoordinator
+	) {
     self.navigationController = navigationController
+		self.parentsCoordinator = parentsCoordinator
   }
   
   func setState() {
-		self.userActionState
+		self.destination
 			.withUnretained(self)
 			.subscribe(onNext: { owner, state in
-				print("💗💗💗 CommunityCoordinator: \(state) 💗💗💗")
+				guard let tabBarViewController = owner.navigationController.tabBarController as? TabBarViewController else { return }
+				tabBarViewController.hideCustomTabBar()
 				switch state {
 				case .free:
 					owner.pushToFree()
@@ -58,23 +56,19 @@ class CommunityCoordinator: CoordinatorType {
   }
   
   func start() {
-		print("🔥CommunityCoordinator start 메서드")
 		let communityViewController = CommunityViewController(
 			viewModel: CommunityViewModel(
 				coordinator: self
 			)
 		)
-		self.pushViewController(viewController: communityViewController)
+		self.pushViewController(viewController: communityViewController, animated: false)
+		self.baseViewController = communityViewController
 	}
 }
 
-// MARK: - Community's Push
-extension CommunityCoordinator: CommunityCoordinatorProtocol {
-	func pushToFree() {
-		if let tabBarViewController = self.navigationController
-			.tabBarController as? CustomTabBarController {
-			tabBarViewController.hideCustomTabBar()
-		}
+// MARK: - Private Method
+extension CommunityCoordinator {
+	fileprivate func pushToFree() {
 		let communityFreeCoordinator = CommunityFreeCoordinator(
 			navigationController: self.navigationController
 		)
@@ -83,11 +77,7 @@ extension CommunityCoordinator: CommunityCoordinatorProtocol {
 		self.childCoordinators.append(communityFreeCoordinator)
 	}
 	
-	func pushToQnA() {
-		if let tabBarViewController = self.navigationController
-			.tabBarController as? CustomTabBarController {
-			tabBarViewController.hideCustomTabBar()
-		}
+	fileprivate func pushToQnA() {
 		let communityQnACoordinator = CommunityQnACoordinator(
 			navigationController: self.navigationController
 		)
@@ -96,11 +86,7 @@ extension CommunityCoordinator: CommunityCoordinatorProtocol {
 		self.childCoordinators.append(communityQnACoordinator)
 	}
 	
-	func pushToNotification() {
-		if let tabBarViewController = self.navigationController
-			.tabBarController as? CustomTabBarController {
-			tabBarViewController.hideCustomTabBar()
-		}
+	fileprivate func pushToNotification() {
 		let communityNotificationCoordinator = CommunityNotificationCoordinator(
 			navigationController: self.navigationController
 		)
@@ -113,10 +99,9 @@ extension CommunityCoordinator: CommunityCoordinatorProtocol {
 }
 
 extension CommunityCoordinator: CoordinatorDelegate {
-	func didFinish(childCoordinator: Coordinator) {
-		if let tabBarViewController = self.navigationController.tabBarController as? CustomTabBarController {
-			tabBarViewController.showCustomTabBar()
-		}
-		self.popViewController()
+	func didFinish(childCoordinator: CoordinatorType) { // 복귀 시 탭바 재생성
+		guard let tabBarViewController = self.navigationController.tabBarController as? TabBarViewController else { return }
+		tabBarViewController.showCustomTabBar()
+		self.popToRootViewController(animated: true)
 	}
 }

@@ -11,26 +11,25 @@ import RxSwift
 
 import UIKit
 
-class GalapagosIndecatorManager {
-	
-	// MARK: - UI Components
+final class GalapagosIndecatorManager {
+	// MARK: UI Components
 	private var backgroundView: UIView?
 	
-	// MARK: - Properties
-	
+	// MARK: Properties
 	static let shared = GalapagosIndecatorManager()
 	
+	private var loadingCount = 0
 	private let disposeBag = DisposeBag()
 	private let visibilityRelay = PublishRelay<Bool>()
+	
 	private weak var window: UIWindow?
 	
-	// MARK: - Initializer
+	// MARK: Initializer
 	
 	private init() {
 		setup()
 	}
 	
-	// MARK: - Methods
 	private func setup() {
 		
 		let scenes = UIApplication.shared.connectedScenes
@@ -52,7 +51,6 @@ class GalapagosIndecatorManager {
 			.disposed(by: disposeBag)
 	}
 	
-	
 	private func createAndShowIndicator() {
 		if backgroundView == nil {
 			backgroundView = UIView()
@@ -73,17 +71,23 @@ class GalapagosIndecatorManager {
 		indicatorView.startAnimating()
 	}
 	
+	
 	private func removeAndHideIndicator() {
 		backgroundView?.removeFromSuperview()
 		backgroundView = nil
 	}
 	
 	func show() {
-		visibilityRelay.accept(true)
+		loadingCount += 1
+		if loadingCount == 1 {
+			visibilityRelay.accept(true)
+		}
 	}
 	
 	func hide() {
-		visibilityRelay.accept(false)
+		loadingCount = max(loadingCount - 1, 0)
+		if loadingCount == 0 {
+			visibilityRelay.accept(false)
+		}
 	}
-	
 }

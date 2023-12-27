@@ -28,13 +28,13 @@ class DiaryListViewModel: ViewModelType {
   func transform(input: Input) -> Output {
     input.buttonTapped
       .emit(onNext: { [weak self] _ in
-        self?.coordinator?.userActionState.accept(.diary)
+        self?.coordinator?.destination.accept(.diary)
       })
       .disposed(by: disposeBag)
     
     input.button2Tapped
       .emit(onNext: { [weak self] _ in
-        self?.coordinator?.userActionState.accept(.addAnimal)
+        self?.coordinator?.destination.accept(.addAnimal)
       })
       .disposed(by: disposeBag)
     return Output()

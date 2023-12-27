@@ -22,15 +22,15 @@ final class MainCoordinator: CoordinatorType {
     case detailPost // 초기화면 삭제
   }
   
-  var navigationController: UINavigationController
-  var parentsCoordinator: TabBarCoordinator
-  
-  // MARK: - Don't Need To Initializing
-  
-  var userActionState: PublishRelay<MainCoordinatorFlow> = PublishRelay()
   var childCoordinators: [CoordinatorType] = []
+	var delegate: CoordinatorDelegate?
+	var baseViewController: UIViewController?
+	
+	var navigationController: UINavigationController
+	var parentsCoordinator: TabBarCoordinator
   var disposeBag: DisposeBag = DisposeBag()
-  var delegate: CoordinatorDelegate?
+	
+	var destination = PublishRelay<MainCoordinatorFlow>()
   
   init(
     navigationController: UINavigationController,
@@ -42,20 +42,18 @@ final class MainCoordinator: CoordinatorType {
   }
   
   func setState(){
-    self.userActionState
-      .debug()
-      .subscribe(onNext: { [weak self] state in
-        print("💗💗💗 MainCoordinator: \(state) 💗💗💗")
-        guard let self = self else { return }
+    self.destination
+			.withUnretained(self)
+      .subscribe(onNext: { owner, state in
+				guard let tabBarViewController = owner.navigationController.tabBarController as? TabBarViewController else { return }
+				tabBarViewController.hideCustomTabBar()
         switch state {
         case .addAnimal:
-          self.pushToAddAnimal()
-          
+					owner.pushToAddAnimal()
         case .mainAnimalDiary:
-          self.pushToDiary(animalIdx: "임시") // Idx 가져 올 방법 고민 (enum 유력)
-          
+					owner.pushToMainAnimalDiary(animalIdx: "임시")
         case .moveCommunity:
-          self.moveToCommunityTab()
+					owner.pushToMoveCommunity()
         case .detailPost:
           break
         }
@@ -63,64 +61,46 @@ final class MainCoordinator: CoordinatorType {
   }
   
   func start() {
-    print("🔥MainCoordinator start 메서드")
     let mainViewController = MainViewController(
       viewModel: MainViewModel(
         coordinator: self
       )
     )
-    print("MainCoordinator mainViewController 생성 완료")
-    self.pushViewController(viewController: mainViewController)
+    self.pushViewController(viewController: mainViewController, animated: false)
+		self.baseViewController = mainViewController
   }
 }
 
-extension MainCoordinator: AddAnimalCoordinating {
-  func pushToAddAnimal() {
-    if let tabBarViewController = self.navigationController.tabBarController as? CustomTabBarController {
-      tabBarViewController.hideCustomTabBar()
-    }
-    let addAnimalCoordinator = AddAnimalCoordinator(
-      navigationController: self.navigationController
-    )
-    addAnimalCoordinator.delegate = self
-    addAnimalCoordinator.start()
-    self.childCoordinators.append(addAnimalCoordinator)
-  }
+// MARK: Private Methods
+extension MainCoordinator {
+	fileprivate func pushToAddAnimal() {
+		let addAnimalCoordinator = AddAnimalCoordinator(
+			navigationController: self.navigationController
+		)
+		addAnimalCoordinator.delegate = self
+		addAnimalCoordinator.start()
+		self.childCoordinators.append(addAnimalCoordinator)
+	}
+	
+	fileprivate func pushToMainAnimalDiary(animalIdx: String) {
+		let diaryCoordinator = DiaryCoordinator(
+			animalIdx: animalIdx,
+			navigationController: self.navigationController
+		)
+		diaryCoordinator.delegate = self
+		diaryCoordinator.start()
+		self.childCoordinators.append(diaryCoordinator)
+	}
+	
+	fileprivate func pushToMoveCommunity() {
+		self.parentsCoordinator.destination.accept(.community)
+	}
 }
-
-extension MainCoordinator: DiaryCoordinating {
-  func pushToDiary(animalIdx: String) {
-    if let tabBarViewController = self.navigationController
-      .tabBarController as? CustomTabBarController {
-      tabBarViewController.hideCustomTabBar()
-    }
-    let diaryCoordinator = DiaryCoordinator(
-      animalIdx: "임시",
-      navigationController: self.navigationController
-    )
-    diaryCoordinator.delegate = self
-    diaryCoordinator.start()
-    self.childCoordinators.append(diaryCoordinator)
-  }
-}
-
-extension MainCoordinator { // 이 기능만 유일하게 Coordinator가 finsh가 아닌 사유로 부모 Coordinator 접근
-  func moveToCommunityTab() {
-    self.parentsCoordinator.userActionState.accept(.community)
-  }
-}
-
-// extension MainCoordinator: DetailPostCoordinating {
-//  func pushToDetailPost(postIdx: String) {
-//    //
-//  }
-// }
 
 extension MainCoordinator: CoordinatorDelegate {
-  func didFinish(childCoordinator: Coordinator) { // 복귀 시 탭바 재생성
-    if let tabBarViewController = self.navigationController.tabBarController as? CustomTabBarController {
-      tabBarViewController.showCustomTabBar()
-    }
-    self.popViewController()
+  func didFinish(childCoordinator: CoordinatorType) { // 복귀 시 탭바 재생성
+		guard let tabBarViewController = self.navigationController.tabBarController as? TabBarViewController else { return }     
+		tabBarViewController.showCustomTabBar()
+		self.popToRootViewController(animated: true)
   }
 }

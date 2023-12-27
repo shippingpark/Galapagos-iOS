@@ -30,9 +30,9 @@ class Utility {
 			return decodedObject
 		} catch {
 			return ServerError(
-				isSuccess: false,
-				code: "USER9999",
-				message: "Failed to decode ServerError from data: \(error)"
+				status: 404,
+				errorCode: 999,
+				errorMessages: "Failed to decode ServerError from data: \(error)"
 			)
 		}
 	}

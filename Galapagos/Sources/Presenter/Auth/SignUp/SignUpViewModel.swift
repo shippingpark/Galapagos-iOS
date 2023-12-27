@@ -5,6 +5,7 @@
 //  Created by 조용인 on 2023/06/07.
 //  Copyright © 2023 com.busyModernPeople. All rights reserved.
 //
+
 import Foundation
 
 import RxCocoa
@@ -111,7 +112,7 @@ class SignUpViewModel: ViewModelType{
 			.withUnretained(self)
 			.subscribe(onNext: { owner, model in
 				UserDefaultManager.shared.save(model.jwt, for: .jwt)
-				UserDefaultManager.shared.save(model.nickName, for: .nickName)
+				UserDefaultManager.shared.save(model.nickName, for: .nickname)
 				owner.moveToNext.onNext(true)
 			})
 			.disposed(by: disposeBag)

@@ -5,6 +5,7 @@
 //  Created by 조용인 on 2023/06/11.
 //  Copyright © 2023 com.busyModernPeople. All rights reserved.
 //
+
 import Foundation
 
 import RxCocoa
@@ -45,23 +46,22 @@ class SignInViewModel: ViewModelType{
 		
 		input.signInBtnTapped
 			.withLatestFrom(Observable.combineLatest(input.email, input.password))
-			.flatMapLatest { [weak self] email, password -> Single<SignInModel> in
-				guard let self = self else { return .empty() }
+			.withUnretained(self)
+			.flatMapLatest { owner, data -> Single<SignInModel> in
+				let (email, password) = data
 				let body = SignInBody(email: email, password: password)
-				return self.authUsecase.signIn(body: body)
+				return owner.authUsecase.signIn(body: body)
 			}
-//			.observe(on: MainScheduler.instance)
-//			.subscribe(onNext: { [weak self] result in
-//				switch result {
-//				case .success(let model):
-//					UserDefaultManager.shared.save(model.jwt, for: .jwt)
-//					UserDefaultManager.shared.save(model.nickName, for: .nickName)
-//					self?.coordinator?.finish()
-//				case .failure(let error):
-//					// 여기서 사용자에게 로그인 실패를 알림
-//				}
-//			})
-//			.disposed(by: disposeBag)
+			.asSingle()
+			.observe(on: MainScheduler.instance)
+			.subscribe(onSuccess: { [weak self] model in
+				UserDefaultManager.shared.save(model.jwt, for: .jwt)
+				UserDefaultManager.shared.save(model.nickName, for: .nickname)
+				self?.coordinator?.finish()
+			}, onFailure: { error in
+				// 여기서 사용자에게 로그인 실패를 알림
+			})
+			.disposed(by: disposeBag)
 		
 		input.backBtnTapped
 			.withUnretained(self)

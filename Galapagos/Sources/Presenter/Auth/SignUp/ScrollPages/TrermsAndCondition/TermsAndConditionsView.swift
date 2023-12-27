@@ -47,7 +47,7 @@ final class TermsAndConditionsView: UIView {
 	private lazy var allAgreeView: UIView = {
 		let view = UIView()
 		view.layer.masksToBounds = false
-		view.cornerRadius = 12
+		view.layer.cornerRadius = 12
 		return view
 	}()
 	

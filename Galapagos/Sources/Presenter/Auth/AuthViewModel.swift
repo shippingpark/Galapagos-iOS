@@ -15,9 +15,7 @@ class AuthViewModel: ViewModelType{
 	struct Input {
 		let emailSignUpBtnTapped: Observable<Void>
 		let emailSignInBtnTapped: Observable<Void>
-		let googleSignInBtnTapped: Observable<Void>
-		
-		
+		let googleSignInBtnTapped: Observable<Void>	
 	}
 	
 	struct Output {}

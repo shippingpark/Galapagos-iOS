@@ -72,7 +72,7 @@ class EmptyMainAnimalView: BaseView {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    self.addAnimalButton.cornerRadius = 26
+		self.addAnimalButton.layer.cornerRadius = 26
   }
   
   override func setAddSubView() {

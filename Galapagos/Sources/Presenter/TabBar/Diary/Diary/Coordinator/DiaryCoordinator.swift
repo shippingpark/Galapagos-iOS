@@ -18,12 +18,14 @@ class DiaryCoordinator: CoordinatorType {
   
   private var animalIdx: String?
   
-  var userActionState: PublishRelay<DiaryCoordinatorFlow> = PublishRelay()
-  var delegate: CoordinatorDelegate?
-
-  var navigationController: UINavigationController
   var childCoordinators: [CoordinatorType] = []
+	var delegate: CoordinatorDelegate?
+	var baseViewController: UIViewController?
+	
+	var navigationController: UINavigationController
   var disposeBag: DisposeBag = DisposeBag()
+	
+	var destination = PublishRelay<DiaryCoordinatorFlow>()
 
   init(animalIdx: String, navigationController: UINavigationController) {
     self.animalIdx = animalIdx
@@ -32,14 +34,17 @@ class DiaryCoordinator: CoordinatorType {
   }
 
   func setState() {
-    self.userActionState
-      .debug()
-      .subscribe(onNext: { [weak self] state in
-        print("🌱🌱🌱 DiaryCoordinator: \(state) 🌱🌱🌱")
-        guard let self = self else { return }
+    self.destination
+			.withUnretained(self)
+      .subscribe(onNext: { owner, state in
         switch state {
         case .addDiary:
-          self.pushToAddDiary(animalIdx: "임시")
+					let addDiaryCoordinator = AddDiaryCoordinator(
+						navigationController: self.navigationController
+					)
+					addDiaryCoordinator.delegate = self
+					addDiaryCoordinator.start()
+					self.childCoordinators.append(addDiaryCoordinator)
         }
       }).disposed(by: disposeBag)
   }
@@ -51,24 +56,12 @@ class DiaryCoordinator: CoordinatorType {
         coordinator: self
       )
     )
-    self.pushViewController(viewController: diaryViewController)
-  }
-}
-
-extension DiaryCoordinator: AddDiaryCoordinating {
-  func pushToAddDiary(animalIdx: String) {
-    let addDiaryCoordinator = AddDiaryCoordinator(
-      navigationController: self.navigationController
-    )
-    addDiaryCoordinator.delegate = self
-    addDiaryCoordinator.start()
-    self.childCoordinators.append(addDiaryCoordinator)
-    
+    self.pushViewController(viewController: diaryViewController, animated: true)
   }
 }
 
 extension DiaryCoordinator: CoordinatorDelegate {
-  func didFinish(childCoordinator: Coordinator) {
-    self.popViewController()
+  func didFinish(childCoordinator: CoordinatorType) {
+    self.popViewController(animated: true)
   }
 }

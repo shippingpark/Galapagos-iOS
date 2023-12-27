@@ -90,7 +90,7 @@ class MainAnimalView: BaseView {
   private lazy var mainAnimalImage: UIImageView = {
     let image = UIImageView()
     image.contentMode = .scaleAspectFill
-    image.cornerRadius = 12
+		image.layer.cornerRadius = 12
     return image
   }()
   

@@ -11,12 +11,14 @@ import RxSwift
 import UIKit
 
 class AddDiaryCoordinator: CoordinatorType {
-  var navigationController: UINavigationController
-
-  var delegate: CoordinatorDelegate?
+	
+	var delegate: CoordinatorDelegate?
   var childCoordinators: [CoordinatorType] = []
-  var disposeBag: DisposeBag = DisposeBag()
-
+	var baseViewController: UIViewController?
+  
+	var navigationController: UINavigationController
+	var disposeBag: DisposeBag = DisposeBag()
+	
   init(navigationController: UINavigationController) {
     self.navigationController = navigationController
   }
@@ -24,15 +26,12 @@ class AddDiaryCoordinator: CoordinatorType {
   func setState() {}
 
   func start() {
-    pushToAddAnimal()
+		let addDiaryViewController = AddDiaryViewController(
+			viewModel: AddDiaryViewModel(
+				coordinator: self
+			)
+		)
+		self.pushViewController(viewController: addDiaryViewController, animated: true)
   }
   
-  func pushToAddAnimal() {
-    let addDiaryViewController = AddDiaryViewController(
-      viewModel: AddDiaryViewModel(
-        coordinator: self
-      )
-    )
-    self.pushViewController(viewController: addDiaryViewController)
-  }
 }

@@ -12,62 +12,61 @@ import RxRelay
 import RxSwift
 
 
-final class TabBarCoordinator: Coordinator {
+final class TabBarCoordinator: CoordinatorType {
   
   // MARK: - Coordinator DEPTH 1 -
   
-  // MARK: - Need To Initializing
-  
-  var navigationController: UINavigationController
-  
-  // MARK: - Don't Need To Initializing
-  
-  lazy var tabBarController = CustomTabBarController(coordinator: self)
-  var userActionState: PublishRelay<TabBarCoordinatorFlow> = PublishRelay()
+	private let tabBarController = TabBarViewController()	// 베이스로 들고다닐 TabBarViewController
+	
   var childCoordinators: [CoordinatorType] = []
+	var delegate: CoordinatorDelegate?
+	var baseViewController: UIViewController?
+	
+	var navigationController: UINavigationController
   var disposeBag: DisposeBag = DisposeBag()
-  var delegate: CoordinatorDelegate?
-  
-  init(navigationController: UINavigationController) {
+	
+	var destination = PublishRelay<TabBarCoordinatorFlow>()
+	
+  init(
+		navigationController: UINavigationController
+	) {
     self.navigationController = navigationController
     self.setState()
   }
   
   func setState() {
-    self.userActionState
+		
+		self.tabBarController.tabBarItemSubject
+			.withUnretained(self)
+			.subscribe(onNext: { owner, idx in
+				let tabBarItem = TabBarCoordinatorFlow(rawValue: idx) ?? .main
+				owner.destination.accept(tabBarItem)
+			})
+			.disposed(by: disposeBag)
+		
+    self.destination
       .distinctUntilChanged() // 이전 상태와 동일한 상태는 무시
-      .debug()
-      .subscribe(onNext: { [weak self] state in
-        print("💚💚💚 TabBarCoordinator: \(state) 💚💚💚")
-        guard let self = self else {return}
-        self.tabBarController.selectedIndex = state.rawValue
-        self.handleSelectedItem(index: state.rawValue)
+			.withUnretained(self)
+      .subscribe(onNext: { owner, state in
+        owner.tabBarController.selectedIndex = state.rawValue
       }).disposed(by: disposeBag)
   }
   
+	// MARK: - TabBarCoordinator의 Start는, 기존의 VC를 push 해주기 전에 TabBarItem별 VC를 세팅하는 작업
   func start() {
     let pages: [TabBarCoordinatorFlow] = TabBarCoordinatorFlow.allCases
     let controllers: [UINavigationController] = pages.map { flow in
       self.createTabNavigationController(of: flow)
     }
     self.configureTabBarController(with: controllers)
-    self.userActionState.accept(.main)
   }
   
-  func handleSelectedItem(index: Int) {
-    tabBarController.selectedItemSubject.accept(index)
-  }
 }
 
 
 // MARK: - Extension
 
 private extension TabBarCoordinator {
-  private func configureTabBarController(with tabViewControllers: [UIViewController]) {
-    self.tabBarController.setViewControllers(tabViewControllers, animated: true)
-    self.navigationController.setNavigationBarHidden(true, animated: false)
-    self.navigationController.viewControllers = [tabBarController]
-  }
   
   func createTabNavigationController(of page: TabBarCoordinatorFlow) -> UINavigationController {
     let navigationController = UINavigationController()
@@ -79,35 +78,53 @@ private extension TabBarCoordinator {
   func connectTabCoordinator(of page: TabBarCoordinatorFlow, to navigationController: UINavigationController) {
     switch page {
     case .main:
-      let mainCoordinator = MainCoordinator(navigationController: navigationController, parentsCoordinator: self)
+      let mainCoordinator = MainCoordinator(
+				navigationController: navigationController,
+				parentsCoordinator: self
+			)
       mainCoordinator.delegate = self
       mainCoordinator.start()
       childCoordinators.append(mainCoordinator)
     case .diaryList:
-      let diaryCoordinator = DiaryListCoordinator(navigationController: navigationController)
+      let diaryCoordinator = DiaryListCoordinator(
+				navigationController: navigationController,
+				parentsCoordinator: self
+			)
       diaryCoordinator.delegate = self
       diaryCoordinator.start()
       childCoordinators.append(diaryCoordinator)
     case .community:
-      let communityCoordinator = CommunityCoordinator(navigationController: navigationController)
+      let communityCoordinator = CommunityCoordinator(
+				navigationController: navigationController,
+				parentsCoordinator: self
+			)
       communityCoordinator.delegate = self
       communityCoordinator.start()
       childCoordinators.append(communityCoordinator)
     case .mypage:
-      let mypageCoordinator = MyPageCoordinator(navigationController: navigationController)
+      let mypageCoordinator = MyPageCoordinator(
+				navigationController: navigationController,
+				parentsCoordinator: self
+			)
       mypageCoordinator.delegate = self
       mypageCoordinator.start()
       childCoordinators.append(mypageCoordinator)
     }
   }
+	
+	private func configureTabBarController(with tabViewControllers: [UIViewController]) {
+		self.tabBarController.setViewControllers(tabViewControllers, animated: true)
+		self.navigationController.setNavigationBarHidden(true, animated: false)
+		self.navigationController.viewControllers = [tabBarController]
+	}
 }
 
 
 // MARK: - CoordinatorDelegate
 
 extension TabBarCoordinator: CoordinatorDelegate {
-  func didFinish(childCoordinator: Coordinator) {
-    self.navigationController.popViewController(animated: true)
+  func didFinish(childCoordinator: CoordinatorType) {
+    self.popViewController(animated: true)
     self.finish()
   }
 }

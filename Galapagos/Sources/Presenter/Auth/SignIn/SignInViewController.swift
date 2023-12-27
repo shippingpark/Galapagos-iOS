@@ -1,5 +1,5 @@
 //
-//  EmailSignInViewController.swift
+//  SignInViewController.swift
 //  Galapagos
 //
 //  Created by 조용인 on 2023/06/11.
@@ -16,7 +16,7 @@ import SnapKit
 import UIKit
 
 
-class EmailSignInViewController: BaseViewController {
+class SignInViewController: BaseViewController {
 	
 	// MARK: - UI
 	private lazy var navigationBar: GalapagosNavigationBarView = {
@@ -95,11 +95,11 @@ class EmailSignInViewController: BaseViewController {
 	}()
 	
 	// MARK: - Properties
-	private let viewModel: EmailSignInViewModel
+	private let viewModel: SignInViewModel
 	
 	// MARK: - Initializers
 	init(
-		viewModel: EmailSignInViewModel
+		viewModel: SignInViewModel
 	) {
 		self.viewModel = viewModel
 		super.init()
@@ -159,7 +159,7 @@ class EmailSignInViewController: BaseViewController {
 	}
 	
 	override func bind() {
-		let input = EmailSignInViewModel.Input(
+		let input = SignInViewModel.Input(
 			email: emailTextField.rx.text.orEmpty.asObservable(),
 			password: passwordTextField.rx.text.orEmpty.asObservable(),
 			backBtnTapped: navigationBar.backButton.rx.tap.asObservable(),
@@ -184,7 +184,7 @@ class EmailSignInViewController: BaseViewController {
 
 
 // MARK: - Extension
-extension EmailSignInViewController {
+extension SignInViewController {
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		self.view.endEditing(true)
 	}

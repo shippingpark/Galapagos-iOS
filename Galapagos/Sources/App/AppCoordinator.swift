@@ -72,13 +72,13 @@ class AppCoordinator: CoordinatorType {
 }
 
 extension AppCoordinator: CoordinatorDelegate{
-  func didFinish(childCoordinator: Coordinator) {
+  func didFinish(childCoordinator: CoordinatorType) {
 		self.popToRootViewController(animated: true)
 		self.childCoordinators.removeAll()
 		if childCoordinator is AuthCoordinator {
-			self.userActionState.accept(.tabBar)
+			self.destination.accept(.tabBar)
 		} else {
-			self.userActionState.accept(.auth)
+			self.destination.accept(.auth)
 		}
   }
 }

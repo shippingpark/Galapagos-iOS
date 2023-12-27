@@ -31,10 +31,10 @@ class SplashViewModel: ViewModelType{
   }
   
   func checkAutoSignIn(){
-		if let accessToken: String = UserDefaultManager.shared.load(for: .accessToken) {
-			self.coordinator?.userActionState.accept(.tabBar)
+		if let _: String = UserDefaultManager.shared.load(for: .jwt) {
+			self.coordinator?.destination.accept(.tabBar)
 		} else {
-			self.coordinator?.userActionState.accept(.auth)
+			self.coordinator?.destination.accept(.auth)
 		}
 		
   }

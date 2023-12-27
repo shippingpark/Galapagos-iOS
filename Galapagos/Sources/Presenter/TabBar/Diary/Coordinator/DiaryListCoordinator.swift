@@ -15,85 +15,79 @@ class DiaryListCoordinator: CoordinatorType {
   enum DiaryListCoordinatorFlow {
     case addAnimal, diary
   }
+	
+	var childCoordinators: [CoordinatorType] = []
+	var delegate: CoordinatorDelegate?
+	var baseViewController: UIViewController?
+	
+	var navigationController: UINavigationController
+	var parentsCoordinator: TabBarCoordinator
+	var disposeBag: DisposeBag = DisposeBag()
+	
+	var destination = PublishRelay<DiaryListCoordinatorFlow>()
   
-  var disposeBag: DisposeBag = DisposeBag()
-  
-  var navigationController: UINavigationController
-  var userActionState: PublishRelay<DiaryListCoordinatorFlow> = PublishRelay()
-  var childCoordinators: [CoordinatorType] = []
-  var delegate: CoordinatorDelegate?
-  
-  init(navigationController: UINavigationController) {
+  init(
+		navigationController: UINavigationController,
+		parentsCoordinator: TabBarCoordinator
+	) {
+		self.parentsCoordinator = parentsCoordinator
     self.navigationController = navigationController
     self.setState()
   }
   
   func setState() {
-    self.userActionState
-      .debug()
-      .subscribe(onNext: { [weak self] state in
-        print("💗💗💗 DiaryListCoordinator: \(state) 💗💗💗")
-        guard let self = self else { return }
+		self.destination
+			.withUnretained(self)
+      .subscribe(onNext: { owner, state in
+				guard let tabBarViewController = self.navigationController.tabBarController as? TabBarViewController else { return }
+				tabBarViewController.hideCustomTabBar()
         switch state {
         case .addAnimal:
-          self.pushToAddAnimal()
-          
+          owner.pushToAddAnimal()
         case .diary:
-          self.pushToDiary(animalIdx: "임시")
+          owner.pushToDiary(animalIdx: "임시")
         }
       }).disposed(by: disposeBag)
   }
   
   func start() {
-    if let tabBarViewController = self.navigationController
-      .tabBarController as? CustomTabBarController {
-      tabBarViewController.hideCustomTabBar()
-    }
     let diaryListViewController = DiaryListViewController(
       viewModel: DiaryListViewModel(
         coordinator: self
       )
     )
-    self.pushViewController(viewController: diaryListViewController)
+    self.pushViewController(viewController: diaryListViewController, animated: false)
+		self.baseViewController = diaryListViewController
   }
 }
 
-extension DiaryListCoordinator: AddAnimalCoordinating {
-  func pushToAddAnimal() {
-    if let tabBarViewController = self.navigationController
-      .tabBarController as? CustomTabBarController {
-      tabBarViewController.hideCustomTabBar()
-    }
-    let addAnimalCoordinator = AddAnimalCoordinator(
-      navigationController: self.navigationController
-    )
-    addAnimalCoordinator.delegate = self
-    addAnimalCoordinator.start()
-    self.childCoordinators.append(addAnimalCoordinator)
-  }
-}
 
-extension DiaryListCoordinator: DiaryCoordinating {
-  func pushToDiary(animalIdx: String) {
-    if let tabBarViewController = self.navigationController
-      .tabBarController as? CustomTabBarController {
-      tabBarViewController.hideCustomTabBar()
-    }
-    let diaryCoordinator = DiaryCoordinator(
-      animalIdx: animalIdx, navigationController: self.navigationController
-    )
-    diaryCoordinator.delegate = self
-    diaryCoordinator.start()
-    self.childCoordinators.append(diaryCoordinator)
-  }
+// MARK: Private Methods
+extension DiaryListCoordinator {
+	fileprivate func pushToAddAnimal() {
+		let addAnimalCoordinator = AddAnimalCoordinator(
+			navigationController: self.navigationController
+		)
+		addAnimalCoordinator.delegate = self
+		addAnimalCoordinator.start()
+		self.childCoordinators.append(addAnimalCoordinator)
+	}
+	
+	fileprivate func pushToDiary(animalIdx: String) {
+		let diaryCoordinator = DiaryCoordinator(
+			animalIdx: animalIdx,
+			navigationController: self.navigationController
+		)
+		diaryCoordinator.delegate = self
+		diaryCoordinator.start()
+		self.childCoordinators.append(diaryCoordinator)
+	}
 }
 
 extension DiaryListCoordinator: CoordinatorDelegate {
-  func didFinish(childCoordinator: Coordinator) {
-    if let tabBarViewController = self.navigationController
-      .tabBarController as? CustomTabBarController {
-      tabBarViewController.showCustomTabBar()
-    }
-    self.popViewController()
+  func didFinish(childCoordinator: CoordinatorType) {
+		guard let tabBarViewController = self.navigationController.tabBarController as? TabBarViewController else { return }
+		tabBarViewController.showCustomTabBar()
+		self.popToRootViewController(animated: true)
   }
 }

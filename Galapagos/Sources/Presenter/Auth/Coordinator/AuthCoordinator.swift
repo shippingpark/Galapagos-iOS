@@ -17,13 +17,13 @@ class AuthCoordinator: CoordinatorType {
 		case signIn
 	}
 	
-	// MARK: - Need To Initializing
+	var childCoordinators: [CoordinatorType] = []
+	var delegate: CoordinatorDelegate?
+	var baseViewController: UIViewController?
+	
 	var disposeBag: DisposeBag
 	var navigationController: UINavigationController
 	
-	// MARK: - Don't Need To Initializing
-	var childCoordinators: [CoordinatorType] = []
-	var delegate: CoordinatorDelegate?
 	var destination = PublishRelay<AuthCoordinatorChild>()
 	
 	init(
@@ -59,9 +59,6 @@ class AuthCoordinator: CoordinatorType {
 							coordinator: self,
 							authUsecase: DefaultAuthUsecase(
 								authRepository: DefaultAuthRepository()
-							),
-							userUsecase: DefaultUserUsecase(
-								userRepository: DefaultUserRepository()
 							)
 						)
 					)

@@ -33,7 +33,7 @@ class DiaryViewModel: ViewModelType {
       .disposed(by: disposeBag)
     input.buttonTapped
       .emit(onNext: { [weak self] _ in
-        self?.coordinator?.userActionState.accept(.addDiary)
+        self?.coordinator?.destination.accept(.addDiary)
       })
       .disposed(by: disposeBag)
     return Output()

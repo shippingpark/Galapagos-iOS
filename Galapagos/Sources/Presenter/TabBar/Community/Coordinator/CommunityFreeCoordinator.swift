@@ -12,10 +12,12 @@ import RxSwift
 import UIKit
 
 class CommunityFreeCoordinator: CoordinatorType {
-	var navigationController: UINavigationController
 	
 	var delegate: CoordinatorDelegate?
 	var childCoordinators: [CoordinatorType] = []
+	var baseViewController: UIViewController?
+	
+	var navigationController: UINavigationController
 	var disposeBag: DisposeBag = DisposeBag()
 	
 	init(navigationController: UINavigationController) {
@@ -35,6 +37,6 @@ class CommunityFreeCoordinator: CoordinatorType {
 				// usecase 추가
 			)
 		)
-		self.pushViewController(viewController: communityFreeViewController)
+		self.pushViewController(viewController: communityFreeViewController, animated: true)
 	}
 }
